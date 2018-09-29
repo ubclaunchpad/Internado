@@ -1,13 +1,16 @@
 # InternX
 Find internship opportunities based on your skills and interests
 
-Stories:
+## Stories
+  1. As a university student, I want a personalized job board so that I can find relevant and interesting internships
 
-MVP:
-* As a university student, I want a personalized job board so that I can find relevant and interesting internships
+## MVP
+  1. Database
+    1. Queries on database
+  2. Scraping single website for a couple of internships
 
-Stretch Goals:
+## Stretch Goals
 
-Non-Functional Requirements:
+## Non-Functional Requirements
 
-Risks and Mitigation:
+## Risks and Mitigation
