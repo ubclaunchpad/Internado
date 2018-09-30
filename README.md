@@ -46,3 +46,6 @@ Find personalized internship opportunities based on your skills and interests
   - **Node.js**, Django
 - Frontend
   - React Framework, Vue.js
+
+
+[Link](https://docs.google.com/document/d/1M_syK8BHccfClnu4WLILoqCn1f8J8E3rloAbwVER1dY/edit) to project MVP
