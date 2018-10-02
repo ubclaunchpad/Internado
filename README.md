@@ -18,8 +18,7 @@ Find personalized internship opportunities based on your skills and interests
   2. As a user I want to set notification for job postings based on specific criteria, so that I get notified about new opportunities and job posting deadline
 
 ## MVP
-1. Database
-    - Queries on database
+1. Database for storing user info and caching some internship opportunities
 2. Scraping single website for a list of internships
 3. User login (?)
 4. Personalized internship suggestions based on users
