@@ -1,5 +1,8 @@
 # Decide on language to use here,
-# language: __
+ language: python
+
+ python:
+  - "3.6"
 #
 # Use services as such,
 #
@@ -8,8 +11,9 @@
 #
 # before_install:
 #
-# script:
+ script:
 # - docker ps -a
-#
+  - python unit_test.py
+
 # after_success:
 
