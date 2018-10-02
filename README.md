@@ -26,6 +26,7 @@ Find personalized internship opportunities based on your skills and interests
 
 ## Stretch Goals
   1. Autogenerate personal websites based on users information
+  2. Schedueling system to manage interviewe
 
 ## Non-Functional Requirements
   1. Handle large number of requests
