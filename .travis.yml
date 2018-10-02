@@ -1,2 +1,15 @@
-language: go
+# Decide on language to use here,
+# language: __
+#
+# Use services as such,
+#
+# services:
+#   - docker
+#
+# before_install:
+#
+# script:
+# - docker ps -a
+#
+# after_success:
 
