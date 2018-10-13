@@ -1,4 +1,4 @@
-# Internado
+# Internado [![Travis](https://travis-ci.com/ubclaunchpad/Internado.svg?branch=master)](https://travis-ci.com/ubclaunchpad/Internado)
 Find personalized internship opportunities based on your skills and interests
 
 ## Todo (Not in order)
