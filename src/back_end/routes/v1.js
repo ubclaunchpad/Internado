@@ -1,3 +1,5 @@
+let SearchController = require("../controllers/searchController");
+
 module.exports = function(app) {
 
   /********  Api details  **********/
@@ -6,5 +8,6 @@ module.exports = function(app) {
   });
   /********************************/
 
+  app.post('/search', SearchController.searchJobs)
 
 };
