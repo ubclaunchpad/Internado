@@ -1,3 +1,5 @@
+import server from './web.server'
+
 require('dotenv').config();
 const express  		          = require('express');
 const app      		    	  = express();
@@ -14,7 +16,12 @@ app.use(bodyParser.urlencoded({ extended: true })); //parsing form req formats
 /*Routes*/
 require('./routes/v1.js')(app);
 
-
 /*RunServer*/
 app.listen(appConfig.port);
 console.log('Server has successfully started on PORT: ' + appConfig.port);
+
+let webServer = new server();
+webServer.start(() => {
+    console.log('Started Internado Webserver')
+})
+    
