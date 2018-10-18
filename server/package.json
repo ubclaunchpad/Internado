@@ -1,11 +1,11 @@
 {
-	"name": "internado",
-	"version": "1.0.0",
+	"name": "server",
+	"version": "0.0.1",
 	"description": "Find personalized internship opportunities based on your skills and interests",
-	"main": "index.js",
+	"main": "server.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node index.js"
+		"start": "node server.js"
 	},
 	"cpu": [
 		"x64"
