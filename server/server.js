@@ -2,7 +2,7 @@ require('dotenv').config();
 const express  		          = require('express');
 const app      		    	  = express();
 const appConfig    	       	  = require('./configurations/app');
-const morgan            		= require('morgan');
+const morgan            	  = require('morgan');
 const bodyParser       		  = require('body-parser');
 
 
@@ -10,10 +10,10 @@ const bodyParser       		  = require('body-parser');
 app.use(morgan('dev')); //req logging
 app.use(bodyParser.json()); //parsing json req formats
 app.use(bodyParser.urlencoded({ extended: true })); //parsing form req formats
+app.disable('etag');
 
 /*Routes*/
 require('./routes/v1.js')(app);
-
 
 /*RunServer*/
 app.listen(appConfig.port);

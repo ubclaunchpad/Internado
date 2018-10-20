@@ -46,6 +46,24 @@ Find personalized internship opportunities based on your skills and interests
   - **Node.js**, Django
 - Frontend
   - React Framework, Vue.js
-
-
+  
 [Link](https://docs.google.com/document/d/1M_syK8BHccfClnu4WLILoqCn1f8J8E3rloAbwVER1dY/edit) to project MVP
+
+## Running the Local Project
+Install all necessary node files and places them in a node_modules root directory folder
+```console
+foo@bar:~$ npm install
+```
+Builds the project and places the necesary files in a dist root directory folder
+```console
+foo@bar:~$ npm run build
+```
+Runs the project (currently on http://localhost:3000/)
+```console
+foo@bar:~$ npm start
+```
+
+<b>Sidenote:</b> use the following command rimraf command to clean the project (clears both the node_modules and dist folders)
+```console
+foo@bar:~$ npm run clean
+```

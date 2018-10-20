@@ -72,6 +72,9 @@ typings/
 # Serverless directories
 .serverless
 
+# IDE files
+.vscode/
+
 
 # OS generated files #
 ######################

@@ -6,5 +6,8 @@ module.exports = function(app) {
   });
   /********************************/
 
+  app.get('/express_backend', (req, res) => {
+    res.send({express: 'React client is connected to Express server'});
+  });
 
 };
