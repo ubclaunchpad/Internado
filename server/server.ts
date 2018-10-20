@@ -1,10 +1,11 @@
 require('dotenv').config();
-const express  		          = require('express');
-const app      		    	  = express();
-const appConfig    	       	  = require('./configurations/app');
-const morgan            	  = require('morgan');
-const bodyParser       		  = require('body-parser');
+import * as express from "express";
+import * as morgan from "morgan";
+import * as bodyParser from "body-parser";
+import appConfig from "./configurations/app";
+import router from "./routes/v1";
 
+const app: express.Application = express();
 
 /*Configuration*/
 app.use(morgan('dev')); //req logging
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //parsing form req formats
 app.disable('etag');
 
 /*Routes*/
-require('./routes/v1.js')(app);
+router(app);
 
 /*RunServer*/
 app.listen(appConfig.port);

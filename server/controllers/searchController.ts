@@ -23,8 +23,7 @@ export function searchJobs(req: Request, res: Response): void {
             res.send(result.rows);
         })
         .catch((err) => {
-            res.status = 500;
-            res.send("Failed to query database.\nError: " + err);
+            res.status(500).send("Failed to query database.\nError: " + err);
         });
 }
 

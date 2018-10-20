@@ -76,6 +76,8 @@ typings/
 # IDE files
 .vscode/
 
+# WebStorm
+.idea
 
 # OS generated files #
 ######################
