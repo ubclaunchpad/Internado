@@ -6,7 +6,8 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "tsc -p .",
-		"start": "tsc -p . && node server.js"
+		"start": "tsc -p . && node server.js",
+		"clean": "rimraf **/*.js **/*.js.map node_modules"
 	},
 	"cpu": [
 		"x64"
@@ -35,6 +36,7 @@
 		"@types/body-parser": "^1.17.0",
 		"@types/express": "^4.16.0",
 		"@types/morgan": "^1.7.35",
-		"@types/pg": "^7.4.11"
+		"@types/pg": "^7.4.11",
+		"rimraf": "^2.6.2"
 	}
 }
