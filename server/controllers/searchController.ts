@@ -1,10 +1,10 @@
 import { Client } from "pg";
 import Job from "../models/job";
 import { Request, Response } from "express";
+import config from "../configurations/app";
 
-const connectionString =
-    "postgres://internado@postgres-develop:UBClaunchpad!" +
-    "@postgres-develop.postgres.database.azure.com:5432/internado?ssl=false";
+const connectionString = config.dbConnectionString;
+
 
 export function searchJobs(req: Request, res: Response): void {
     const client: Client = new Client(connectionString);
