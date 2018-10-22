@@ -1,0 +1,21 @@
+.table-row {
+  margin-bottom: 10em;
+  background-color: brown;
+  border-radius: 25px;
+}
+.table-cell-1 {
+  width: 70%;
+  align: left;
+}
+.table-cell-2 {
+  width: 20%;
+}
+.table-cell-3 {
+  width: 10%;
+  align: right;
+}
+
+tr td:first-child { border-top-left-radius: 10px; }
+tr td:last-child { border-top-right-radius: 10px; }
+tr td:first-child { border-bottom-left-radius: 10px; }
+tr td:last-child { border-bottom-right-radius: 10px;}

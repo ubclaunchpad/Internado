@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import './css/App.css';
+import './css/ResultsTable.css';
 import Navbar from './js/Navbar.js';
 import {ResultsTable, Result} from './js/ResultsTable.js';
 
 class App extends Component {
   state = {
-    data: null
+    data: [],
   };
+
+  populateDummyData() {
+    this.state.data.push(new Result("Software Developer", "Develop Software", "Vancouver, BC, Canada", "https://github.com/mattdiamond/fuckitjs"));
+    this.state.data.push(new Result("CPU maker", "Make CPUs and stuff. You also do things that make this string longer, so I can test how well this works for long strings. Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong ", "Vancouver, WA, USA", "https://stackoverflow.com"));
+   this.state.data.push(new Result("Nothing do-er", "nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop ", "Vancouver, BC, Canada", "http://hasthelargehadroncolliderdestroyedtheworldyet.com/"));
+  }
 
   componentDidMount() {
     this.callBackendAPI()
@@ -26,10 +33,11 @@ class App extends Component {
   }
 
   render() {
+    this.populateDummyData();
     return (
       <div className="App">
         <Navbar></Navbar>
-        <ResultsTable />
+        <ResultsTable results={this.state.data} />
       </div>
     );
   }
