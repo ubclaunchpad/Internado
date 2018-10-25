@@ -52,7 +52,7 @@ Find personalized internship opportunities based on your skills and interests
 ## Running the Local Project
 Install all necessary node files and places them in a node_modules root directory folder
 ```console
-foo@bar:~$ npm install
+foo@bar:~$ npm instal
 ```
 Builds the project and places the necesary files in a dist root directory folder
 ```console
