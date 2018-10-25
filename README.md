@@ -52,7 +52,7 @@ Find personalized internship opportunities based on your skills and interests
 ## Running the Local Project
 Install all necessary node files and places them in a node_modules root directory folder
 ```console
-foo@bar:~$ npm install
+foo@bar:~$ npm instal
 ```
 Builds the project and places the necesary files in a dist root directory folder
 ```console
@@ -67,3 +67,20 @@ foo@bar:~$ npm start
 ```console
 foo@bar:~$ npm run clean
 ```
+
+## Docker
+  Make sure docker is installed. This is only currently useful for single container development purposes. Docker Compose can be used to streamline the process when deploying multiple containers.
+### Setup
+  1. `docker build internado .` while you are in the same directory of `Dockerfile`
+  2. `docker run -p 8080:5000 -d internado` 
+  3. The container should now be running in the background and can be accessed at port 8080. We can curl the docker container that runs in the background now
+### Useful commands
+  * `docker ps` lists the status  and ID of current containers
+  * `docker logs -f <Container ID>` displays real-time logs of the running docker container
+  * `docker run -p 8080:5000 -d internado` to map the port 5000 to 8080; can access the app at localhost:8080
+  * `docker exec -it <Container ID> /bin/bash` allows you to go inside the container
+### Docker Compose
+  * `docker-compose up` builds and spins up containers according to docker-compose.yml. Will only build for the first time
+  * `docker-compose up --build` for spinning up containers with updated code.
+### Testing
+  Run `curl -i localhost:5000/api` to check if your container is online
