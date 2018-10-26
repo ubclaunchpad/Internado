@@ -36,7 +36,7 @@ class App extends Component {
     this.populateDummyData();
     return (
       <div className="App">
-        <Navbar></Navbar>
+        <Navbar />
         <ResultsTable results={this.state.data} />
       </div>
     );
