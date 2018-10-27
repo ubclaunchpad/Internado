@@ -51,37 +51,37 @@ class Navbar extends Component {
     console.log(body);
     return body;
   }
-  
+
   render() {
     return (
       <div className="Navbar">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-          <a class="navbar-brand" href="#">Internado</a>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+          <a className="navbar-brand" href="#">Internado</a>
 
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" 
-                   type="search" 
-                   value={this.state.searchKeywords} 
-                   placeholder="Search Companies" 
+          <form className="form-inline my-2 my-lg-0">
+            <input className="form-control mr-sm-2"
+                   type="search"
+                   value={this.state.searchKeywords}
+                   placeholder="Search Companies"
                    aria-label="Search"
                    onChange={this.updateSearchKeywords}
             />
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle category-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div className="dropdown">
+              <button className="btn btn-secondary dropdown-toggle category-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {this.state.searchCategory}
               </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[0])}}>{this.searchCategories[0]}</a>
-                <a class="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[1])}} >{this.searchCategories[1]}</a>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a className="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[0])}}>{this.searchCategories[0]}</a>
+                <a className="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[1])}} >{this.searchCategories[1]}</a>
               </div>
             </div>
           </form>
 
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="navbar-nav ml-auto">
-              <button type="button" class="btn btn-primary mr-2">Sign up</button>
-              <button type="button" class="btn btn-secondary">Login</button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <div className="navbar-nav ml-auto">
+              <button type="button" className="btn btn-primary mr-2">Sign up</button>
+              <button type="button" className="btn btn-secondary">Login</button>
             </div>
           </div>
         </nav>
