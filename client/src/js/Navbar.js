@@ -5,10 +5,12 @@ class Navbar extends Component {
   constructor(){
     super();
     this.state = {
-      searchCategory: "Select Category"
+      searchCategory: "Select Category",
+      searchKeywords: ""
     };
-    this.searchCategories = ["Position", "Location"]
+    this.searchCategories = ["Position", "Location"];
     this.updateSearchCategory = this.updateSearchCategory.bind(this);
+    this.updateSearchKeywords = this.updateSearchKeywords.bind(this);
   }
 
   updateSearchCategory(newCategory){
@@ -16,28 +18,40 @@ class Navbar extends Component {
       searchCategory: newCategory
     });
   }
-  /*
-    state = {
-      search_category: "Select Category"
-    };
 
-    componentDidMount() {
-      this.callBackendAPI()
-      .then(res => this.setState({data: res.express}))
-      .catch(err => console.log(err));
+  updateSearchKeywords(event) {
+    this.setState({searchKeywords: event.target.value});
+  }
+
+  keyPress(e){
+    // If enter is pressed
+    if(e.keyCode == 13){
+       this.searchJobs();
     }
+  }
 
-    callBackendAPI = async() => {
-      const response = await fetch('/express_backend');
-      const body = await response.json();
-
-      if (response.status !== 200) {
-        throw Error(body.message);
+  searchJobs = async() => {
+    const response = fetch('http://localhost:5000/search', {
+      method: 'POST',
+      headers:{
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: {
+       "keywords": this.state.searchKeywords
       }
+    });
 
-      return body;
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(body.message);
     }
-  */
+
+    console.log(body);
+    return body;
+  }
+  
   render() {
     return (
       <div className="Navbar">
@@ -45,7 +59,13 @@ class Navbar extends Component {
           <a class="navbar-brand" href="#">Internado</a>
 
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Companies" aria-label="Search"/>
+            <input class="form-control mr-sm-2" 
+                   type="search" 
+                   value={this.state.searchKeywords} 
+                   placeholder="Search Companies" 
+                   aria-label="Search"
+                   onChange={this.updateSearchKeywords}
+            />
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle category-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {this.state.searchCategory}
