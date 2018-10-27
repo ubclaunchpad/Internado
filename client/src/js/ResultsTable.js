@@ -51,7 +51,7 @@ class ResultsTable extends Component {
     if (result.selected) {
       location = ""; // Hide things that shouldnt be shown when selected, show things that should be shown
       arrow = "";
-      originalPosting = <a className="table-post clickable" onClick={()=>this.handleClick("post", result)}><br/> Original Posting</a>;
+      originalPosting = <span className="table-post clickable" onClick={()=>this.handleClick("post", result)}><br/> Original Posting</span>;
       applyButton = <button className="table-button clickable" onClick={()=>this.handleClick("apply", result)}>Apply</button>;
     }
     return (
