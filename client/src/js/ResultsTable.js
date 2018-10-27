@@ -37,6 +37,7 @@ class ResultsTable extends Component {
       case "apply": // Clicked on apply
         window.open(result.applyUrl);
         break;
+      default: break;
     }
   }
 
