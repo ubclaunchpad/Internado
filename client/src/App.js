@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import './css/App.css';
 import './css/ResultsTable.css';
-import Navbar from './js/Navbar.js';
-import {ResultsTable, Result} from './js/ResultsTable.js';
+import Navbar from './js/components/Navbar.js';
+import {ResultsTable, Result} from './js/components/ResultsTable.js';
 
 class App extends Component {
   state = {
@@ -18,7 +17,7 @@ class App extends Component {
   populateResultsTableData() {
     
   }
-  
+
   callBackendAPI = async() => {
     const response = await fetch('/express_backend');
     const body = await response.json();

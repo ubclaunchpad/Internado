@@ -1,0 +1,16 @@
+// test.scss is included for test use in feature/55 - create a separate ticket and delete this after
+
+$crimson_col: #DC143C;
+$steel_blue_col: #4682B4;
+
+.crimson {
+    color: $crimson_col;
+}
+
+.steel_blue {
+    color: $steel_blue_col;
+}
+
+#fractional_width {
+    width: percentage(4/9);
+}
