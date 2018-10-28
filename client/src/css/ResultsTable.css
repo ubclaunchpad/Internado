@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 
-a:not([href]):not([tabindex]).table-post {
+.table-post {
   text-decoration: underline;
   color: #90a0a6;
   position: absolute;
