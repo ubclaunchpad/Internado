@@ -3,8 +3,8 @@ import Job from "../models/job";
 import { Request, Response } from "express";
 import config from "../configurations/app";
 
-const connectionString = config.dbConnectionString;
-
+const connectionString: string = config.dbConnectionString;
+const defaultTake: number = 10;
 
 export function searchJobs(req: Request, res: Response): void {
     const client: Client = new Client(connectionString);
@@ -15,8 +15,20 @@ export function searchJobs(req: Request, res: Response): void {
         return;
     }
 
+    let take: number = req.body.take ? req.body.take : defaultTake;
+    if ((typeof req.body.take) !== "number" || take !== Math.floor(take) || take < 1) {
+        res.status(400).send("The take property must be a positive integer.");
+        return;
+    }
+
+    let offset: number = req.body.offset ? req.body.offset : 0;
+    if ((typeof req.body.offset) !== "number" || offset !== Math.floor(offset) || offset < 0) {
+        res.status(400).send("The offset property must be a non-negative integer.");
+        return;
+    }
+
     let keywords: string = sanitizeKeywords(req.body.keywords);
-    let query: string = getQuery(keywords);
+    let query: string = getQuery(keywords, take, offset);
 
     client.query(query)
         .then((result) => {
@@ -27,7 +39,7 @@ export function searchJobs(req: Request, res: Response): void {
         });
 }
 
-function getQuery(keywords: string): string {
+function getQuery(keywords: string, take: number, offset: number): string {
     return `SELECT jid AS id, j_title AS job_title,
         j_description AS description,
         j_company_name AS company_name,
@@ -52,14 +64,15 @@ function getQuery(keywords: string): string {
         setweight(to_tsvector(job.company_name), 'A') as document 
         FROM job) p_search 
         WHERE p_search.document @@ to_tsquery('${keywords}')
-        ORDER BY ts_rank(p_search.document, to_tsquery('${keywords}')) DESC;`;
+        ORDER BY ts_rank(p_search.document, to_tsquery('${keywords}')) DESC
+        LIMIT ${take} OFFSET ${offset};`;
 }
 
 function sanitizeKeywords(raw: string): string {
     let keywords: string = raw;
     keywords = keywords.trim();
 
-    keywords = keywords.replace(/[^\w\s]/g, "");
+    keywords = keywords.replace(/[^\w\s\-]/g, "");
     keywords = keywords.replace(/\&/g, "");
     keywords = keywords.replace(/\s+/g, " & ");
 
