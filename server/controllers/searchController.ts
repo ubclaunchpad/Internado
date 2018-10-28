@@ -28,22 +28,39 @@ export function searchJobs(req: Request, res: Response): void {
 }
 
 function getQuery(keywords: string): string {
-    return `SELECT jid, j_title 
+    return `SELECT jid AS id, j_title AS job_title,
+        j_description AS description,
+        j_company_name AS company_name,
+        j_link AS link,
+        j_city AS city,
+        j_country AS country,
+        j_latitude AS latitude,
+        j_longitude AS longitude,
+        j_start_date AS start_date
         FROM (SELECT job.id as jid, 
         job.job_title as j_title, 
-        to_tsvector(job.job_title) || 
-        to_tsvector(job.description) || 
-        to_tsvector(job.company_name) as document 
+        job.description as j_description,
+        job.company_name AS j_company_name,
+        job.link AS j_link,
+        job.city AS j_city,
+        job.country AS j_country,
+        job.latitude AS j_latitude,
+        job.longitude AS j_longitude,
+        job.start_date AS j_start_date,
+        setweight(to_tsvector(job.job_title), 'A') || 
+        setweight(to_tsvector(job.description), 'B') || 
+        setweight(to_tsvector(job.company_name), 'A') as document 
         FROM job) p_search 
-        WHERE p_search.document @@ to_tsquery('${keywords}');`;
+        WHERE p_search.document @@ to_tsquery('${keywords}')
+        ORDER BY ts_rank(p_search.document, to_tsquery('${keywords}')) DESC;`;
 }
 
 function sanitizeKeywords(raw: string): string {
     let keywords: string = raw;
     keywords = keywords.trim();
 
-    keywords = keywords.replace(/\&/g, "")
-    keywords = keywords.replace(/\s/g, " & ")
+    keywords = keywords.replace(/\&/g, "");
+    keywords = keywords.replace(/\s/g, " & ");
 
     return keywords;
 }
