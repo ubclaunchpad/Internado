@@ -59,8 +59,9 @@ function sanitizeKeywords(raw: string): string {
     let keywords: string = raw;
     keywords = keywords.trim();
 
+    keywords = keywords.replace(/[^\w\s]/g, "");
     keywords = keywords.replace(/\&/g, "");
-    keywords = keywords.replace(/\s/g, " & ");
+    keywords = keywords.replace(/\s+/g, " & ");
 
     return keywords;
 }
