@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "./js/Home";
-import { ResultsTable, Result }  from "./js/ResultsTable";
+import { ResultsTable }  from "./js/ResultsTable";
 
 export default () =>
     <Switch>

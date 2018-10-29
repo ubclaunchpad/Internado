@@ -3,7 +3,7 @@ import './css/App.css';
 import './css/ResultsTable.css';
 import Navbar from './js/Navbar.js';
 import Routes from "./Routes";
-import {ResultsTable, Result} from './js/ResultsTable.js';
+import {Result} from './js/ResultsTable.js';
 
 class App extends Component {
   state = {
