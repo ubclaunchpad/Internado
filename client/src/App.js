@@ -35,8 +35,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-
-        <ResultsTable results={this.state.data} />
+          {/*<ResultsTable results={this.state.data} />*/}
           <Routes/>
       </div>
     );
