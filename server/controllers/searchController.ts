@@ -13,6 +13,8 @@ interface SearchRequest {
     latitude: number;
     longitude: number;
     sortByLocation: boolean;
+    firstDateFilter: Date;
+    lastDateFilter: Date;
 }
 
 export function searchJobs(req: Request, res: Response): void {
@@ -67,6 +69,26 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         return null;
     }
 
+    let firstDateFilter: Date;
+    if (req.body.firstDateFilter === undefined) {
+        firstDateFilter = null;
+    } else if (!isNaN(Date.parse(req.body.firstDateFilter))) {
+        firstDateFilter = new Date(req.body.firstDateFilter);
+    } else {
+        res.status(400).send("The firstDateFilter property must be a valid date.");
+        return null;
+    }
+
+    let lastDateFilter: Date;
+    if (req.body.lastDateFilter === undefined) {
+        lastDateFilter = null;
+    } else if (!isNaN(Date.parse(req.body.lastDateFilter))) {
+        lastDateFilter = new Date(req.body.lastDateFilter);
+    } else {
+        res.status(400).send("The lastDateFilter property must be a valid date.");
+        return null;
+    }
+
     return {
         keywords,
         take,
@@ -74,6 +96,8 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         latitude,
         longitude,
         sortByLocation,
+        firstDateFilter,
+        lastDateFilter
     };
 }
 
@@ -101,9 +125,25 @@ function getQuery(search: SearchRequest): string {
             setweight(to_tsvector(job.description), 'B') ||
             setweight(to_tsvector(job.company_name), 'A') as document
             FROM job) p_search
-            WHERE p_search.document @@ to_tsquery('${search.keywords}')
+            ${getWhere(search)}
             ${getOrderBy(search)}
             LIMIT ${search.take} OFFSET ${search.offset};`;
+}
+
+function getWhere(search: SearchRequest) {
+    let where: string = `WHERE p_search.document @@ to_tsquery('${search.keywords}')`;
+
+    if (search.firstDateFilter) {
+        let date = search.firstDateFilter;
+        where += ` AND j_start_date >= '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+    }
+
+    if (search.lastDateFilter) {
+        let date = search.lastDateFilter;
+        where += ` AND j_start_date <= '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+    }
+
+    return where;
 }
 
 function getOrderBy(search: SearchRequest) {
