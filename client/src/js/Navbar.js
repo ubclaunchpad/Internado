@@ -56,7 +56,7 @@ class Navbar extends Component {
     return (
       <div className="Navbar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-          <a class="navbar-brand" href="#">Internado</a>
+          <a class="navbar-brand" href="/">🌪️ Internado</a>
 
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" 
@@ -77,6 +77,9 @@ class Navbar extends Component {
             </div>
           </form>
 
+            <div className="navbar-nav ml-auto">
+                <a href = "/search"><button type="button" className="btn btn-primary mr-2">Search</button></a>
+            </div>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav ml-auto">
