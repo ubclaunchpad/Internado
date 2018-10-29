@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './css/App.css';
 import './css/ResultsTable.css';
 import Navbar from './js/Navbar.js';
+import Routes from "./Routes";
 import {ResultsTable, Result} from './js/ResultsTable.js';
 
 class App extends Component {
@@ -34,7 +35,9 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
+
         <ResultsTable results={this.state.data} />
+          <Routes/>
       </div>
     );
   }
