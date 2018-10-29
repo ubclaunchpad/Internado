@@ -2,6 +2,7 @@ version: '3'
 services:
   ### SERVER ###
   server:
+    image: stevenshih1997/internado_server:latest
     build: ./server
     expose:
       - ${API_SERVER_PORT}
@@ -16,6 +17,7 @@ services:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
   ### CLIENT ###
   client:
+    image: stevenshih1997/internado_client:latest
     build: ./client
     environment:
       CLIENT_PORT: ${CLIENT_PORT}
