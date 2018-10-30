@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/ResultsTable.css';
 
 class ResultRow extends Component {
   constructor(props) {
@@ -23,8 +24,6 @@ class ResultRow extends Component {
   };
 
   render() {
-    console.log('no state:' + this.props.result.title);
-    console.log('rendered');
     const generateKey = (pre) => {
       return `${pre}_${new Date().getTime()}`;
     };

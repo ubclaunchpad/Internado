@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import '../styles/ResultsTable.css';
 import ResultRow from '../components/ResultRow';
 
 export default class ResultsTable extends PureComponent {
