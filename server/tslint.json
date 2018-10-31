@@ -1,0 +1,31 @@
+{
+    "extends": [
+        "tslint:latest"
+    ],
+    "rules": {
+        "no-console": false,
+        "no-implicit-dependencies": true,
+        "no-string-literal": false,
+        "only-arrow-functions": false,
+        "space-before-function-paren": [
+            true,
+            {
+                "anonymous": "always",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ],
+        "object-literal-sort-keys": false,
+        "forin": false,
+        "ordered-imports": false,
+        "member-ordering": false,
+        "no-var-requires": false,
+        "prefer-const": false,
+        "max-classes-per-file": false,
+        "trailing-comma": false,
+        "interface-name": false
+    },
+    "linterOptions": {
+        "exclude": ["node_modules"]
+    }
+}
