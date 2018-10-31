@@ -16,5 +16,7 @@ app.disable('etag');
 require('./routes/v1.js')(app);
 
 /*RunServer*/
-app.listen(appConfig.port);
+const internado = app.listen(appConfig.port);
 console.log('Server has successfully started on PORT: ' + appConfig.port);
+
+module.exports = internado;
