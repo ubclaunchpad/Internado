@@ -22,6 +22,9 @@
 	},
 	"homepage": "https://github.com/ubclaunchpad/Internado#readme",
 	"dependencies": {
+		"await-to-js": "^2.0.1",
+		"bcrypt": "^3.0.2",
+		"bcrypt-promise": "^2.0.0",
 		"body-parser": "^1.18.3",
 		"debug": "^4.1.0",
 		"dotenv": "^6.1.0",
@@ -29,7 +32,11 @@
 		"morgan": "^1.9.1",
 		"parse-error": "^0.2.0",
 		"passport": "^0.4.0",
-		"passport-jwt": "^4.0.0"
+		"passport-jwt": "^4.0.0",
+		"pg": "^7.6.0",
+		"pg-hstore": "^2.3.2",
+		"sequelize": "^4.41.0",
+		"validator": "^10.8.0"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
