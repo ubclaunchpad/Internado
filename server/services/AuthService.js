@@ -2,7 +2,7 @@ const { User }      = require('../models');
 const validator     = require('validator');
 const { to, TE }    = require('../services/util');
 
-const getUniqueKeyFromBody = function(body){// this is so they can send in 3 options unique_key, email, or phone and it will work
+const getUniqueKeyFromBody = function(body){// this is so they can send in 3 options unique_key, email, or phone
     let unique_key = body.unique_key;
     if(typeof unique_key==='undefined'){
         if(typeof body.email != 'undefined'){
