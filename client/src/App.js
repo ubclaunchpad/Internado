@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './css/App.css';
+import './styles/ResultsTable.css';
+import Navbar from './views/Navbar';
+import ResultsTable from './containers/ResultsTable';
+import ResultData from './components/ResultData';
 
 class App extends Component {
   state = {
-    data: null
+    data: [
+      new ResultData("Nothing do-er", "nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop ", "nop nop nop nop nop nop nop nop nop ", "Vancouver, BC, Canada", "http://hasthelargehadroncolliderdestroyedtheworldyet.com/", "https://thedailywtf.com/articles/you-can-only-get-what-you-have"), 
+      new ResultData("CPU maker", "Make CPUs and stuff. You also do things that make this string longer, so I can test how well this works for long strings. Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong ", "Make CPUs and stuff.", "Vancouver, WA, USA", "https://ded.increpare.com/~locus/yourname.html", "https://ded.increpare.com/~locus/yourname.html"),
+      new ResultData("Software Developer", "Develop Software, but more text", "Develop Software", "Vancouver, BC, Canada", "https://github.com/mattdiamond/fuckitjs", "https://github.com/ajalt/fuckitpy")
+    ],
   };
 
-  componentDidMount() {
-    this.callBackendAPI()
-    .then(res => this.setState({data: res.express}))
-    .catch(err => console.log(err));
-  }
+  // This function will be used in the future to populate the data field in state to hold
+  // the data returned from search queries
+  // __populateResultsTableData() {
+
+  // }
 
   callBackendAPI = async() => {
     const response = await fetch('/express_backend');
@@ -27,13 +33,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
-        <p>{this.state.data}</p>
+        <Navbar />
+        <ResultsTable results={this.state.data} />
       </div>
     );
   }
