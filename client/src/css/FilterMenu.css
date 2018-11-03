@@ -2,7 +2,7 @@
   position: absolute;
   text-align: left;
   top: 90px;
-  left: 0;
+  left: 8px;
   overflow-y: auto;
   width: 10vw;
   transition: transform 0.5s ease;
