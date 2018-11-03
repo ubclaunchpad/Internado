@@ -46,6 +46,5 @@ input[type=checkbox] {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  outline: none;
   transition: all .2s cubic-bezier(0, 1.26, .8, 1.28);
 }

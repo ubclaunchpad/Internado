@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './css/App.css';
 import './css/ResultsTable.css';
 import './css/FilterMenu.css';
 import Navbar from './js/Navbar.js';
