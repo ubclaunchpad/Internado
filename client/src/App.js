@@ -5,6 +5,7 @@ import './css/FilterMenu.css';
 import Navbar from './js/Navbar.js';
 import Routes from "./Routes";
 import {Result} from './js/ResultsTable.js';
+import FilterMenu from './js/FilterMenu';
 
 class App extends Component {
   constructor(props, context) {
@@ -47,17 +48,12 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-<<<<<<< HEAD
-          {/*<ResultsTable results={this.state.data} />*/}
-          <Routes/>
-=======
         {this.state.isFilterMenuVisible ?
           <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
           <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
           <FilterMenu visibility={this.state.isFilterMenuVisible} />
-          <ResultsTable results={this.state.data} />
+          {/*<ResultsTable results={this.state.data} />*/}
         <Routes/>
->>>>>>> added UI for search filters
       </div>
     );
   }

@@ -4,14 +4,15 @@
   top: 90px;
   left: 8px;
   overflow-y: auto;
-  width: 10vw;
+  width: 12vw;
+  min-width: 30px;
   transition: transform 0.5s ease;
   height: 100%;
   color: #7B8D93;
 }
 
 #flyoutMenu.hide {
-  transform: translate3d(-10vw, 0, 0);
+  transform: translate3d(-12vw, 0, 0);
 }
  
 #flyoutMenu.show {
