@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import PlacesAutocomplete from 'react-places-autocomplete';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
 
 class FilterMenu extends Component {
 
@@ -26,8 +29,15 @@ class FilterMenu extends Component {
     this.setState({ address });
   }
 
-  handleLocationSelect = () => {
-    // do nothing
+  // for now, just update this.state.address and print the latlng
+  handleLocationSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        console.log('Success', latLng);
+        this.setState({ address });
+      })
+      .catch(error => console.error('Error', error));
   }
 
   toggleCategories = () => {
@@ -48,6 +58,7 @@ class FilterMenu extends Component {
     }));
   }
 
+  // source: https://github.com/hibiken/react-places-autocomplete
   renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
     <div className="autocomplete-root">
       <input {...getInputProps()} />
