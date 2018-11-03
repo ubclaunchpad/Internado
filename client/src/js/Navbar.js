@@ -75,11 +75,10 @@ class Navbar extends Component {
                 <a class="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[1])}} >{this.searchCategories[1]}</a>
               </div>
             </div>
+              <div className="navbar-nav ml-auto">
+                  <a href = "/search"><button type="button" className="btn btn-primary mr-2">Search</button></a>
+              </div>
           </form>
-
-            <div className="navbar-nav ml-auto">
-                <a href = "/search"><button type="button" className="btn btn-primary mr-2">Search</button></a>
-            </div>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav ml-auto">

@@ -3,7 +3,7 @@ import './css/App.css';
 import './css/ResultsTable.css';
 import Navbar from './js/Navbar.js';
 import Routes from "./Routes";
-import {ResultsTable, Result} from './js/ResultsTable.js';
+import {Result} from './js/ResultsTable.js';
 
 class App extends Component {
   state = {
@@ -35,8 +35,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar />
-
-        <ResultsTable results={this.state.data} />
+          {/*<ResultsTable results={this.state.data} />*/}
           <Routes/>
       </div>
     );
