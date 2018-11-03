@@ -73,6 +73,9 @@ class Navbar extends Component {
               positionCategory={this.searchCategories[0]}
               locationCategory={this.searchCategories[1]}
             />
+            <div className="navbar-nav ml-auto">
+              <a href="http://localhost:5000/api"><button type="button" className="btn btn-primary mr-2">Search</button></a>
+            </div>
           </form>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
