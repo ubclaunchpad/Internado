@@ -29,7 +29,7 @@ Find personalized internship opportunities based on your skills and interests
 
 ## Non-Functional Requirements
   1. Handle large number of requests
-  2. Perioritize job posting based on user interest and deadline
+  2. Prioritize job posting based on user interest and deadline
 
 
 ## Risks and Mitigation
