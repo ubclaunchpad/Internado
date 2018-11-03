@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+//import { connect } from 'react-redux';
 import './styles/ResultsTable.css';
 import './styles/FilterMenu.css';
 import Navbar from './views/Navbar';
-import ResultsTable from './containers/ResultsTable';
 import ResultData from './components/ResultData';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
+import ResultsTableContainer from '.containers/ResultsTableContainer'
 
 class App extends Component {
 
@@ -54,10 +55,11 @@ class App extends Component {
                     <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
                 <FilterMenu visibility={this.state.isFilterMenuVisible} />
                 {/*<ResultsTable results={this.state.data} />*/}
+                <ResultsTableContainer />
                 <Routes/>
             </div>
         );
     }
 }
-
 export default App;
+//export default connect(mapStateToProps, mapDispatchToProps)(App);

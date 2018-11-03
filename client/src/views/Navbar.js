@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropdown from '../components/Dropdown';
 import '../styles/NavBar.css';
+import fetchPostings from '../actinos/postingsActions'
 
 class Navbar extends Component {
   constructor() {
@@ -39,7 +40,7 @@ class Navbar extends Component {
       },
       body: {
        'keywords': this.state.searchKeywords
-      },
+      }
     });
 
     const body = await response.json();
@@ -50,6 +51,12 @@ class Navbar extends Component {
 
     console.log(body);
     return body;
+  };
+
+  handleSearch = (e) => {
+    if(e.keyCode === 13){
+      fetchPostings(this.state.searchKeywords);
+    }
   };
 
   render() {
@@ -65,6 +72,7 @@ class Navbar extends Component {
                    placeholder="Search Companies"
                    aria-label="Search"
                    onChange={this.updateSearchKeywords}
+                   onKeyPress={this.handleSearch}
             />
             <Dropdown
               searchCategory={this.state.searchCategory}
