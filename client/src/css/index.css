@@ -14,3 +14,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+#filterButton {
+  border: 2px solid white;
+  background-color: #CFD8DC;
+  border-radius: 25px;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  transition: transform 0.5s ease;
+}
+
+#filterButton.hide {
+  transform: translate3d(0vw, 0, 0);
+}
+
+#filterButton.show {
+  background-color: white;
+  transform: translate3d(8vw, 0, 0);
+  background-image: url("../assets/2x_clear_black_18dp.png");
+  background-repeat: no-repeat;
+  background-position: center; 
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+}
