@@ -1,0 +1,51 @@
+#flyoutMenu {
+  position: absolute;
+  text-align: left;
+  top: 90px;
+  left: 8px;
+  overflow-y: auto;
+  width: 12vw;
+  min-width: 30px;
+  transition: transform 0.5s ease;
+  height: 100%;
+  color: #7B8D93;
+}
+
+#flyoutMenu.hide {
+  transform: translate3d(-12vw, 0, 0);
+}
+ 
+#flyoutMenu.show {
+  transform: translate3d(0vw, 0, 0);
+}
+
+.filterContent {
+  padding: 2px;
+}
+
+.locationTitle, .categoriesTitle, .industriesTitle, .salaryTitle {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+}
+
+.categoriesList {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type=checkbox] {
+  margin-right: 2px;
+}
+
+.expand {
+  margin-left: 8px;
+  background-color: #7B8D93;
+  background-image: url("../assets/2x_add_white_18dp.png");
+  background-repeat: no-repeat;
+  background-position: center; 
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  transition: all .2s cubic-bezier(0, 1.26, .8, 1.28);
+}
