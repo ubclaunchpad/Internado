@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
-import '../../css/NavBar.css';
+import Dropdown from '../components/Dropdown';
+import '../styles/NavBar.css';
 
 class Navbar extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-      searchCategory: "Select Category",
-      searchKeywords: ""
+      searchCategory: 'Select Category',
+      searchKeywords: '',
     };
-    this.searchCategories = ["Position", "Location"];
-    this.updateSearchCategory = this.updateSearchCategory.bind(this);
-    this.updateSearchKeywords = this.updateSearchKeywords.bind(this);
+    this.searchCategories = ['Position', 'Location'];
   }
 
-  updateSearchCategory(newCategory){
+  updateSearchCategory = (newCategory) => {
     this.setState({
-      searchCategory: newCategory
+      searchCategory: newCategory,
     });
+  };
+
+  updateSearchKeywords = (event) => {
+    this.setState({ searchKeywords: event.target.value });
   }
 
-  updateSearchKeywords(event) {
-    this.setState({searchKeywords: event.target.value});
-  }
+  _handlePositionSearch = () => {
+    this.updateSearchCategory(this.searchCategories[0]);
+  };
 
-  keyPress(e){
-    // If enter is pressed
-    if(e.keyCode == 13){
-       this.searchJobs();
-    }
-  }
+  _handleLocationSearch = () => {
+    this.updateSearchCategory(this.searchCategories[1]);
+  };
 
-  searchJobs = async() => {
+  _searchJobs = async() => {
     const response = fetch('http://localhost:5000/search', {
       method: 'POST',
       headers:{
@@ -38,8 +38,8 @@ class Navbar extends Component {
         'Content-Type': 'application/json',
       },
       body: {
-       "keywords": this.state.searchKeywords
-      }
+       'keywords': this.state.searchKeywords
+      },
     });
 
     const body = await response.json();
@@ -50,7 +50,7 @@ class Navbar extends Component {
 
     console.log(body);
     return body;
-  }
+  };
 
   render() {
     return (
@@ -66,17 +66,17 @@ class Navbar extends Component {
                    aria-label="Search"
                    onChange={this.updateSearchKeywords}
             />
-            <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle category-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {this.state.searchCategory}
-              </button>
-              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a className="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[0])}}>{this.searchCategories[0]}</a>
-                <a className="dropdown-item" onClick={() => {this.updateSearchCategory(this.searchCategories[1])}} >{this.searchCategories[1]}</a>
-              </div>
+            <Dropdown
+              searchCategory={this.state.searchCategory}
+              handlePositionSearch={this._handlePositionSearch}
+              handleLocationSearch={this._handleLocationSearch}
+              positionCategory={this.searchCategories[0]}
+              locationCategory={this.searchCategories[1]}
+            />
+            <div className="navbar-nav ml-auto">
+              <a href="http://localhost:5000/api"><button type="button" className="btn btn-primary mr-2">Search</button></a>
             </div>
           </form>
-
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <div className="navbar-nav ml-auto">
