@@ -1,19 +1,28 @@
-//import React, { PureComponent } from 'react';
-import ResultRow from './ResultRow';
-import ResultData from './ResultData'
+import React from 'react'
+import ResultRow from './ResultRow'
+import { connect } from 'react-redux'
 
-const ResultsTable = ({ results }) => (
-  <table className="results-table">
-    <tbody>
-      {results.map((result, i) => { return <ResultRow result={result} key={i}/>; })}
-    </tbody>
-  </table>
-)
-
-ResultsTable.propTypes = {
-  results: PropTypes.arrayOf(
-    PropTypes.instanceOf(ResultData)
-  ).isRequired
+class ResultsTable extends React.Component {
+  render() {
+    return(
+      <table className="results-table">
+        <tbody>
+          {this.props.results.map((result, i) => { return <ResultRow result={result} key={i}/>; })}
+        </tbody>
+      </table>
+    )
+  }
 }
 
-export default ResultsTable
+const mapStateToProps = state => {
+  return {
+    results: state.postingsReducer.postings
+  }
+}
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ResultsTable)

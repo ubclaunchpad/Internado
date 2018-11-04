@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropdown from '../components/Dropdown';
 import '../styles/NavBar.css';
-import fetchPostings from '../actinos/postingsActions'
+import fetchPostings from '../actions/postingsActions'
 
 class Navbar extends Component {
   constructor() {
@@ -53,12 +53,6 @@ class Navbar extends Component {
     return body;
   };
 
-  handleSearch = (e) => {
-    if(e.keyCode === 13){
-      fetchPostings(this.state.searchKeywords);
-    }
-  };
-
   render() {
     return (
       <div className="Navbar">
@@ -72,7 +66,6 @@ class Navbar extends Component {
                    placeholder="Search Companies"
                    aria-label="Search"
                    onChange={this.updateSearchKeywords}
-                   onKeyPress={this.handleSearch}
             />
             <Dropdown
               searchCategory={this.state.searchCategory}
@@ -82,7 +75,7 @@ class Navbar extends Component {
               locationCategory={this.searchCategories[1]}
             />
             <div className="navbar-nav ml-auto">
-              <a href="http://localhost:5000/api"><button type="button" className="btn btn-primary mr-2">Search</button></a>
+              <a><button type="button" className="btn btn-primary mr-2" onClick={() => fetchPostings(this.state.searchKeywords)}>Search</button></a>
             </div>
           </form>
 
