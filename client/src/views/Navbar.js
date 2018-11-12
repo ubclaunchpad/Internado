@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropdown from '../components/Dropdown';
 import '../styles/NavBar.css';
+import fetchPostings from '../actions/postingsActions'
 
 class Navbar extends Component {
   constructor() {
@@ -39,7 +40,7 @@ class Navbar extends Component {
       },
       body: {
        'keywords': this.state.searchKeywords
-      },
+      }
     });
 
     const body = await response.json();
@@ -74,7 +75,7 @@ class Navbar extends Component {
               locationCategory={this.searchCategories[1]}
             />
             <div className="navbar-nav ml-auto">
-              <a href="http://localhost:5000/api"><button type="button" className="btn btn-primary mr-2">Search</button></a>
+              <a><button type="button" className="btn btn-primary mr-2" onClick={() => fetchPostings(this.state.searchKeywords)}>Search</button></a>
             </div>
           </form>
 
