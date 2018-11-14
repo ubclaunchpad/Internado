@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropdown from '../components/Dropdown';
 import '../sass/NavBar.scss';
-import fetchPostings from '../actions/postingsActions'
+import fetchPostings from '../actions/postingsActions';
 
 class Navbar extends Component {
   constructor() {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../sass/NavBar.scss';
 
 class Dropdown extends Component {
   render() {
