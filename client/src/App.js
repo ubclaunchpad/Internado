@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './styles/ResultsTable.css';
-import './styles/FilterMenu.css';
+import './sass/ResultsTable.scss';
 import Navbar from './views/Navbar';
 import ResultData from './components/ResultData';
 import FilterMenu from './components/FilterMenu';

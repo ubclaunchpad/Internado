@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../styles/NavBar.css';
 
 class Dropdown extends Component {
   render() {

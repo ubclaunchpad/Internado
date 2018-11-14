@@ -1,6 +1,6 @@
-import React from 'react'
-import ResultRow from './ResultRow'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import ResultRow from './ResultRow';
 
 class ResultsTable extends React.Component {
   render() {
