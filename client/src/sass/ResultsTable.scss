@@ -1,3 +1,5 @@
+@import 'variables';
+
 .results-table {
   width: 80%;
   margin-left: 10%;
@@ -8,7 +10,7 @@
 }
 .table-row {
   border: 2px solid white;
-  background-color: #CFD8DC;
+  background-color: $geyser_col;
   border-radius: 25px;
 }
 .table-cell-1 {
@@ -27,23 +29,23 @@
   position: relative;
 }
 .table-result-title {
-  color: #A0A9AD;
+  color: $grey_chateau_col;
 }
 .table-result-desc {
-  color: #87979D;
+  color: $regent_grey_col;
 }
 .table-result-location {
-  color: #88989E;
+  color: $regent_grey_col;
 }
 .table-arrow {
-  color: #8F8F8F;
+  color: $grey_col;
 }
 .table-button {
   border: none;
-  color: #E6E9EB;
+  color: $porcelain_col;
   width: 6em;
   height: 2em;
-  background-color: #7B8D93;
+  background-color: $oslo_grey_col;
   border-radius: 5px;
   position: absolute;
   bottom: 10px;
@@ -55,7 +57,7 @@
 
 .table-post {
   text-decoration: underline;
-  color: #90a0a6;
+  color: $regent_grey_col;
   position: absolute;
   font-size: 1.2em;
   bottom: 10px;
