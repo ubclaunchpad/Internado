@@ -15,18 +15,19 @@ interface SearchRequest {
     sortByLocation: boolean;
     firstDateFilter: Date;
     lastDateFilter: Date;
+    minSalary: number;
 }
 
 export function searchJobs(req: Request, res: Response): void {
     const client: Client = new Client(connectionString);
-    client.connect();
 
     let search: SearchRequest = getSearchRequest(req, res);
     if (search === null) { return; }
 
     let query: string = getQuery(search);
 
-    client.query(query)
+    client.connect()
+        .then(() => client.query(query))
         .then((result) => {
             res.send(result.rows);
         })
@@ -89,6 +90,14 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         return null;
     }
 
+    let minSalary: number = req.body.minSalary;
+    if (minSalary === undefined) {
+        minSalary = null;
+    } else if ((typeof minSalary) !== "number") {
+        res.status(400).send("The minSalary property must be a number.");
+        return null;
+    }
+
     return {
         keywords,
         take,
@@ -97,7 +106,8 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         longitude,
         sortByLocation,
         firstDateFilter,
-        lastDateFilter
+        lastDateFilter,
+        minSalary,
     };
 }
 
@@ -110,7 +120,8 @@ function getQuery(search: SearchRequest): string {
             j_country AS country,
             j_latitude AS latitude,
             j_longitude AS longitude,
-            j_start_date AS start_date
+            j_start_date AS start_date,
+            j_salary AS salary
             FROM (SELECT job.id as jid,
             job.job_title as j_title,
             job.description as j_description,
@@ -121,6 +132,7 @@ function getQuery(search: SearchRequest): string {
             job.latitude AS j_latitude,
             job.longitude AS j_longitude,
             job.start_date AS j_start_date,
+            job.salary AS j_salary,
             setweight(to_tsvector(job.job_title), 'A') ||
             setweight(to_tsvector(job.description), 'B') ||
             setweight(to_tsvector(job.company_name), 'A') as document
@@ -141,6 +153,10 @@ function getWhere(search: SearchRequest) {
     if (search.lastDateFilter) {
         let date = search.lastDateFilter;
         where += ` AND j_start_date <= '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+    }
+
+    if (search.minSalary) {
+        where += ` AND j_salary >= ${search.minSalary}`;
     }
 
     return where;
