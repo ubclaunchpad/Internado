@@ -1,0 +1,14 @@
+@import 'variables.scss';
+
+.Home .lander {
+  padding: 80px 0;
+  text-align: center;
+  width: 60%;
+  margin: auto;
+  h1 {
+    font-weight: 600;
+  }
+  p {
+    color: $dusty_grey_col;
+  }
+}

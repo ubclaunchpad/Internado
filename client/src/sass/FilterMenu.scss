@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 #flyoutMenu {
   position: absolute;
   text-align: left;
@@ -8,7 +10,7 @@
   min-width: 30px;
   transition: transform 0.5s ease;
   height: 100%;
-  color: #7B8D93;
+  color: $oslo_grey_col;
 }
 
 #flyoutMenu.hide {

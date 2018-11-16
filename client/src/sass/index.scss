@@ -1,3 +1,4 @@
+@import 'variables';
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 
 body {
@@ -17,7 +18,7 @@ code {
 
 #filterButton {
   border: 2px solid white;
-  background-color: #CFD8DC;
+  background-color: $geyser_col;
   border-radius: 25px;
   position: absolute;
   top: 60px;

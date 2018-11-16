@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import './styles/ResultsTable.css';
-import './styles/FilterMenu.css';
+import './sass/ResultsTable.scss';
 import Navbar from './views/Navbar';
-import ResultsTable from './containers/ResultsTable';
 import ResultData from './components/ResultData';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
@@ -28,12 +26,6 @@ class App extends Component {
         }));
     };
 
-    // This function will be used in the future to populate the data field in state to hold
-    // the data returned from search queries
-    // __populateResultsTableData() {
-
-    // }
-
     callBackendAPI = async() => {
         const response = await fetch('/express_backend');
         const body = await response.json();
@@ -46,18 +38,18 @@ class App extends Component {
     }
 
     render() {
-        return (
-            <div className="App">
-                <Navbar />
-                {this.state.isFilterMenuVisible ?
-                    <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
-                    <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
-                <FilterMenu visibility={this.state.isFilterMenuVisible} />
-                {/*<ResultsTable results={this.state.data} />*/}
-                <Routes/>
-            </div>
-        );
+      return (
+        <div className="App">
+          <Navbar />
+          {this.state.isFilterMenuVisible ?
+            <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
+            <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
+          <FilterMenu visibility={this.state.isFilterMenuVisible} />
+          {/*<ResultsTable results={this.state.data} />*/}
+          <Routes/>
+        </div>
+      );
     }
 }
 
-export default App;
+export default App
