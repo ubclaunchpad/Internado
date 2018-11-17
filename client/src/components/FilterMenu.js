@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import '.././sass/FilterMenu.scss';
+import '.././css/FilterMenu.css';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
