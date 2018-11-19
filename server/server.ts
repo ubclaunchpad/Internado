@@ -4,6 +4,7 @@ import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import appConfig from "./configurations/app";
 import router from "./routes/v1";
+import "reflect-metadata";
 
 const app: express.Application = express();
 

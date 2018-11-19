@@ -4,7 +4,6 @@ import config from "../configurations/app";
 import {createConnection} from "typeorm";
 import SearchRequest, {OrderBy} from "../models/searchRequest";
 import Job from "../models/job";
-import User from "../models/user";
 
 const connectionString: string = config.dbConnectionString;
 const defaultTake: number = 10;
@@ -15,13 +14,7 @@ export function searchJobs(req: Request, res: Response): void {
 
     let query: string = getQuery(search);
 
-    createConnection({
-        type: "postgres",
-        host: "localhost",
-        username: "postgres",
-        password: "postgres1!",
-        database: "internado",
-        entities: [Job]})
+    createConnection()
         .then(async (connection) => {
         // let jobs: User[] = await connection
         //     .getRepository(User)
