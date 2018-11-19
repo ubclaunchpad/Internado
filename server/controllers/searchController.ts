@@ -174,7 +174,7 @@ function getDistanceField(search: SearchRequest) {
     if (!search.longitude || !search.latitude) {
         return "";
     }
-    return `(${search.longitude}, ${search.latitude}) <@> (job.longitude, job.latitude) AS j_distance`;
+    return `point(${search.longitude}, ${search.latitude}) <@> point(job.longitude, job.latitude) AS j_distance, `;
 }
 
 function sanitizeKeywords(raw: string): string {
