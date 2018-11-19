@@ -1,37 +1,18 @@
-import { Client } from "pg";
-import Job from "../models/job";
-import { Request, Response } from "express";
+import {Client} from "pg";
+import {Request, Response} from "express";
 import config from "../configurations/app";
 import {createConnection} from "typeorm";
+import SearchRequest, {OrderBy} from "../models/searchRequest";
+import Job from "../models/job";
 
 const connectionString: string = config.dbConnectionString;
 const defaultTake: number = 10;
 
-interface SearchRequest {
-    keywords: string;
-    take: number;
-    offset: number;
-    latitude: number;
-    longitude: number;
-    sortByLocation: boolean;
-    firstDateFilter: Date;
-    lastDateFilter: Date;
-}
-
 export function searchJobs(req: Request, res: Response): void {
-
     let search: SearchRequest = getSearchRequest(req, res);
     if (search === null) { return; }
 
     let query: string = getQuery(search);
-
-    // client.query(query)
-    //     .then((result) => {
-    //         res.send(result.rows);
-    //     })
-    //     .catch((err) => {
-    //         res.status(500).send(`Failed to query database.\nError: ${err}`);
-    //     });
 
     createConnection().then(async (connection) => {
         let jobs: Job[] = await connection
@@ -72,15 +53,21 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 
     let latitude: number = req.body.latitude;
     let longitude: number = req.body.longitude;
+    let radius: number = req.body.radius;
 
-    let sortByLocation: boolean = false;
-    if (latitude || longitude) {
-        sortByLocation = true;
+    if (radius === undefined) {
+        radius = null;
+    } else if ((typeof radius !== "number") || (typeof latitude !== "number") || (typeof longitude !== "number") ||
+        latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        res.status(400).send("If radius is defined radius, longitude and latitude must be valid.");
+        return null;
     }
 
-    if (sortByLocation && ((typeof latitude) !== "number" || (typeof longitude) !== "number" ||
+    let orderBy: OrderBy = req.body.orderBy;
+
+    if (orderBy === OrderBy.Distance && ((typeof latitude) !== "number" || (typeof longitude) !== "number" ||
         latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180)) {
-        res.status(400).send("To sort by location, both latitude and longitude must be valid.");
+        res.status(400).send("To order by distance, both latitude and longitude must be valid.");
         return null;
     }
 
@@ -104,15 +91,25 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         return null;
     }
 
+    let minSalary: number = req.body.minSalary;
+    if (minSalary === undefined) {
+        minSalary = null;
+    } else if ((typeof minSalary) !== "number") {
+        res.status(400).send("The minSalary property must be a number.");
+        return null;
+    }
+
     return {
         keywords,
         take,
         offset,
         latitude,
         longitude,
-        sortByLocation,
+        radius,
         firstDateFilter,
-        lastDateFilter
+        lastDateFilter,
+        minSalary,
+        orderBy,
     };
 }
 
@@ -125,7 +122,8 @@ function getQuery(search: SearchRequest): string {
             j_country AS country,
             j_latitude AS latitude,
             j_longitude AS longitude,
-            j_start_date AS start_date
+            j_start_date AS start_date,
+            j_salary AS salary
             FROM (SELECT job.id as jid,
             job.job_title as j_title,
             job.description as j_description,
@@ -136,6 +134,8 @@ function getQuery(search: SearchRequest): string {
             job.latitude AS j_latitude,
             job.longitude AS j_longitude,
             job.start_date AS j_start_date,
+            job.salary AS j_salary,
+            ${getDistanceField(search)}
             setweight(to_tsvector(job.job_title), 'A') ||
             setweight(to_tsvector(job.description), 'B') ||
             setweight(to_tsvector(job.company_name), 'A') as document
@@ -158,18 +158,30 @@ function getWhere(search: SearchRequest) {
         where += ` AND j_start_date <= '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
     }
 
+    if (search.minSalary) {
+        where += ` AND j_salary >= ${search.minSalary}`;
+    }
+
+    if (search.radius) {
+        where += ` AND j_distance <= ${search.radius}`;
+    }
+
     return where;
 }
 
 function getOrderBy(search: SearchRequest) {
-    if (search.sortByLocation) {
-        return `ORDER BY 3956 * 2 *
-		ASIN(SQRT( POWER(SIN((${search.latitude} - j_latitude) * pi()/180 / 2), 2) +
-		COS(${search.latitude} * pi()/180) * COS(j_latitude * pi()/180) *
-		POWER(SIN((${search.longitude} - j_longitude) * pi()/180 / 2), 2)))`;
+    if (search.orderBy === OrderBy.Distance) {
+        return `ORDER BY j_distance`;
     }
 
     return `ORDER BY ts_rank(p_search.document, to_tsquery('${search.keywords}')) DESC`;
+}
+
+function getDistanceField(search: SearchRequest) {
+    if (!search.longitude || !search.latitude) {
+        return "";
+    }
+    return `point(${search.longitude}, ${search.latitude}) <@> point(job.longitude, job.latitude) AS j_distance, `;
 }
 
 function sanitizeKeywords(raw: string): string {
