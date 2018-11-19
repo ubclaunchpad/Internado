@@ -23,7 +23,8 @@
         "prefer-const": false,
         "max-classes-per-file": false,
         "trailing-comma": false,
-        "interface-name": false
+        "interface-name": false,
+        "member-access": false
     },
     "linterOptions": {
         "exclude": ["node_modules"]
