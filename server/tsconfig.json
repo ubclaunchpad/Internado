@@ -1,24 +1,21 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES6",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "lib": [
-      "es7",
-      "es2017.object",
-      "dom"
-    ],
-    "typeRoots": [
+   "compilerOptions": {
+      "lib": [
+         "es5",
+         "es6"
+      ],
+      "target": "es5",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "outDir": "./build",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true
+   },
+   "typeRoots": [
       "./node_modules/@types"
-    ]
-  },
-  "filesGlob": [
-    "/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+   ],
+   "exclude": [
+      "node_modules"
+   ]
 }

@@ -2,6 +2,7 @@ import { Client } from "pg";
 import Job from "../models/job";
 import { Request, Response } from "express";
 import config from "../configurations/app";
+import {createConnection} from "typeorm";
 
 const connectionString: string = config.dbConnectionString;
 const defaultTake: number = 10;
@@ -18,21 +19,26 @@ interface SearchRequest {
 }
 
 export function searchJobs(req: Request, res: Response): void {
-    const client: Client = new Client(connectionString);
-    client.connect();
+    // const client: Client = new Client(connectionString);
+    // client.connect();
+    //
+    // let search: SearchRequest = getSearchRequest(req, res);
+    // if (search === null) { return; }
+    //
+    // let query: string = getQuery(search);
+    //
+    // client.query(query)
+    //     .then((result) => {
+    //         res.send(result.rows);
+    //     })
+    //     .catch((err) => {
+    //         res.status(500).send(`Failed to query database.\nError: ${err}`);
+    //     });
 
-    let search: SearchRequest = getSearchRequest(req, res);
-    if (search === null) { return; }
-
-    let query: string = getQuery(search);
-
-    client.query(query)
-        .then((result) => {
-            res.send(result.rows);
-        })
-        .catch((err) => {
-            res.status(500).send(`Failed to query database.\nError: ${err}`);
-        });
+    createConnection().then(async connection => {
+        let jobs: Job[] = await connection.manager.find(Job);
+        res.status(200).send(jobs);
+    })
 }
 
 function getSearchRequest(req: Request, res: Response): SearchRequest {
