@@ -19,14 +19,12 @@ interface SearchRequest {
 }
 
 export function searchJobs(req: Request, res: Response): void {
-    // const client: Client = new Client(connectionString);
-    // client.connect();
-    //
-    // let search: SearchRequest = getSearchRequest(req, res);
-    // if (search === null) { return; }
-    //
-    // let query: string = getQuery(search);
-    //
+
+    let search: SearchRequest = getSearchRequest(req, res);
+    if (search === null) { return; }
+
+    let query: string = getQuery(search);
+
     // client.query(query)
     //     .then((result) => {
     //         res.send(result.rows);
@@ -35,10 +33,21 @@ export function searchJobs(req: Request, res: Response): void {
     //         res.status(500).send(`Failed to query database.\nError: ${err}`);
     //     });
 
-    createConnection().then(async connection => {
-        let jobs: Job[] = await connection.manager.find(Job);
-        res.status(200).send(jobs);
-    })
+    createConnection().then(async (connection) => {
+        let jobs: Job[] = await connection
+            .getRepository(Job)
+            .createQueryBuilder("job")
+            .select(`setweight(to_tsvector(job.job_title), 'A') ||
+                setweight(to_tsvector(job.description), 'B') ||
+                setweight(to_tsvector(job.company_name), 'A')`,
+                "document")
+            .where("document @@ to_tsquery('intern')")
+            .getMany();
+
+        res.status(200).send({result: jobs});
+    }).catch((err) => {
+        res.status(500).send(`Failed to query database.\nError: ${err}`);
+    });
 }
 
 function getSearchRequest(req: Request, res: Response): SearchRequest {

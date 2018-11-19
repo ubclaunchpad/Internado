@@ -2,7 +2,7 @@
    "type": "postgres",
    "host": "localhost",
    "port": 5432,
-   "username": "cowan",
+   "username": "postgres",
    "password": "postgres1!",
    "database": "internado",
    "synchronize": true,

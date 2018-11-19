@@ -4,35 +4,35 @@ import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
 export default class Job {
 
     @PrimaryGeneratedColumn({type: "bigint"})
-    id: number;
+    public id: number;
 
     @Column({ nullable: true })
-    jobTitle: string;
+    public jobTitle: string;
 
     @Column({ nullable: true, type: "text"})
-    link: string;
+    public link: string;
 
     @Column({ nullable: true, type: "text"})
-    description: string;
+    public description: string;
 
     @Column({ nullable: true })
-    city: string;
+    public city: string;
 
     @Column({ nullable: true })
-    country: string;
+    public country: string;
 
     @Column({ nullable: true, type: "double precision" })
-    latitude: number;
+    public latitude: number;
 
     @Column({ nullable: true, type: "double precision" })
-    longitude: number;
+    public longitude: number;
 
     @Column({ nullable: true })
-    companyName: string;
+    public companyName: string;
 
     @Column({ nullable: true, type: "date" })
-    startDate: Date;
+    public startDate: Date;
 
     @Column({ nullable: true })
-    minSalary: number;
+    public minSalary: number;
 }
