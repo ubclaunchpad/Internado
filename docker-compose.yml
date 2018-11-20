@@ -2,22 +2,47 @@ version: '3'
 services:
   ### SERVER ###
   server:
-    image: stevenshih1997/internado_server:latest
     build: ./server
     expose:
       - ${API_SERVER_PORT}
     environment:
       API_HOST: ${API_HOST}
       API_SERVER_PORT: ${API_SERVER_PORT}
-    command: npm start
     volumes:
       - ./server:/src/app/internado-server/server
       - /app/node_modules
     ports: #HOST:CONTAINER
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
+    environment:
+      WAIT_SLEEP_INTERVAL: 60 
+      WAIT_HOSTS_TIMEOUT: 600
+      WAIT_HOSTS: postgres:5432
+    depends_on:
+      - "postgres"
+
+  #### DATABASE ###
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: internado
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - "postgres"
+    ports:
+      - 8080:8080
+
   ### CLIENT ###
   client:
-    image: stevenshih1997/internado_client:latest
     build: ./client
     environment:
       CLIENT_PORT: ${CLIENT_PORT}
@@ -32,3 +57,6 @@ services:
       - server
     command: npm start
 
+volumes:
+  database_data:
+    driver: local
