@@ -1,6 +1,4 @@
-import {Client} from "pg";
 import {Request, Response} from "express";
-import config from "../configurations/app";
 import {Connection, createConnection, getConnection, SelectQueryBuilder} from "typeorm";
 import SearchRequest, {OrderBy} from "../models/searchRequest";
 import Job from "../models/job";
@@ -11,7 +9,6 @@ export async function searchJobs(req: Request, res: Response): Promise<void> {
     let search: SearchRequest = getSearchRequest(req, res);
     if (search === null) { return; }
 
-    let query: string = getQuery(search);
     let connection: Connection = getConnection();
 
     try {
@@ -106,21 +103,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 }
 
 async function queryJobs(search: SearchRequest, connection: Connection): Promise<any[]> {
-    let innerQueryBuilder = await connection
-        .getRepository(Job)
-        .createQueryBuilder("job")
-        .select("job")
-        .addSelect(`setweight(to_tsvector(job.title), 'A') ||
-                setweight(to_tsvector(job.description), 'B') ||
-                setweight(to_tsvector(job.company_name), 'A')`,
-            "document");
-
-    if (search.longitude && search.latitude) {
-        innerQueryBuilder.addSelect(
-            "(point(:longitude, :latitude) <@> point(job.longitude, job.latitude)) * 1.609344",
-            "distance")
-            .setParameters({longitude: search.longitude, latitude: search.latitude});
-    }
+    let innerQb: SelectQueryBuilder<Job> = await getInnerQueryBuilder(search, connection);
 
     let queryBuilder: SelectQueryBuilder<any> = await connection
         .createQueryBuilder()
@@ -136,88 +119,71 @@ async function queryJobs(search: SearchRequest, connection: Connection): Promise
         .addSelect("job_company_name", "company_name")
         .addSelect("job_start_date", "start_date")
         .addSelect("job_min_salary", "min_salary")
-        .from("(" + innerQueryBuilder.getQuery() + ")", "p_search")
-        .where("p_search.document @@ to_tsquery(:keywords)", {keywords: `'` + search.keywords + `'`})
-        .setParameters(innerQueryBuilder.getParameters());
+        .from("(" + innerQb.getQuery() + ")", "p_search")
+        .setParameters(innerQb.getParameters());
 
-    if (search.longitude && search.latitude && search.radius) {
-        queryBuilder.andWhere("p_search.distance <= :radius", {radius: search.radius});
-    }
+    addWhere(search, queryBuilder);
+    addOrderBy(search, queryBuilder);
 
     let jobs: any[] = await queryBuilder.getRawMany();
 
     return jobs;
 }
 
-function getQuery(search: SearchRequest): string {
-    return `SELECT jid AS id, j_title AS job_title,
-            j_description AS description,
-            j_company_name AS company_name,
-            j_link AS link,
-            j_city AS city,
-            j_country AS country,
-            j_latitude AS latitude,
-            j_longitude AS longitude,
-            j_start_date AS start_date,
-            j_salary AS salary
-            FROM (SELECT job.id as jid,
-            job.job_title as j_title,
-            job.description as j_description,
-            job.company_name AS j_company_name,
-            job.link AS j_link,
-            job.city AS j_city,
-            job.country AS j_country,
-            job.latitude AS j_latitude,
-            job.longitude AS j_longitude,
-            job.start_date AS j_start_date,
-            job.salary AS j_salary,
-            ${getDistanceField(search)}
-            setweight(to_tsvector(job.job_title), 'A') ||
-            setweight(to_tsvector(job.description), 'B') ||
-            setweight(to_tsvector(job.company_name), 'A') as document
-            FROM job) p_search
-            ${getWhere(search)}
-            ${getOrderBy(search)}
-            LIMIT ${search.take} OFFSET ${search.offset};`;
+async function getInnerQueryBuilder(search: SearchRequest, connection: Connection): Promise<SelectQueryBuilder<Job>> {
+    let innerQueryBuilder: SelectQueryBuilder<Job> = await connection
+        .getRepository(Job)
+        .createQueryBuilder("job")
+        .select("job")
+        .addSelect(`setweight(to_tsvector(job.title), 'A') ||
+                setweight(to_tsvector(job.description), 'B') ||
+                setweight(to_tsvector(job.company_name), 'A')`,
+            "job_document");
+
+    if (search.longitude && search.latitude) {
+        innerQueryBuilder.addSelect(
+            "(point(:longitude, :latitude) <@> point(job.longitude, job.latitude)) * 1.609344",
+            "job_distance")
+            .setParameters({longitude: search.longitude, latitude: search.latitude});
+    }
+
+    return innerQueryBuilder;
 }
 
-function getWhere(search: SearchRequest) {
-    let where: string = `WHERE p_search.document @@ to_tsquery('${search.keywords}')`;
+function addWhere(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
+    qb.where("job_document @@ to_tsquery(:keywords)", {keywords: `'${search.keywords}'`});
 
     if (search.firstDateFilter) {
-        let date = search.firstDateFilter;
-        where += ` AND j_start_date >= '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+        let date: Date = search.firstDateFilter;
+        let dateString: string = `'${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+        qb.andWhere("job_start_date >= :firstDate", {firstDate: dateString});
     }
 
     if (search.lastDateFilter) {
-        let date = search.lastDateFilter;
-        where += ` AND j_start_date <= '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+        let date: Date = search.lastDateFilter;
+        let dateString: string = `'${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
+        qb.andWhere("job_start_date <= :lastDate", {lastDate: dateString});
     }
 
     if (search.minSalary) {
-        where += ` AND j_salary >= ${search.minSalary}`;
+        qb.andWhere("job_min_salary >= :minSalary", {minSalary: search.minSalary});
     }
 
-    if (search.radius) {
-        where += ` AND j_distance <= ${search.radius}`;
+    if (search.longitude && search.latitude && search.radius) {
+        qb.andWhere("job_distance <= :radius", {radius: search.radius});
     }
-
-    return where;
 }
 
-function getOrderBy(search: SearchRequest) {
-    if (search.orderBy === OrderBy.Distance) {
-        return `ORDER BY j_distance`;
+function addOrderBy(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
+    switch (search.orderBy) {
+        case OrderBy.Distance:
+            qb.orderBy("job_distance");
+            break;
+        case OrderBy.Relevance:
+        default:
+            qb.orderBy("ts_rank(job_document, to_tsquery(:keywords))");
+            break;
     }
-
-    return `ORDER BY ts_rank(p_search.document, to_tsquery('${search.keywords}')) DESC`;
-}
-
-function getDistanceField(search: SearchRequest) {
-    if (!search.longitude || !search.latitude) {
-        return "";
-    }
-    return `point(${search.longitude}, ${search.latitude}) <@> point(job.longitude, job.latitude) AS j_distance, `;
 }
 
 function sanitizeKeywords(raw: string): string {
