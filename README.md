@@ -81,7 +81,8 @@ First of all we need to get your docker machine's ip , save that somewhere becau
 ```console
 foo@bar:~$ docker-machine ip
 ```
-Run the following cmd which builds all docker containers but does not run them
+Run the following cmd which builds all docker containers but does not run them]
+<br>
 <b>Sidenote:</b> running docker build the first time takes a lot of time , however subsequent calls will run much faster as docker caches alot of the repeated steps
 ```console
 foo@bar:~$ docker-compose build
