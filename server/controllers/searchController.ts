@@ -1,37 +1,26 @@
 import {Client} from "pg";
 import {Request, Response} from "express";
 import config from "../configurations/app";
-import {createConnection} from "typeorm";
+import {Connection, createConnection, getConnection, SelectQueryBuilder} from "typeorm";
 import SearchRequest, {OrderBy} from "../models/searchRequest";
 import Job from "../models/job";
 
-const connectionString: string = config.dbConnectionString;
 const defaultTake: number = 10;
 
-export function searchJobs(req: Request, res: Response): void {
+export async function searchJobs(req: Request, res: Response): Promise<void> {
     let search: SearchRequest = getSearchRequest(req, res);
     if (search === null) { return; }
 
     let query: string = getQuery(search);
+    let connection: Connection = getConnection();
 
-    createConnection()
-        .then(async (connection) => {
-        // let jobs: User[] = await connection
-        //     .getRepository(User)
-        //     .createQueryBuilder("job")
-        //     .select(`setweight(to_tsvector(job.job_title), 'A') ||
-        //         setweight(to_tsvector(job.description), 'B') ||
-        //         setweight(to_tsvector(job.company_name), 'A')`,
-        //         "document")
-        //     .where("document @@ to_tsquery('intern')")
-        //     .getMany();
-
-        let jobs: Job[] = await connection.manager.find(Job);
+    try {
+        let jobs: Job[] = await queryJobs(search, connection);
 
         res.status(200).send({result: jobs});
-    }).catch((err) => {
+    } catch (err) {
         res.status(500).send(`Failed to query database.\nError: ${err}`);
-    });
+    }
 }
 
 function getSearchRequest(req: Request, res: Response): SearchRequest {
@@ -114,6 +103,50 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         minSalary,
         orderBy,
     };
+}
+
+async function queryJobs(search: SearchRequest, connection: Connection): Promise<any[]> {
+    let innerQueryBuilder = await connection
+        .getRepository(Job)
+        .createQueryBuilder("job")
+        .select("job")
+        .addSelect(`setweight(to_tsvector(job.title), 'A') ||
+                setweight(to_tsvector(job.description), 'B') ||
+                setweight(to_tsvector(job.company_name), 'A')`,
+            "document");
+
+    if (search.longitude && search.latitude) {
+        innerQueryBuilder.addSelect(
+            "(point(:longitude, :latitude) <@> point(job.longitude, job.latitude)) * 1.609344",
+            "distance")
+            .setParameters({longitude: search.longitude, latitude: search.latitude});
+    }
+
+    let queryBuilder: SelectQueryBuilder<any> = await connection
+        .createQueryBuilder()
+        .select("job_id", "id")
+        .addSelect("job_title", "title")
+        .addSelect("job_link", "link")
+        .addSelect("job_description", "description")
+        .addSelect("job_link", "link")
+        .addSelect("job_city", "city")
+        .addSelect("job_country", "country")
+        .addSelect("job_latitude", "latitude")
+        .addSelect("job_longitude", "longitude")
+        .addSelect("job_company_name", "company_name")
+        .addSelect("job_start_date", "start_date")
+        .addSelect("job_min_salary", "min_salary")
+        .from("(" + innerQueryBuilder.getQuery() + ")", "p_search")
+        .where("p_search.document @@ to_tsquery(:keywords)", {keywords: `'` + search.keywords + `'`})
+        .setParameters(innerQueryBuilder.getParameters());
+
+    if (search.longitude && search.latitude && search.radius) {
+        queryBuilder.andWhere("p_search.distance <= :radius", {radius: search.radius});
+    }
+
+    let jobs: any[] = await queryBuilder.getRawMany();
+
+    return jobs;
 }
 
 function getQuery(search: SearchRequest): string {

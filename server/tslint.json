@@ -24,7 +24,8 @@
         "max-classes-per-file": false,
         "trailing-comma": false,
         "interface-name": false,
-        "member-access": false
+        "member-access": false,
+        "variable-name": [true, "allow-snake-case"]
     },
     "linterOptions": {
         "exclude": ["node_modules"]

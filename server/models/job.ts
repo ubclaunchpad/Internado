@@ -6,8 +6,8 @@ export default class Job {
     @PrimaryGeneratedColumn({type: "bigint"})
     public id: number;
 
-    @Column({ nullable: true })
-    public jobTitle: string;
+    @Column({ nullable: true, length: 256})
+    public title: string;
 
     @Column({ nullable: true, type: "text"})
     public link: string;
@@ -15,10 +15,10 @@ export default class Job {
     @Column({ nullable: true, type: "text"})
     public description: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, length: 256})
     public city: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, length: 256})
     public country: string;
 
     @Column({ nullable: true, type: "double precision" })
@@ -27,12 +27,12 @@ export default class Job {
     @Column({ nullable: true, type: "double precision" })
     public longitude: number;
 
-    @Column({ nullable: true })
-    public companyName: string;
+    @Column({ nullable: true, length: 256})
+    public company_name: string;
 
     @Column({ nullable: true, type: "date" })
-    public startDate: Date;
+    public start_date: Date;
 
-    @Column({ nullable: true })
-    public minSalary: number;
+    @Column({ nullable: true, type: "integer"})
+    public min_salary: number;
 }
