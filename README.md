@@ -73,10 +73,23 @@ foo@bar:~$ npm run clean
 
 ## Docker
   Make sure docker is installed. This is only currently useful for single container development purposes. Docker Compose can be used to streamline the process when deploying multiple containers.
-### Setup
-  1. `docker build internado .` while you are in the same directory of `Dockerfile`
-  2. `docker run -p 8080:5000 -d internado` 
-  3. The container should now be running in the background and can be accessed at port 8080. We can curl the docker container that runs in the background now
+  
+### Getting Started
+After setting up docker run the following commands in the root directory of this project
+
+Run the following cmd which builds all docker containers but does not run them
+<b>Sidenote:</b> running docker build the first time takes a lot of time , however subsequent calls will run much faster as docker caches alot of the repeated steps
+```console
+foo@bar:~$ docker-compose build
+```
+
+Runs all of the containers that were built above. 
+```console
+foo@bar:~$ docker-compose run
+```
+Now you can perform your request to any of the running containers much like how you would do it locally on your machine
+Currently there are 4 containers that are setup to run
+
 ### Useful commands
   * `docker ps` lists the status  and ID of current containers
   * `docker logs -f <Container ID>` displays real-time logs of the running docker container
