@@ -39,20 +39,9 @@ def request_ziprecruiter_jobs(page_num, api_key):
       salary_min = job["salary_min"]
       # add to database
       cur.execute(
-        "INSERT INTO Jobs VALUES(DEFAULT,'{job_title}','{link}','{description}','{city}','{state}','{country}','{latitude}','{longitude}','{company_name}','{salary_min}') " \
-        .format(\
-        job_title=job_title, \
-        link=link, \
-        description=description, \
-        city=city, \
-        state=state, \
-        country=country, \
-        latitude=0.0, \
-        longitude=0.0, \
-        company_name=company_name, \
-        salary_min=salary_min, \
-        start_date=None \
-      ))
+        "INSERT INTO Jobs VALUES(DEFAULT,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", \
+        (job_title, link, description, city, state, country, 0.0, 0.0, company_name, salary_min, None) \
+      )
     con.commit()
     cur.close()
     con.close()
