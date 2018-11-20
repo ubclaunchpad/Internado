@@ -103,31 +103,18 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 }
 
 async function queryJobs(search: SearchRequest, connection: Connection): Promise<any[]> {
-    let innerQb: SelectQueryBuilder<Job> = await getInnerQueryBuilder(search, connection);
+    let queryBuilder: SelectQueryBuilder<any> = await connection.createQueryBuilder();
+    addSelects(search, queryBuilder);
 
-    let queryBuilder: SelectQueryBuilder<any> = await connection
-        .createQueryBuilder()
-        .select("job_id", "id")
-        .addSelect("job_title", "title")
-        .addSelect("job_link", "link")
-        .addSelect("job_description", "description")
-        .addSelect("job_link", "link")
-        .addSelect("job_city", "city")
-        .addSelect("job_country", "country")
-        .addSelect("job_latitude", "latitude")
-        .addSelect("job_longitude", "longitude")
-        .addSelect("job_company_name", "company_name")
-        .addSelect("job_start_date", "start_date")
-        .addSelect("job_min_salary", "min_salary")
+    const innerQb: SelectQueryBuilder<Job> = await getInnerQueryBuilder(search, connection);
+    queryBuilder
         .from("(" + innerQb.getQuery() + ")", "p_search")
         .setParameters(innerQb.getParameters());
 
     addWhere(search, queryBuilder);
     addOrderBy(search, queryBuilder);
 
-    let jobs: any[] = await queryBuilder.getRawMany();
-
-    return jobs;
+    return queryBuilder.getRawMany();
 }
 
 async function getInnerQueryBuilder(search: SearchRequest, connection: Connection): Promise<SelectQueryBuilder<Job>> {
@@ -148,6 +135,18 @@ async function getInnerQueryBuilder(search: SearchRequest, connection: Connectio
     }
 
     return innerQueryBuilder;
+}
+
+function addSelects(search: SearchRequest, qb: SelectQueryBuilder<any>) {
+    const prefix: string = "job_";
+
+    Object.keys(new Job()).forEach((key, index) => {
+        if (index === 0) {
+            qb.select(prefix + key, key);
+        } else {
+            qb.addSelect(prefix + key, key);
+        }
+    });
 }
 
 function addWhere(search: SearchRequest, qb: SelectQueryBuilder<any>): void {

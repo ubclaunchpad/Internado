@@ -3,6 +3,22 @@ import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
 @Entity()
 export default class Job {
 
+    // Default constructor is used to generate the property keys.
+    // This probably shouldn't be used as it makes an invalid id.
+    constructor() {
+        this.id = null;
+        this.title = null;
+        this.link = null;
+        this.description = null;
+        this.city = null;
+        this.country = null;
+        this.latitude = null;
+        this.longitude = null;
+        this.company_name = null;
+        this.start_date = null;
+        this.min_salary = null;
+    }
+
     @PrimaryGeneratedColumn({type: "bigint"})
     public id: number;
 
