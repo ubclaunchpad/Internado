@@ -90,6 +90,12 @@ foo@bar:~$ docker-compose run
 Now you can perform your request to any of the running containers much like how you would do it locally on your machine
 Currently there are 4 containers that are setup to run
 
+| Container |                      Description                     | Port |             Example             |
+|:---------:|:----------------------------------------------------:|:----:|:-------------------------------:|
+|   Server  |                    API (back-end)                    | 5000 |   [DOCKER_MACHINE_IP]:5000/api  |
+|  Postgres |                     our database                     | 5432 | use adminer/cmd line to  access |
+|  Adminer  | A simple GUI that helps you manipulate the database  | 8080 |     [DOCKER_MACHINE_IP]:8080    |
+|   Client  |                   react (front-end)                  | 3000 |     [DOCKER_MACHINE_IP]:3000    |
 ### Useful commands
   * `docker ps` lists the status  and ID of current containers
   * `docker logs -f <Container ID>` displays real-time logs of the running docker container
