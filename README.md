@@ -96,6 +96,17 @@ Currently there are 4 containers that are setup to run
 |  Postgres |                     our database                     | 5432 | use adminer/cmd line to  access |
 |  Adminer  | A simple GUI that helps you manipulate the database  | 8080 |     [DOCKER_MACHINE_IP]:8080    |
 |   Client  |                   react (front-end)                  | 3000 |     [DOCKER_MACHINE_IP]:3000    |
+
+Regarding the db you can use the following identification parameters to connect to it through any of the
+above containers
+
+| Parameter |   Value   |
+|:---------:|:---------:|
+|    Host   |  postgres |
+|  Db name  | internado |
+|  Username |   admin   |
+|  Password |   admin   |
+|    Port   |    5432   |
 ### Useful commands
   * `docker ps` lists the status  and ID of current containers
   * `docker logs -f <Container ID>` displays real-time logs of the running docker container
