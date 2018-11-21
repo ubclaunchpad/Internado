@@ -16,13 +16,13 @@ export async function searchJobs(req: Request, res: Response): Promise<void> {
 
         res.status(200).send({result: jobs});
     } catch (err) {
-        res.status(500).send(`Failed to query database.\nError: ${err}`);
+        res.status(500).send({error: err});
     }
 }
 
 function getSearchRequest(req: Request, res: Response): SearchRequest {
     if (!((typeof req.body.keywords) === "string")) {
-        res.status(400).send("The keywords property must be included and be a string.");
+        res.status(400).send({error: "The keywords property must be included and be a string."});
         return null;
     }
 
@@ -30,13 +30,13 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 
     let take: number = req.body.take ? req.body.take : defaultTake;
     if ((typeof take) !== "number" || take !== Math.floor(take) || take < 1) {
-        res.status(400).send("The take property must be a positive integer.");
+        res.status(400).send({error: "The take property must be a positive integer."});
         return null;
     }
 
     let offset: number = req.body.offset ? req.body.offset : 0;
     if ((typeof offset) !== "number" || offset !== Math.floor(offset) || offset < 0) {
-        res.status(400).send("The offset property must be a non-negative integer.");
+        res.status(400).send({error: "The offset property must be a non-negative integer."});
         return null;
     }
 
@@ -48,7 +48,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         radius = null;
     } else if ((typeof radius !== "number") || (typeof latitude !== "number") || (typeof longitude !== "number") ||
         latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
-        res.status(400).send("If radius is defined, longitude and latitude must be valid.");
+        res.status(400).send({error: "If radius is defined, longitude and latitude must be valid."});
         return null;
     }
 
@@ -56,7 +56,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 
     if (orderBy === OrderBy.Distance && ((typeof latitude) !== "number" || (typeof longitude) !== "number" ||
         latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180)) {
-        res.status(400).send("To order by distance, both latitude and longitude must be valid.");
+        res.status(400).send({error: "To order by distance, both latitude and longitude must be valid."});
         return null;
     }
 
@@ -66,7 +66,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
     } else if (!isNaN(Date.parse(req.body.firstDateFilter))) {
         firstDateFilter = new Date(req.body.firstDateFilter);
     } else {
-        res.status(400).send("The firstDateFilter property must be a valid date.");
+        res.status(400).send({error: "The firstDateFilter property must be a valid date."});
         return null;
     }
 
@@ -76,7 +76,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
     } else if (!isNaN(Date.parse(req.body.lastDateFilter))) {
         lastDateFilter = new Date(req.body.lastDateFilter);
     } else {
-        res.status(400).send("The lastDateFilter property must be a valid date.");
+        res.status(400).send({error: "The lastDateFilter property must be a valid date."});
         return null;
     }
 
@@ -84,7 +84,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
     if (salaryMin === undefined) {
         salaryMin = null;
     } else if ((typeof salaryMin) !== "number") {
-        res.status(400).send("The salaryMin property must be a number.");
+        res.status(400).send({error: "The salaryMin property must be a number."});
         return null;
     }
 
