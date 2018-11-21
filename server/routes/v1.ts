@@ -15,4 +15,11 @@ export default function (app: Router) {
 
     app.post("/search", searchJobs);
 
+    app.options("/search", (req: Request, res: Response) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Content-Type");
+        res.header("Access-Control-Allow-Methods", "POST");
+        res.status(200).send({message: "Success"});
+    });
+
 }
