@@ -7,7 +7,7 @@ export default class Job {
     // This probably shouldn't be used as it makes an invalid id.
     constructor() {
         this.id = null;
-        this.title = null;
+        this.job_title = null;
         this.link = null;
         this.description = null;
         this.city = null;
@@ -16,14 +16,14 @@ export default class Job {
         this.longitude = null;
         this.company_name = null;
         this.start_date = null;
-        this.min_salary = null;
+        this.salary_min = null;
     }
 
     @PrimaryGeneratedColumn({type: "bigint"})
     public id: number;
 
     @Column({ nullable: true, length: 256})
-    public title: string;
+    public job_title: string;
 
     @Column({ nullable: true, type: "text"})
     public link: string;
@@ -33,6 +33,9 @@ export default class Job {
 
     @Column({ nullable: true, length: 256})
     public city: string;
+
+    @Column({ nullable: true, length: 256})
+    public state: string;
 
     @Column({ nullable: true, length: 256})
     public country: string;
@@ -50,5 +53,5 @@ export default class Job {
     public start_date: Date;
 
     @Column({ nullable: true, type: "integer"})
-    public min_salary: number;
+    public salary_min: number;
 }

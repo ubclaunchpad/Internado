@@ -8,7 +8,7 @@ export default interface SearchRequest {
     radius: number;
     firstDateFilter: Date;
     lastDateFilter: Date;
-    minSalary: number;
+    salaryMin: number;
     orderBy: OrderBy;
 }
 

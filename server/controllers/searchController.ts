@@ -80,11 +80,11 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         return null;
     }
 
-    let minSalary: number = req.body.minSalary;
-    if (minSalary === undefined) {
-        minSalary = null;
-    } else if ((typeof minSalary) !== "number") {
-        res.status(400).send("The minSalary property must be a number.");
+    let salaryMin: number = req.body.salaryMin;
+    if (salaryMin === undefined) {
+        salaryMin = null;
+    } else if ((typeof salaryMin) !== "number") {
+        res.status(400).send("The salaryMin property must be a number.");
         return null;
     }
 
@@ -97,7 +97,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         radius,
         firstDateFilter,
         lastDateFilter,
-        minSalary,
+        salaryMin,
         orderBy,
     };
 }
@@ -122,7 +122,7 @@ async function getInnerQueryBuilder(search: SearchRequest, connection: Connectio
         .getRepository(Job)
         .createQueryBuilder("job")
         .select("job")
-        .addSelect(`setweight(to_tsvector(job.title), 'A') ||
+        .addSelect(`setweight(to_tsvector(job.job_title), 'A') ||
                 setweight(to_tsvector(job.description), 'B') ||
                 setweight(to_tsvector(job.company_name), 'A')`,
             "job_document");
@@ -164,8 +164,8 @@ function addWhere(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
         qb.andWhere("job_start_date <= :lastDate", {lastDate: dateString});
     }
 
-    if (search.minSalary) {
-        qb.andWhere("job_min_salary >= :minSalary", {minSalary: search.minSalary});
+    if (search.salaryMin) {
+        qb.andWhere("job_salary_min >= :salaryMin", {salaryMin: search.salaryMin});
     }
 
     if (search.longitude && search.latitude && search.radius) {
