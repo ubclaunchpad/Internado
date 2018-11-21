@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {Connection, createConnection, getConnection, SelectQueryBuilder} from "typeorm";
+import {Connection, getConnection, SelectQueryBuilder} from "typeorm";
 import SearchRequest, {OrderBy} from "../models/searchRequest";
 import Job from "../models/job";
 
@@ -48,7 +48,7 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         radius = null;
     } else if ((typeof radius !== "number") || (typeof latitude !== "number") || (typeof longitude !== "number") ||
         latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
-        res.status(400).send("If radius is defined radius, longitude and latitude must be valid.");
+        res.status(400).send("If radius is defined, longitude and latitude must be valid.");
         return null;
     }
 
