@@ -73,17 +73,56 @@ foo@bar:~$ npm run clean
 
 ## Docker
   Make sure docker is installed. This is only currently useful for single container development purposes. Docker Compose can be used to streamline the process when deploying multiple containers.
-### Setup
-  1. `docker build internado .` while you are in the same directory of `Dockerfile`
-  2. `docker run -p 8080:5000 -d internado` 
-  3. The container should now be running in the background and can be accessed at port 8080. We can curl the docker container that runs in the background now
-### Useful commands
+  
+### Getting Started
+After setting up docker run the following commands in the root directory of this project
+
+First of all we need to get your docker machine's ip , save that somewhere because we will use it later
+```console
+foo@bar:~$ docker-machine ip
+```
+Run the following cmd which builds all docker containers but does not run them]
+<br>
+<b>Sidenote:</b> running docker build the first time takes a lot of time , however subsequent calls will run much faster as docker caches alot of the repeated steps
+```console
+foo@bar:~$ docker-compose build
+```
+
+Runs all of the containers that were built above. 
+```console
+foo@bar:~$ docker-compose run
+```
+Now you can perform your request to any of the running containers much like how you would do it locally on your machine
+Currently there are 4 containers that are setup to run
+
+| Container |                      Description                     | Port |             Example             |
+|:---------:|:----------------------------------------------------:|:----:|:-------------------------------:|
+|   Server  |                    API (back-end)                    | 5000 |   [DOCKER_MACHINE_IP]:5000/api  |
+|  Postgres |                     our database                     | 5432 | use adminer/cmd line to  access |
+|  Adminer  | A simple GUI that helps you manipulate the database  | 8080 |     [DOCKER_MACHINE_IP]:8080    |
+|   Client  |                   react (front-end)                  | 3000 |     [DOCKER_MACHINE_IP]:3000    |
+
+Regarding the db you can use the following identification parameters to connect to it through any of the
+above containers
+
+| Parameter |   Value   |
+|:---------:|:---------:|
+|    Host   |  postgres |
+|  Db name  | internado |
+|  Username |   admin   |
+|  Password |   admin   |
+|    Port   |    5432   |
+
+### Useful Docker Compose commands
+  * `docker-compose ps -v`  List containers
+  * `docker-compose down -v` Stop and remove containers, networks, images, and volumes
+  * `docker-compose kill -v` Kill containers
+  * `docker-compose logs -v` View output from containers
+### Useful Docker commands
   * `docker ps` lists the status  and ID of current containers
   * `docker logs -f <Container ID>` displays real-time logs of the running docker container
   * `docker run -p 8080:5000 -d internado` to map the port 5000 to 8080; can access the app at localhost:8080
   * `docker exec -it <Container ID> /bin/bash` allows you to go inside the container
-### Docker Compose
-  * `docker-compose up` builds and spins up containers according to docker-compose.yml. Will only build for the first time
-  * `docker-compose up --build` for spinning up containers with updated code.
+
 ### Testing
   Run `curl -i localhost:5000/api` to check if your container is online
