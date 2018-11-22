@@ -31,9 +31,9 @@ class ResultRow extends Component {
     let arrow = '>';
     let originalPosting = '';
     let applyButton = '';
-    let { location } = this.props.result;
+    let location = this.props.result.city + ", " + this.props.result.state + " " + this.props.result.country;
     if (this.state.selected) {
-      location = ''; // Hide things that shouldnt be shown when selected, show things that should be shown
+      location = ''; // Hide things that shouldnt be shown whenconstructor(title, link, description, excerpt, city, state, country, latitude, longitude, companyName, minSalary, startDate) selected, show things that should be shown
       arrow = '';
       originalPosting = <a className="table-post clickable" onClick={() => this._handleClick('post', this.props.result)}><br/> Original Posting</a>;
       applyButton = <button className="table-button clickable" onClick={() => this._handleClick('apply', this.props.result)}>Apply</button>;
