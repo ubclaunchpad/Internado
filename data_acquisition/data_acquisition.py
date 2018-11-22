@@ -1,5 +1,6 @@
 import requests
 import os
+import sys
 import psycopg2
 import getpass
 import logging
@@ -14,7 +15,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s @' +
 # for creating local database initially
 # con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
 # cur = con.cursor()
-# cur.execute("CREATE TABLE Jobs(Id SERIAL PRIMARY KEY, job_title TEXT, link TEXT, description TEXT, city TEXT, state TEXT, country TEXT, latitude FLOAT, longitude FLOAT, company_name TEXT, salary_min INTEGER, start_date DATE)")
+# cur.execute("CREATE TABLE Job(id SERIAL PRIMARY KEY, job_title VARCHAR(256), link TEXT, description TEXT, city VARCHAR(256), state VARCHAR(256), country VARCHAR(256), latitude REAL, longitude REAL, company_name VARCHAR(256), start_date DATE, salary_min INTEGER)")
 # con.commit()
 # cur.close()
 # con.close()
@@ -22,8 +23,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s @' +
 def request_ziprecruiter_jobs(page_num, api_key):
   url = "https://api.ziprecruiter.com/jobs/v1?search=internship%20Job&days_ago=1&page={page_num}&jobs_per_page=20&api_key={api_key}" \
   .format(page_num=page_num, api_key=api_key)
-  req = requests.get(url)
-  response = req.json()
+  response = requests.get(url).json()
   if response["success"]:
     con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
     cur = con.cursor()
@@ -39,8 +39,8 @@ def request_ziprecruiter_jobs(page_num, api_key):
       salary_min = job["salary_min"]
       # add to database
       cur.execute(
-        "INSERT INTO Jobs VALUES(DEFAULT,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", \
-        (job_title, link, description, city, state, country, 0.0, 0.0, company_name, salary_min, None) \
+        "INSERT INTO Job VALUES(DEFAULT,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", \
+        (job_title, link, description, city, state, country, 0.0, 0.0, company_name, None, salary_min) \
       )
     con.commit()
     cur.close()
@@ -66,5 +66,6 @@ if API_KEY:
       page_num += 1
   except requests.ConnectionError:
     logging.info("You are not connected to the Internet")
+    sys.exit(1)
 else:
   logging.info("Make sure you have your ZipRecruiter API key in app-env")
