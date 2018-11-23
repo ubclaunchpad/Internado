@@ -9,7 +9,6 @@ export default class ResultData {
     this.latitude = latitude;
     this.longitude = longitude;
     this.company_name = company_name;
-    this.location = "";
     this.salary_min = salary_min;
     this.start_date = start_date;
   }
