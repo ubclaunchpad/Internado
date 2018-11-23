@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './css/ResultsTable.css';
 import Navbar from './views/Navbar';
-import ResultData from './components/ResultData';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
-import ResultsTable from './components/ResultsTable';
+import { withRouter } from 'react-router-dom';
 
 class App extends Component {
 
@@ -18,7 +17,7 @@ class App extends Component {
             //     new ResultData("CPU maker", "Make CPUs and stuff. You also do things that make this string longer, so I can test how well this works for long strings. Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong ", "Make CPUs and stuff.",  "Vancouver, WA, USA", "https://ded.increpare.com/~locus/yourname.html", "https://ded.increpare.com/~locus/yourname.html"),
             //     new ResultData("Software Developer", "Develop Software, but more text", "Develop Software", "Vancouver, BC, Canada", "https://github.com/mattdiamond/fuckitjs", "https://github.com/ajalt/fuckitpy")
             // ],
-            isFilterMenuVisible: false
+						isFilterMenuVisible: false
         };
     }
 
@@ -58,7 +57,8 @@ class App extends Component {
       }
 
       console.log(body);
-      this.setState({data: body.result})
+			this.setState({ data: body.result });
+			this.props.history.push('/results');
     };
 
     render() {
@@ -75,4 +75,4 @@ class App extends Component {
     }
 }
 
-export default App
+export default withRouter(App)
