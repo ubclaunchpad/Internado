@@ -1,10 +1,8 @@
 export default class ResultData {
-  EXCERPTLENGTH = 100;
-  constructor(title, link, description, city, state, country, latitude, longitude, company_name, salary_min, start_date) {
-    this.title = title;
+  constructor(job_title, link, description, city, state, country, latitude, longitude, company_name, salary_min, start_date) {
+    this.job_title = job_title;
     this.link = link;
     this.description = description;
-    this.excerpt = excerpt = description.substring(0,EXCERPTLENGTH);
     this.city = city;
     this.state = state;
     this.country = country;
