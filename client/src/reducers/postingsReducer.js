@@ -32,8 +32,8 @@ const INITIAL_STATE = {
     ),
 
     new ResultData("Software Developer",
-    "Develop Software, short description",
     "https://thedailywtf.com/articles/you-can-only-get-what-you-have",
+    "Develop Software, short description",
     "Vancouver",
     "WA",
     "USA",

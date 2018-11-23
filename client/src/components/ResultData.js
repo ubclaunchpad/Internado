@@ -12,6 +12,5 @@ export default class ResultData {
     this.location = "";
     this.salary_min = salary_min;
     this.start_date = start_date;
-    this.link = link;
   }
 }
