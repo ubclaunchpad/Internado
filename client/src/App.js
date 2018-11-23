@@ -22,7 +22,6 @@ class App extends Component {
             isFilterMenuVisible: !prevState.isFilterMenuVisible
         }));
     };
-  // constructor(title, link, description, excerpt, city, state, country, latitude, longitude, companyName, minSalary, startDate)
     callBackendAPI = async() => {
         const response = await fetch('/express_backend');
         const body = await response.json();
@@ -42,7 +41,7 @@ class App extends Component {
             <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
             <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
           <FilterMenu visibility={this.state.isFilterMenuVisible} />
-          <ResultsTable results={this.state.data} />
+          {/*<ResultsTable results={this.state.data} />*/}
           <Routes/>
         </div>
       );
