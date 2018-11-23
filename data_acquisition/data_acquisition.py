@@ -10,15 +10,8 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s @' +
                     '%(module)s-%(funcName)s : %(message)s',
                     level=logging.INFO)
 
-# for connecting to remote database
+# for connecting to remote database in the future
 # conn = psycopg2.connect(database='yourdb', user='dbuser', password='abcd1234', host='server', port='5432', sslmode='require')
-# for creating local database initially
-# con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
-# cur = con.cursor()
-# cur.execute("CREATE TABLE Job(id SERIAL PRIMARY KEY, job_title VARCHAR(256), link TEXT, description TEXT, city VARCHAR(256), state VARCHAR(256), country VARCHAR(256), latitude REAL, longitude REAL, company_name VARCHAR(256), start_date DATE, salary_min INTEGER)")
-# con.commit()
-# cur.close()
-# con.close()
 
 def request_ziprecruiter_jobs(page_num, api_key):
   url = "https://api.ziprecruiter.com/jobs/v1?search=internship%20Job&days_ago=1&page={page_num}&jobs_per_page=20&api_key={api_key}" \
