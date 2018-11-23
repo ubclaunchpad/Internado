@@ -4,6 +4,7 @@ import ResultRow from './ResultRow';
 
 export default class ResultsTable extends React.Component {
   render() {
+    
     return(
       <table className="results-table">
         <tbody>

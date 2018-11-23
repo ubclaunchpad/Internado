@@ -52,7 +52,7 @@ class App extends Component {
       });
 
       const body = await response.json();
-
+      
       if (response.status !== 200) {
         throw Error(body.message);
       }
@@ -69,8 +69,7 @@ class App extends Component {
             <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
             <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
           <FilterMenu visibility={this.state.isFilterMenuVisible} />
-          <ResultsTable results={this.state.data} />
-          <Routes/>
+          <Routes results={this.state.data}/>
         </div>
       );
     }
