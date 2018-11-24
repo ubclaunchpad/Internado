@@ -78,9 +78,9 @@ foo@bar:~$ npm start
 ```
 to create an empty `job` table.
 
-In a different tab, navigate to the `data_acquisition` directory.
+In a different terminal, navigate to the `data_acquisition` directory.
 
-Use [pipenv](https://pipenv.readthedocs.io/en/latest/), a Python dependency manager, to install any missing requirements. Note that we're using Python 3.
+Use [pipenv](https://pipenv.readthedocs.io/en/latest/), a Python dependency and environment manager, to install any missing requirements. Note that we're using Python 3. Pipenv will install the correct version of Python based on the Pipfile, but make sure you're using a Python 3 pip.
 ```console
 foo@bar:~$ pip install pipenv
 foo@bar:~$ pipenv install
@@ -93,12 +93,10 @@ To get access to the shell for the managed environment:
 foo@bar:~$ pipenv shell
 ```
 
-Then open its `.env` file:
+Then add the API key into `.env`:
 ```console
-(data_acquisition) foo@bar:~$ vim .env
+(data_acquisition) foo@bar:~$ echo "export ZIPRECRUITER_API_KEY=blahblah" >> .env
 ```
-
-add `export ZIPRECRUITER_API_KEY="blahblahblah"` to the file. Message Sherry for the key. Save the file.
 
 Exit the shell using:
 ```console
