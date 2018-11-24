@@ -107,11 +107,16 @@ above containers
 
 | Parameter |   Value   |
 |:---------:|:---------:|
-|    Host   |  postgres |
+|    Host(Any docker container POV )   |  postgres |
+|    Host(Connecting externally but from same local server)   |  [DOCKER_MACHINE_IP] |
 |  Db name  | internado |
 |  Username |   admin   |
 |  Password |   admin   |
 |    Port   |    5432   |
+
+### Useful psql commands
+* `psql -h <Host> -U <Username> <Db name>`
+
 
 ### Useful Docker Compose commands
   * `docker-compose ps -v`  List containers
