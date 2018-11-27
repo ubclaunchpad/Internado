@@ -4,6 +4,8 @@ import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import appConfig from "./configurations/app";
 import router from "./routes/v1";
+import "reflect-metadata";
+import {createConnection} from "typeorm";
 
 const app: express.Application = express();
 
@@ -19,3 +21,5 @@ router(app);
 /*RunServer*/
 app.listen(appConfig.port);
 console.log("Server has successfully started on PORT: " + appConfig.port);
+
+createConnection();

@@ -90,7 +90,7 @@ foo@bar:~$ docker-compose build
 
 Runs all of the containers that were built above. 
 ```console
-foo@bar:~$ docker-compose run
+foo@bar:~$ docker-compose up
 ```
 Now you can perform your request to any of the running containers much like how you would do it locally on your machine
 Currently there are 4 containers that are setup to run
@@ -107,12 +107,25 @@ above containers
 
 | Parameter |   Value   |
 |:---------:|:---------:|
-|    Host   |  postgres |
+|    Host(Any docker container POV )   |  postgres |
+|    Host(Connecting externally but from same local server)   |  [DOCKER_MACHINE_IP] |
 |  Db name  | internado |
 |  Username |   admin   |
 |  Password |   admin   |
 |    Port   |    5432   |
 
+### How to dump data into postgres's container 
+#### Step 1 : First create the dump file
+#### Step 2 : Delete all the current containers 
+```console
+foo@bar:~$ docker-compose down -v
+```
+#### Step 3 : Replace data in script found in database_config/init.sql with your dump data
+#### Step 4 : Build and Run 
+
+
+### Useful psql commands
+* `psql -h <Host> -U <Username> <Db name>`
 ### Useful Docker Compose commands
   * `docker-compose ps -v`  List containers
   * `docker-compose down -v` Stop and remove containers, networks, images, and volumes
