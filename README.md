@@ -77,7 +77,7 @@ If you don't have a local instance of the PostgreSQL table yet, navigate to the 
 foo@bar:~$ npm start
 ```
 to create an empty `job` table.
-
+Make sure con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
 In a different terminal, navigate to the `data_acquisition` directory.
 
 Use [pipenv](https://pipenv.readthedocs.io/en/latest/), a Python dependency and environment manager, to install any missing requirements. Note that we're using Python 3. Pipenv will install the correct version of Python based on the Pipfile, but make sure you're using a Python 3 pip.
@@ -86,7 +86,7 @@ foo@bar:~$ pip install pipenv
 foo@bar:~$ pipenv install
 ```
 
-You'll have to add the ZipRecruiter API key as an environment variable. This isn't the **most** secure way of storing it, but better than putting it directly in the code.
+The next few steps covers adding the ZipRecruiter API key as an environment variable. Message Sherry for the actual API key. This isn't the **most** secure way of storing it, but better than putting it directly in the code.
 
 To get access to the shell for the managed environment:
 ```console
