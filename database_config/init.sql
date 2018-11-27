@@ -161,7 +161,7 @@ COPY public.job (id, job_title, link, description, city, country, latitude, long
 -- Name: job_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.job_id_seq', 2, true);
+SELECT pg_catalog.setval('public.job_id_seq', 10, true);
 
 
 --
