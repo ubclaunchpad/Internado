@@ -18,6 +18,7 @@ def request_ziprecruiter_jobs(page_num, api_key):
   .format(page_num=page_num, api_key=api_key)
   response = requests.get(url).json()
   if response["success"]:
+    # dbname, user, host, and password should match your database info in ormconfig.json
     con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
     cur = con.cursor()
     # parse ZipRecruiter's JSON response
