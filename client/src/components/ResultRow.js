@@ -31,7 +31,7 @@ class ResultRow extends Component {
     let arrow = '>';
     let originalPosting = '';
     let applyButton = '';
-    let location = this.props.result.city + ", " + this.props.result.state + " " + this.props.result.country;
+    let location = `${this.props.result.city}, ${this.props.result.state}, ${this.props.result.country}`;
     if (this.state.selected) {
       location = ''; // Hide things that shouldnt be shown when selected, show things that should be shown
       arrow = '';
@@ -40,7 +40,7 @@ class ResultRow extends Component {
     }
     return (
       <tr key={generateKey(this.props.id)} onClick={() => this._handleClick('select', this.props.result)} className="table-row">
-        <td align="left" className="table-cell-1 table-cell"> <h5 className="table-result-title"> {this.props.result.job_title} </h5>  {desc} </td>
+        <td align="left" className="table-cell-1 table-cell"> <h5 className="table-result-title"> {this.props.result.job_title} <br/> {this.props.result.company_name} </h5>  {desc} </td>
         <td className="table-cell-2 table-cell" align="right">  <p className="table-result-location">{location}</p> {originalPosting} </td>
         <td className="table-cell-3 table-cell">  <p className="table-arrow">{arrow}{applyButton}</p> </td>
       </tr>
