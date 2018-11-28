@@ -4,44 +4,48 @@ import ResultData from '../components/ResultData';
 const INITIAL_STATE = {
   postings: [
     new ResultData(
+      1,
       "Nothing do-er",
       "http://hasthelargehadroncolliderdestroyedtheworldyet.com/",
       "nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop nop",
       "Vancouver",
       "BC",
       "Canada",
-      "0.000",
-      "0.000",
+      0.000,
+      0.000,
       "Google",
-      "5",
+      5,
       new Date()
     ),
 
     new ResultData(
+      2,
       "CPU maker",
       "https://github.com/mattdiamond/fuckitjs",
       "Make CPUs and stuff. You also do things that make this string longer, so I can test how well this works for long strings. Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong Looooooooong ",
       "Vancouver",
       "BC",
       "Canada",
-      "0.000",
-      "0.000",
+      0.000,
+      0.000,
       "Microsoft",
-      "5",
+      5,
       new Date()
     ),
 
-    new ResultData("Software Developer",
-    "https://thedailywtf.com/articles/you-can-only-get-what-you-have",
-    "Develop Software, short description",
-    "Vancouver",
-    "WA",
-    "USA",
-    "0.000",
-    "0.000",
-    "Facebook",
-    "5",
-    new Date()
+    new ResultData(
+      3,
+      "Software Developer",
+      "https://thedailywtf.com/articles/you-can-only-get-what-you-have",
+      "Develop Software, short description",
+      "Vancouver",
+      "WA",
+      "USA",
+      0.000,
+      0.000,
+      "Facebook",
+      5,
+      new Date()
   )
 ],
   error: undefined
