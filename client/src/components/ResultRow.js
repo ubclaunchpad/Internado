@@ -13,7 +13,8 @@ class ResultRow extends Component {
         this.setState({ selected: !this.state.selected });
         break;
       case 'post': // Clicked on original post
-        window.open(result.link, '_blank');
+        if (result.link && result.link !== "")
+          window.open(result.link, '_blank');
         break;
       case 'apply': // Clicked on apply
         // window.open(result.applyUrl);
