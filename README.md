@@ -71,6 +71,45 @@ foo@bar:~$ npm start
 foo@bar:~$ npm run clean
 ```
 
+## Running data_acquisition.py
+If you don't have a local instance of the PostgreSQL table yet, navigate to the `server` directory and run
+```console
+foo@bar:~$ npm start
+```
+to create an empty `job` table.
+Make sure con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
+In a different terminal, navigate to the `data_acquisition` directory.
+
+Use [pipenv](https://pipenv.readthedocs.io/en/latest/), a Python dependency and environment manager, to install any missing requirements. Note that we're using Python 3. Pipenv will install the correct version of Python based on the Pipfile, but make sure you're using a Python 3 pip.
+```console
+foo@bar:~$ pip install pipenv
+foo@bar:~$ pipenv install
+```
+
+The next few steps covers adding the ZipRecruiter API key as an environment variable. Message Sherry for the actual API key. This isn't the **most** secure way of storing it, but better than putting it directly in the code.
+
+To get access to the shell for the managed environment:
+```console
+foo@bar:~$ pipenv shell
+```
+
+Then add the API key into `.env`:
+```console
+(data_acquisition) foo@bar:~$ echo "export ZIPRECRUITER_API_KEY=blahblah" >> .env
+```
+
+Exit the shell using:
+```console
+(data_acquisition) foo@bar:~$ exit
+```
+
+To run the script: 
+```console
+foo@bar:~$ pipenv run python data_acquisition.py
+```
+
+Now check your `job` table again, it should be populated with data.
+
 ## Docker
   Make sure docker is installed. This is only currently useful for single container development purposes. Docker Compose can be used to streamline the process when deploying multiple containers.
 ### Setup
