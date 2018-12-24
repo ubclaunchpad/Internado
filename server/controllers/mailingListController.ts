@@ -1,16 +1,12 @@
 import {Request, Response} from "express";
 import {Connection, getConnection} from "typeorm";
 import MailingListEntry from "../models/mailingListEntry";
-import Job from "../models/job";
 
 export async function addToMailingList(req: Request, res: Response): Promise<void> {
     let connection: Connection = getConnection();
-    let emailAddress: string = req.query.email;
-    console.log(req.query.email);
 
-    let listEntry: MailingListEntry = {email: emailAddress};
-    let job = new Job();
-    job.job_title = "Test job 01";
+    let email: string = req.query.email;
+    let listEntry: MailingListEntry = {email};
 
     try {
         await connection
@@ -19,7 +15,6 @@ export async function addToMailingList(req: Request, res: Response): Promise<voi
             .into(MailingListEntry)
             .values([listEntry])
             .execute();
-        // await query.execute();
         res.status(201).send({result: listEntry});
     } catch (err) {
         if (err.code === "23505") {
@@ -27,5 +22,23 @@ export async function addToMailingList(req: Request, res: Response): Promise<voi
         } else {
             res.status(500).send({error: err});
         }
+    }
+}
+
+export async function deleteFromMailingList(req: Request, res: Response): Promise<void> {
+    let connection: Connection = getConnection();
+
+    let email: string = req.query.email;
+
+    try {
+        await connection
+            .createQueryBuilder()
+            .delete()
+            .from(MailingListEntry)
+            .where("email = :email", {email})
+            .execute();
+        res.status(200).send({result: `Removed ${email} from mailing list`});
+    } catch (err) {
+        res.status(500).send({error: err});
     }
 }

@@ -1,5 +1,5 @@
 import { searchJobs } from "../controllers/searchController";
-import { addToMailingList } from "../controllers/mailingListController";
+import { addToMailingList, deleteFromMailingList } from "../controllers/mailingListController";
 import { Router, Request, Response } from "express";
 
 export default function (app: Router) {
@@ -17,4 +17,5 @@ export default function (app: Router) {
     app.post("/search", searchJobs);
 
     app.post("/mailing_list", addToMailingList);
+    app.delete("/mailing_list", deleteFromMailingList);
 }
