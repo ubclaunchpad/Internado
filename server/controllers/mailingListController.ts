@@ -6,6 +6,7 @@ export async function addToMailingList(req: Request, res: Response): Promise<voi
     let connection: Connection = getConnection();
 
     let email: string = req.query.email;
+    email = sanitizeEmail(email);
     let listEntry: MailingListEntry = {email};
 
     try {
@@ -29,6 +30,7 @@ export async function deleteFromMailingList(req: Request, res: Response): Promis
     let connection: Connection = getConnection();
 
     let email: string = req.query.email;
+    email = sanitizeEmail(email);
 
     try {
         await connection
@@ -41,4 +43,8 @@ export async function deleteFromMailingList(req: Request, res: Response): Promis
     } catch (err) {
         res.status(500).send({error: err});
     }
+}
+
+function sanitizeEmail(email: string): string {
+    return email.trim().toLowerCase();
 }
