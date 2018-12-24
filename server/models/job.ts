@@ -4,7 +4,6 @@ import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
 export default class Job {
 
     // Default constructor is used to generate and iterate through the property keys.
-    // Be careful using this as it makes an invalid id.
     constructor() {
         this.id = null;
         this.job_title = null;
