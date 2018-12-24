@@ -103,6 +103,10 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 }
 
 async function queryJobs(search: SearchRequest, connection: Connection): Promise<any[]> {
+    if (search.keywords === "") {
+        return [];
+    }
+
     let queryBuilder: SelectQueryBuilder<any> = await connection.createQueryBuilder();
     addSelects(search, queryBuilder);
 
