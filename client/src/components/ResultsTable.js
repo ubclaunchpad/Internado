@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ResultRow from './ResultRow';
 
-class ResultsTable extends React.Component {
+export default class ResultsTable extends React.Component {
   render() {
+    
     return(
       <table className="results-table">
         <tbody>
@@ -22,7 +23,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ResultsTable)
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(ResultsTable)

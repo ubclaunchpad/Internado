@@ -14,6 +14,7 @@ export async function searchJobs(req: Request, res: Response): Promise<void> {
     try {
         let jobs: Job[] = await queryJobs(search, connection);
 
+        res.header("Access-Control-Allow-Origin", "*");
         res.status(200).send({result: jobs});
     } catch (err) {
         res.status(500).send({error: err});

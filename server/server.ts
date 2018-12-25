@@ -22,4 +22,4 @@ router(app);
 app.listen(appConfig.port);
 console.log("Server has successfully started on PORT: " + appConfig.port);
 
-createConnection();
+createConnection().catch((err) => console.error("Failed to create connection to PostgreSQL\n" + err));
