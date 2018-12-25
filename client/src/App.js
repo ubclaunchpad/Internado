@@ -54,8 +54,8 @@ class App extends Component {
       }
 
       console.log(body);
-			this.setState({ data: body.result });
-			this.props.history.push('/results');
+      this.setState({ data: body.result });
+      this.props.history.push('/results');
     };
 
     render() {
