@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './css/ResultsTable.css';
 import Navbar from './views/Navbar';
+import Footer from './views/Footer';
+import ResultData from './components/ResultData';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
 import { withRouter } from 'react-router-dom';
@@ -65,6 +67,8 @@ class App extends Component {
             <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
           <FilterMenu visibility={this.state.isFilterMenuVisible} />
           <Routes results={this.state.data}/>
+          {/*<ResultsTable results={this.state.data} />*/}
+          <Footer/>
         </div>
       );
     }
