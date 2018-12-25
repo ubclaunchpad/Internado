@@ -29,6 +29,11 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
 
     let keywords: string = sanitizeKeywords(req.body.keywords);
 
+    if (keywords === "") {
+        res.status(400).send({error: "The keywords property must include search terms."});
+        return null;
+    }
+
     let take: number = req.body.take ? req.body.take : defaultTake;
     if ((typeof take) !== "number" || take !== Math.floor(take) || take < 1) {
         res.status(400).send({error: "The take property must be a positive integer."});
