@@ -66,13 +66,9 @@ class App extends Component {
             <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
             <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
           <FilterMenu visibility={this.state.isFilterMenuVisible} />
-<<<<<<< HEAD
           <Routes results={this.state.data}/>
-=======
           {/*<ResultsTable results={this.state.data} />*/}
-          <Routes/>
           <Footer/>
->>>>>>> added ziprecruiter logo
         </div>
       );
     }
