@@ -21,7 +21,7 @@ class Navbar extends Component {
 
   updateSearchKeywords = (event) => {
     this.setState({ searchKeywords: event.target.value });
-  }
+  };
 
   _handlePositionSearch = () => {
     this.updateSearchCategory(this.searchCategories[0]);
@@ -32,15 +32,15 @@ class Navbar extends Component {
   };
 
   _searchJobs = async() => {
-    const response = fetch('http://localhost:5000/search', {
+    const response = await fetch('http://localhost:5000/search', {
       method: 'POST',
       headers:{
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: {
+      body: JSON.stringify({
        'keywords': this.state.searchKeywords
-      }
+      })
     });
 
     const body = await response.json();
@@ -75,7 +75,7 @@ class Navbar extends Component {
               locationCategory={this.searchCategories[1]}
             />
             <div className="navbar-nav ml-auto">
-              <a><button type="button" className="btn btn-primary mr-2" onClick={() => fetchPostings(this.state.searchKeywords)}>Search</button></a>
+              <a><button type="button" className="btn btn-primary mr-2" onClick={this.props.searchHandler(this.state.searchKeywords)}>Search</button></a>
             </div>
           </form>
 

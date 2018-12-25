@@ -2,22 +2,56 @@ version: '3'
 services:
   ### SERVER ###
   server:
-    image: stevenshih1997/internado_server:latest
     build: ./server
     expose:
       - ${API_SERVER_PORT}
     environment:
       API_HOST: ${API_HOST}
       API_SERVER_PORT: ${API_SERVER_PORT}
-    command: npm start
+      WAIT_SLEEP_INTERVAL: 60
+      WAIT_HOSTS_TIMEOUT: 600
+      WAIT_HOSTS: postgres:5432
+      TYPEORM_CONNECTION: "postgres"
+      TYPEORM_HOST: postgres
+      TYPEORM_USERNAME: "admin"
+      TYPEORM_PASSWORD: "admin"
+      TYPEORM_DATABASE: "internado"
+      TYPEORM_PORT: 5432
+      TYPEORM_SYNCHRONIZE: "true"
+      TYPEORM_LOGGING: "true"
+      TYPEORM_ENTITIES: "models/**/*.js"
     volumes:
       - ./server:/src/app/internado-server/server
       - /app/node_modules
     ports: #HOST:CONTAINER
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
+    depends_on:
+      - "postgres"
+
+  #### DATABASE ###
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: internado
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - ./database_config/init.sql:/docker-entrypoint-initdb.d/init.sql
+      
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - "postgres"
+    ports:
+      - 8080:8080
+
   ### CLIENT ###
   client:
-    image: stevenshih1997/internado_client:latest
     build: ./client
     environment:
       CLIENT_PORT: ${CLIENT_PORT}
@@ -32,3 +66,6 @@ services:
       - server
     command: npm start
 
+volumes:
+  database_data:
+    driver: local
