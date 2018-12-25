@@ -7,6 +7,11 @@ export async function addToMailingList(req: Request, res: Response): Promise<voi
 
     let email: string = req.query.email;
     email = sanitizeEmail(email);
+
+    if (!isValidEmailAddress(email)) {
+        res.status(400).send({error: "Email address isn't valid"});
+    }
+
     let listEntry: MailingListEntry = {email};
 
     try {
@@ -47,4 +52,10 @@ export async function deleteFromMailingList(req: Request, res: Response): Promis
 
 function sanitizeEmail(email: string): string {
     return email.trim().toLowerCase();
+}
+
+function isValidEmailAddress(email: string): boolean {
+    // Regex taken from https://emailregex.com/
+    let matches = email.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    return matches.length === 1;
 }
