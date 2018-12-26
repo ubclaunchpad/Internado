@@ -1,19 +1,18 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '.././css/FilterMenu.css';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import '.././css/FilterMenu.css';
 
 class FilterMenu extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       isMenuVisible: false,
       isShowLocation: false,
-      address: "",
+      address: '',
       isShowCategories: false,
       isShowIndustries: false,
       isShowSalary: false,
@@ -22,41 +21,42 @@ class FilterMenu extends Component {
 
   toggleLocation = () => {
     this.setState(prevState => ({
-      isShowLocation: !prevState.isShowLocation
+      isShowLocation: !prevState.isShowLocation,
     }));
   }
 
-  handleLocationChange = address => {
-    this.setState({ address });
-  }
-
   // for now, just update this.state.address and print the latlng
-  handleLocationSelect = address => {
+  handleLocationChange = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
         console.log('Success', latLng);
         this.setState({ address });
+        this.props.changeLocation(latLng);
       })
       .catch(error => console.error('Error', error));
   }
 
   toggleCategories = () => {
     this.setState(prevState => ({
-      isShowCategories: !prevState.isShowCategories
+      isShowCategories: !prevState.isShowCategories,
     }));
   }
 
   toggleIndustries = () => {
     this.setState(prevState => ({
-      isShowIndustries: !prevState.isShowIndustries
+      isShowIndustries: !prevState.isShowIndustries,
     }));
   }
 
   toggleSalary = () => {
     this.setState(prevState => ({
-      isShowSalary: !prevState.isShowSalary
+      isShowSalary: !prevState.isShowSalary,
     }));
+  }
+
+  onChangeSalary = (event) => {
+    this.props.changeSalary(event.target.value);
   }
 
   // source: https://github.com/hibiken/react-places-autocomplete
@@ -75,7 +75,7 @@ class FilterMenu extends Component {
 
   render() {
     return (
-      <div id="flyoutMenu" className={this.props.visibility ? "show" : "hide"}>
+      <div id="flyoutMenu" className={this.props.visibility ? 'show' : 'hide'}>
         <h3>Filters</h3>
         <div className="locationTitle">
           <p>LOCATIONS</p>
@@ -85,8 +85,7 @@ class FilterMenu extends Component {
           <div className="filterContent">
             <PlacesAutocomplete
               value={this.state.address}
-              onChange={this.handleLocationChange}
-              onSelect={this.handleLocationSelect}>
+              onChange={this.handleLocationChange}>
               {this.renderFunc}
             </PlacesAutocomplete>
           </div>
@@ -161,7 +160,7 @@ class FilterMenu extends Component {
         </div>
         {(this.state.isShowSalary) ?
           <div className="filterContent">
-            <input type="text" name="name" placeholder="Enter minimum" />
+            <input type="text" name="name" placeholder="Enter minimum" onChange={this.onChangeSalary}/>
           </div>
           : null}
       </div>
@@ -170,7 +169,9 @@ class FilterMenu extends Component {
 }
 
 FilterMenu.propTypes = {
-  visibility: PropTypes.bool
+  visibility: PropTypes.bool,
+  changeSalary: PropTypes.func,
+  changeLocation: PropTypes.func,
 };
 
 export default FilterMenu;
