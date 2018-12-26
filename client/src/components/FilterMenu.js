@@ -56,7 +56,10 @@ class FilterMenu extends Component {
   }
 
   onChangeSalary = (event) => {
-    this.props.changeSalary(event.target.value);
+    const newSalary = parseInt(event.target.value, 10);
+    if ((typeof newSalary) === 'number') {
+      this.props.changeSalary(newSalary);
+    }
   }
 
   // source: https://github.com/hibiken/react-places-autocomplete

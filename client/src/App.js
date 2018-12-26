@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import './css/ResultsTable.css';
 import Navbar from './views/Navbar';
 import Footer from './views/Footer';
-import ResultData from './components/ResultData';
-import ResultsTable from './components/ResultsTable';
+// import ResultData from './components/ResultData';
+// import ResultsTable from './components/ResultsTable';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
 
@@ -105,7 +105,7 @@ class App extends Component {
           changeLocation={this.onChangeLocation}
         />
         <Routes results={this.state.data}/>
-        <ResultsTable results={this.state.data} />
+        {/* <ResultsTable results={this.state.data} /> */}
         <Footer/>
       </div>
     );
