@@ -25,8 +25,18 @@ class FilterMenu extends Component {
     }));
   }
 
-  // for now, just update this.state.address and print the latlng
   handleLocationChange = address => {
+    this.setState({ address });
+
+    if (address === '') {
+      // if the address field is cleared, set latitude and longitude to 0.0
+      // so that location won't be used in the search query
+      this.props.changeLocation({ latitude: 0.0, longitude: 0.0 });
+    }
+  }
+
+  // for now, just update this.state.address and print the latlng
+  handleLocationSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
@@ -88,7 +98,8 @@ class FilterMenu extends Component {
           <div className="filterContent">
             <PlacesAutocomplete
               value={this.state.address}
-              onChange={this.handleLocationChange}>
+              onChange={this.handleLocationChange}
+              onSelect={this.handleLocationSelect}>
               {this.renderFunc}
             </PlacesAutocomplete>
           </div>
