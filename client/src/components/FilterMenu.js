@@ -1,19 +1,18 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '.././css/FilterMenu.css';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import '.././css/FilterMenu.css';
 
 class FilterMenu extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       isMenuVisible: false,
       isShowLocation: false,
-      address: "",
+      address: '',
       isShowCategories: false,
       isShowIndustries: false,
       isShowSalary: false,
@@ -22,12 +21,18 @@ class FilterMenu extends Component {
 
   toggleLocation = () => {
     this.setState(prevState => ({
-      isShowLocation: !prevState.isShowLocation
+      isShowLocation: !prevState.isShowLocation,
     }));
   }
 
   handleLocationChange = address => {
     this.setState({ address });
+
+    if (address === '') {
+      // if the address field is cleared, set latitude and longitude to 0.0
+      // so that location won't be used in the search query
+      this.props.changeLocation({ latitude: 0.0, longitude: 0.0 });
+    }
   }
 
   // for now, just update this.state.address and print the latlng
@@ -37,26 +42,34 @@ class FilterMenu extends Component {
       .then(latLng => {
         console.log('Success', latLng);
         this.setState({ address });
+        this.props.changeLocation(latLng);
       })
       .catch(error => console.error('Error', error));
   }
 
   toggleCategories = () => {
     this.setState(prevState => ({
-      isShowCategories: !prevState.isShowCategories
+      isShowCategories: !prevState.isShowCategories,
     }));
   }
 
   toggleIndustries = () => {
     this.setState(prevState => ({
-      isShowIndustries: !prevState.isShowIndustries
+      isShowIndustries: !prevState.isShowIndustries,
     }));
   }
 
   toggleSalary = () => {
     this.setState(prevState => ({
-      isShowSalary: !prevState.isShowSalary
+      isShowSalary: !prevState.isShowSalary,
     }));
+  }
+
+  onChangeSalary = (event) => {
+    const newSalary = parseInt(event.target.value, 10);
+    if ((typeof newSalary) === 'number') {
+      this.props.changeSalary(newSalary);
+    }
   }
 
   // source: https://github.com/hibiken/react-places-autocomplete
@@ -75,7 +88,7 @@ class FilterMenu extends Component {
 
   render() {
     return (
-      <div id="flyoutMenu" className={this.props.visibility ? "show" : "hide"}>
+      <div id="flyoutMenu" className={this.props.visibility ? 'show' : 'hide'}>
         <h3>Filters</h3>
         <div className="locationTitle">
           <p>LOCATIONS</p>
@@ -161,7 +174,7 @@ class FilterMenu extends Component {
         </div>
         {(this.state.isShowSalary) ?
           <div className="filterContent">
-            <input type="text" name="name" placeholder="Enter minimum" />
+            <input type="text" name="name" placeholder="Enter minimum" onChange={this.onChangeSalary}/>
           </div>
           : null}
       </div>
@@ -170,7 +183,9 @@ class FilterMenu extends Component {
 }
 
 FilterMenu.propTypes = {
-  visibility: PropTypes.bool
+  visibility: PropTypes.bool,
+  changeSalary: PropTypes.func,
+  changeLocation: PropTypes.func,
 };
 
 export default FilterMenu;
