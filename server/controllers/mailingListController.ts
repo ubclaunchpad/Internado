@@ -3,6 +3,7 @@ import {Connection, getConnection} from "typeorm";
 import MailingListEntry from "../models/mailingListEntry";
 
 export async function addToMailingList(req: Request, res: Response): Promise<void> {
+    res.header("Access-Control-Allow-Origin", "*");
     let connection: Connection = getConnection();
 
     let email: string = req.query.email;
@@ -22,6 +23,7 @@ export async function addToMailingList(req: Request, res: Response): Promise<voi
             .into(MailingListEntry)
             .values([listEntry])
             .execute();
+
         res.status(201).send({result: listEntry});
     } catch (err) {
         if (err.code === "23505") {
@@ -45,6 +47,8 @@ export async function deleteFromMailingList(req: Request, res: Response): Promis
             .from(MailingListEntry)
             .where("email = :email", {email})
             .execute();
+
+        res.header("Access-Control-Allow-Origin", "*");
         res.status(200).send({result: `Removed ${email} from mailing list`});
     } catch (err) {
         res.status(500).send({error: err});
