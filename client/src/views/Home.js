@@ -16,7 +16,7 @@ export default class Home extends Component {
   }
 
   async handleSubmit(event) {
-    const response = await fetch('http://localhost:5000/mailing_list?email=' + this.state.email, {
+    const response = await fetch(`http://localhost:5000/mailing_list?email=${this.state.email}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -35,7 +35,7 @@ export default class Home extends Component {
       }
     } else {
       this.setState({error: ''});
-      alert('An email was submitted: ' + this.state.email);
+      alert(`An email was submitted: ${this.state.email}`);
     }
     event.preventDefault();
   }
