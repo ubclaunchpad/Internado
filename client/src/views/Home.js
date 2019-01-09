@@ -37,20 +37,16 @@ export default class Home extends Component {
       this.setState({error: ''});
       alert(`An email was submitted: ${this.state.email}`);
     }
-    event.preventDefault();
   }
 
   render() {
     return (
       <div className="Home">
         <div className="lander">
-          <br></br>
-          <br></br>
-          <br></br>
-          <h1>🌪 Internado</h1>
-          <p>Find your dream internship</p>
-          <br></br>
-          <br></br>
+          <div className="main-title">
+            <h1>🌪 Internado</h1>
+            <p>Find your dream internship</p>
+          </div>
           <h5>Stay up to date with the latest product developments and be one of the first to know when Internado is
             here</h5>
           <form className="my-8 my-lg-6">
