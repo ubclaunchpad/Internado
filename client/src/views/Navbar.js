@@ -53,13 +53,20 @@ class Navbar extends Component {
     return body;
   };
 
+  handleKeyDown = function (e) {
+    if (e.key === 'Enter' && e.shiftKey === false) {
+      e.preventDefault();
+      this.searchElement.click();
+    }
+  };
+
   render() {
     return (
       <div className="Navbar">
         <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
           <a className="navbar-brand" href="#">Internado</a>
 
-          <form className="form-inline my-2 my-lg-0">
+          <form className="form-inline my-2 my-lg-0" onKeyDown={(e) => {this.handleKeyDown(e)}}>
             <input className="form-control mr-sm-2"
               type="search"
               value={this.state.searchKeywords}
@@ -75,7 +82,9 @@ class Navbar extends Component {
               locationCategory={this.searchCategories[1]}
             />
             <div className="navbar-nav ml-auto">
-              <a><button type="button" className="btn btn-primary mr-2" onClick={this.props.searchHandler(this.state.searchKeywords)}>Search</button></a>
+              <a onClick={this.props.searchHandler(this.state.searchKeywords)} ref={search => this.searchElement = search}>
+                <button type="button" className="btn btn-primary mr-2">Search</button>
+              </a>
             </div>
           </form>
 
