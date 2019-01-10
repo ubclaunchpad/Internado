@@ -109,7 +109,7 @@ CREATE TABLE public.job (
 );
 
 
-ALTER TABLE public.job OWNER TO admin;
+ALTER TABLE public.job OWNER TO postgres;
 
 --
 -- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -123,7 +123,7 @@ CREATE SEQUENCE public.job_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.job_id_seq OWNER TO admin;
+ALTER TABLE public.job_id_seq OWNER TO postgres;
 
 --
 -- Name: job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
