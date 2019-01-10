@@ -15,14 +15,19 @@ export default function (app: Router) {
     });
 
     app.post("/search", searchJobs);
+    app.options("/search", corsAllowMethods("POST"));
 
     app.post("/mailing_list", addToMailingList);
     app.delete("/mailing_list", deleteFromMailingList);
+    app.options("/mailing_list", corsAllowMethods("POST"));
 
-    app.options("/search", (req: Request, res: Response) => {
+}
+
+function corsAllowMethods(methods: string) {
+    return (req: Request, res: Response) => {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Content-Type");
-        res.header("Access-Control-Allow-Methods", "POST");
+        res.header("Access-Control-Allow-Methods", methods);
         res.status(200).send({message: "Success"});
-    });
+    };
 }
