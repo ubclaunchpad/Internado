@@ -74,9 +74,9 @@ class FilterMenu extends Component {
 
   // source: https://github.com/hibiken/react-places-autocomplete
   renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
-    <div className="autocomplete-root">
+    <div className='autocomplete-root'>
       <input {...getInputProps()} />
-      <div className="autocomplete-dropdown-container">
+      <div className='autocomplete-dropdown-container'>
         {suggestions.map(suggestion => (
           <div {...getSuggestionItemProps(suggestion)}>
             <span>{suggestion.description}</span>
@@ -88,14 +88,14 @@ class FilterMenu extends Component {
 
   render() {
     return (
-      <div id="flyoutMenu" className={this.props.visibility ? 'show' : 'hide'}>
+      <div id='flyoutMenu' className={this.props.visibility ? 'show' : 'hide'}>
         <h3>Filters</h3>
-        <div className="locationTitle">
+        <div className='locationTitle'>
           <p>LOCATIONS</p>
-          <button className="expand clickable" onClick={this.toggleLocation} />
+          <button className='expand clickable' onClick={this.toggleLocation} />
         </div>
         {(this.state.isShowLocation) ?
-          <div className="filterContent">
+          <div className='filterContent'>
             <PlacesAutocomplete
               value={this.state.address}
               onChange={this.handleLocationChange}
@@ -104,77 +104,77 @@ class FilterMenu extends Component {
             </PlacesAutocomplete>
           </div>
           : null}
-        <div className="categoriesTitle">
+        <div className='categoriesTitle'>
           <p>CATEGORIES</p>
-          <button className="expand clickable" onClick={this.toggleCategories} />
+          <button className='expand clickable' onClick={this.toggleCategories} />
         </div>
         {(this.state.isShowCategories) ?
-          <div className="filterContent">
-            <div className="categoriesList">
+          <div className='filterContent'>
+            <div className='categoriesList'>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Full stack web
             </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Backend web
             </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Frontend web
             </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Android
               </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 iOS
               </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Machine Learning
               </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Natural Language Processing
               </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Graphics
               </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Gaming
               </label>
             </div>
           </div>
           : null}
-        <div className="industriesTitle">
+        <div className='industriesTitle'>
           <p>INDUSTRIES</p>
-          <button className="expand clickable" onClick={this.toggleIndustries} />
+          <button className='expand clickable' onClick={this.toggleIndustries} />
         </div>
         {(this.state.isShowIndustries) ?
-          <div className="filterContent">
+          <div className='filterContent'>
             <div>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 E-Commerce
             </label>
               <label>
-                <input type="checkbox" />
+                <input type='checkbox' />
                 Social Networking
               </label>
             </div>
           </div>
           : null}
-        <div className="salaryTitle">
+        <div className='salaryTitle'>
           <p>SALARY</p>
-          <button className="expand clickable" onClick={this.toggleSalary} />
+          <button className='expand clickable' onClick={this.toggleSalary} />
         </div>
         {(this.state.isShowSalary) ?
-          <div className="filterContent">
-            <input type="text" name="name" placeholder="Enter minimum" onChange={this.onChangeSalary}/>
+          <div className='filterContent'>
+            <input type='text' name='name' placeholder='Enter minimum' onChange={this.onChangeSalary}/>
           </div>
           : null}
       </div>
