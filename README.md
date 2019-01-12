@@ -4,7 +4,9 @@ Find personalized internship opportunities based on your skills and interests
 ## Link to in progress website
 https://internado.azurewebsites.net/
 
-## Running the Local Project
+## Running Locally
+
+### Running server
 Install all necessary node files and places them in a node_modules root directory folder
 ```console
 foo@bar:~$ npm install
@@ -13,7 +15,7 @@ Builds the project and places the necesary files in a dist root directory folder
 ```console
 foo@bar:~$ npm run build
 ```
-Runs the project (currently on http://localhost:3000/)
+Runs the server (currently on http://localhost:5000/)
 ```console
 foo@bar:~$ npm start
 ```
@@ -23,7 +25,18 @@ foo@bar:~$ npm start
 foo@bar:~$ npm run clean
 ```
 
-## Running data_acquisition.py
+### Running client
+Install all necessary node files and places them in a node_modules root directory folder
+```console
+foo@bar:~$ npm install
+```
+
+Runs the client (currently on http://localhost:3000/)
+```console
+foo@bar:~$ npm start
+```
+
+### Running data_acquisition.py
 If you don't have a local instance of the PostgreSQL table yet, navigate to the `server` directory and run
 ```console
 foo@bar:~$ npm start
