@@ -16,70 +16,70 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: cube; Type: EXTENSION; Schema: -; Owner: 
+-- Name: cube; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS cube WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION cube; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION cube; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION cube IS 'data type for multidimensional cubes';
 
 
 --
--- Name: earthdistance; Type: EXTENSION; Schema: -; Owner: 
+-- Name: earthdistance; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS earthdistance WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION earthdistance; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION earthdistance; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION earthdistance IS 'calculate great-circle distances on the surface of the Earth';
 
 
 --
--- Name: pg_buffercache; Type: EXTENSION; Schema: -; Owner: 
+-- Name: pg_buffercache; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS pg_buffercache WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pg_buffercache; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pg_buffercache; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION pg_buffercache IS 'examine the shared buffer cache';
 
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: 
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
@@ -109,7 +109,7 @@ CREATE TABLE public.job (
 );
 
 
-ALTER TABLE public.job OWNER TO postgres;
+ALTER TABLE public.job OWNER TO admin;
 
 --
 -- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -123,7 +123,7 @@ CREATE SEQUENCE public.job_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.job_id_seq OWNER TO postgres;
+ALTER TABLE public.job_id_seq OWNER TO admin;
 
 --
 -- Name: job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -175,4 +175,3 @@ ALTER TABLE ONLY public.job
 --
 -- PostgreSQL database dump complete
 --
-
