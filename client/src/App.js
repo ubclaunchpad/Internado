@@ -5,6 +5,7 @@ import Navbar from './views/Navbar';
 import Footer from './views/Footer';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
+import store from './store.js';
 
 class App extends Component {
   constructor(props, context) {
@@ -86,7 +87,7 @@ class App extends Component {
     }
 
     console.log(body);
-    this.setState({ data: body.result });
+    store.searchResults = body.result;
     this.props.history.push('/results');
   };
 
@@ -102,7 +103,7 @@ class App extends Component {
           changeSalary={this.onChangeMinSalary}
           changeLocation={this.onChangeLocation}
         />
-        <Routes results={this.state.data}/>
+        <Routes results={store.searchResults}/>
         <Footer/>
       </div>
     );
