@@ -134,7 +134,6 @@ foo@bar:~$ docker-compose down -v
 #### Step 3 : Replace data in script found in database_config/init.sql with your dump data
 #### Step 4 : Build and Run 
 
-
 ### Useful psql commands
 * `psql -h <Host> -U <Username> <Db name>`
 ### Useful Docker Compose commands
@@ -147,6 +146,3 @@ foo@bar:~$ docker-compose down -v
   * `docker logs -f <Container ID>` displays real-time logs of the running docker container
   * `docker run -p 8080:5000 -d internado` to map the port 5000 to 8080; can access the app at localhost:8080
   * `docker exec -it <Container ID> /bin/bash` allows you to go inside the container
-
-### Testing
-  Run `curl -i localhost:5000/api` to check if your container is online
