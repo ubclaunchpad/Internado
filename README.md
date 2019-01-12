@@ -136,25 +136,25 @@ foo@bar:~$ docker-compose up
 Now you can perform your request to any of the running containers much like how you would do it locally on your machine
 Currently there are 4 containers that are setup to run
 
-If you are running Docker ToolBox you will need your [DOCKER_MACHINE_IP] which you can get by running
+If you are running Docker ToolBox you will need your docker machine ip for the [HOST] which you can get by running
 ```console
 foo@bar:~$ docker-machine ip
 ```
+Otherwise , you can just refer to the container's name as the [HOST]
 
-| Container |                      Description                     | Port |             Example             |
+| Container Name|                      Description                     | Port |             Example             |
 |:---------:|:----------------------------------------------------:|:----:|:-------------------------------:|
-|   Server  |                    API (back-end)                    | 5000 |   [HOST]:5000/api  |
-|  Postgres |                     our database                     | 5432 | use adminer/cmd line to  access |
-|  Adminer  | A simple GUI that helps you manipulate the database  | 8080 |     [HOST]:8080    |
-|   Client  |                   react (front-end)                  | 3000 |     [HOST]:3000    |
+|   server  |                    API (back-end)                    | 5000 |   [HOST]:5000/api  |
+|  postgres |                     Database                     | 5432 | use adminer/cmd line to  access |
+|  adminer  |  GUI that helps you manipulate the database  | 8080 |     [HOST]:8080    |
+|   client  |                   React (front-end)                  | 3000 |     [HOST]:3000    |
 
 Regarding the db you can use the following identification parameters to connect to it through any of the
 above containers
 
 | Parameter |   Value   |
 |:---------:|:---------:|
-|    Host(Any docker container POV )   |  postgres |
-|    Host(Connecting externally but from same local server)   |  [DOCKER_MACHINE_IP] |
+|    Host   |  [HOST] |
 |  Db name  | internado |
 |  Username |   admin   |
 |  Password |   admin   |
