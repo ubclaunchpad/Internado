@@ -14,7 +14,7 @@
 }
 
 #flyoutMenu.hide {
-  transform: translate3d(-12vw, 0, 0);
+  transform: translate3d(-13vw, 0, 0);
 }
  
 #flyoutMenu.show {
@@ -40,6 +40,9 @@ input[type=checkbox] {
   margin-right: 2px;
 }
 
+input[type=text] {
+  width: 11vw;
+}
 .expand {
   margin-left: 8px;
   background-color: #7B8D93;

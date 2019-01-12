@@ -5,7 +5,6 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import '.././css/FilterMenu.css';
-
 class FilterMenu extends Component {
   constructor(props) {
     super(props);
