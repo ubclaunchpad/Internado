@@ -75,7 +75,7 @@ foo@bar:~$ pipenv run python data_acquisition.py
 
 Now check your `job` table again, it should be populated with data.
 
-## Docker
+## Running on Docker
 
 ### Getting Started
 
