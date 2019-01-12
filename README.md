@@ -111,16 +111,18 @@ foo@bar:~$ pipenv run python data_acquisition.py
 Now check your `job` table again, it should be populated with data.
 
 ## Docker
-  Make sure docker is installed. This is only currently useful for single container development purposes. Docker Compose can be used to streamline the process when deploying multiple containers.
-  
+
 ### Getting Started
+
+#### Download & Install Docker
+
+* For Mac/Windows Editions > Pro follow this [tutorial](https://docs.docker.com/docker-for-windows/install/)
+* Otherwise , you will need a VM , install Docker ToolBox which handles all of this for you , follow this [tutorial](https://docs.docker.com/toolbox/toolbox_install_windows/) 
 After setting up docker run the following commands in the root directory of this project
 
-First of all we need to get your docker machine's ip , save that somewhere because we will use it later
-```console
-foo@bar:~$ docker-machine ip
-```
-Run the following cmd which builds all docker containers but does not run them]
+#### Build & Run Internado
+
+Run the following cmd which builds all docker containers but does not run them
 <br>
 <b>Sidenote:</b> running docker build the first time takes a lot of time , however subsequent calls will run much faster as docker caches alot of the repeated steps
 ```console
@@ -134,20 +136,25 @@ foo@bar:~$ docker-compose up
 Now you can perform your request to any of the running containers much like how you would do it locally on your machine
 Currently there are 4 containers that are setup to run
 
-| Container |                      Description                     | Port |             Example             |
+If you are running Docker ToolBox you will need your docker machine ip for the [HOST] which you can get by running
+```console
+foo@bar:~$ docker-machine ip
+```
+Otherwise , you can just refer to the container's name as the [HOST]
+
+| Container Name|                      Description                     | Port |             Example             |
 |:---------:|:----------------------------------------------------:|:----:|:-------------------------------:|
-|   Server  |                    API (back-end)                    | 5000 |   [DOCKER_MACHINE_IP]:5000/api  |
-|  Postgres |                     our database                     | 5432 | use adminer/cmd line to  access |
-|  Adminer  | A simple GUI that helps you manipulate the database  | 8080 |     [DOCKER_MACHINE_IP]:8080    |
-|   Client  |                   react (front-end)                  | 3000 |     [DOCKER_MACHINE_IP]:3000    |
+|   server  |                    API (back-end)                    | 5000 |   [HOST]:5000/api  |
+|  postgres |                     Database                     | 5432 | use adminer/cmd line to  access |
+|  adminer  |  GUI that helps you manipulate the database  | 8080 |     [HOST]:8080    |
+|   client  |                   React (front-end)                  | 3000 |     [HOST]:3000    |
 
 Regarding the db you can use the following identification parameters to connect to it through any of the
 above containers
 
 | Parameter |   Value   |
 |:---------:|:---------:|
-|    Host(Any docker container POV )   |  postgres |
-|    Host(Connecting externally but from same local server)   |  [DOCKER_MACHINE_IP] |
+|    Host   |  [HOST] |
 |  Db name  | internado |
 |  Username |   admin   |
 |  Password |   admin   |
