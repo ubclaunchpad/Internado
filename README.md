@@ -1,10 +1,10 @@
 # Internado [![Travis](https://travis-ci.com/ubclaunchpad/Internado.svg?branch=master)](https://travis-ci.com/ubclaunchpad/Internado)
 Find personalized internship opportunities based on your skills and interests
 
-## Link to in progress website
+## :earth_americas: Link to in progress website
 https://internado.azurewebsites.net/
 
-## Running Locally
+## :computer: Running Locally
 
 ### Running server
 Install all necessary node files and places them in a node_modules root directory folder
@@ -75,7 +75,7 @@ foo@bar:~$ pipenv run python data_acquisition.py
 
 Now check your `job` table again, it should be populated with data.
 
-## Running on Docker
+## :whale: Running on Docker
 
 ### Getting Started
 
