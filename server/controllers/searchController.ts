@@ -128,9 +128,9 @@ async function getInnerQueryBuilder(search: SearchRequest, connection: Connectio
         .getRepository(Job)
         .createQueryBuilder("job")
         .select("job")
-        .addSelect(`setweight(to_tsvector(job.job_title), "A") ||
-                setweight(to_tsvector(job.description), "B") ||
-                setweight(to_tsvector(job.company_name), "A")`,
+        .addSelect(`setweight(to_tsvector(job.job_title), 'A') ||
+                setweight(to_tsvector(job.description), 'B') ||
+                setweight(to_tsvector(job.company_name), 'A')`,
             "job_document");
 
     if (search.longitude && search.latitude) {
@@ -156,17 +156,17 @@ function addSelects(search: SearchRequest, qb: SelectQueryBuilder<any>) {
 }
 
 function addWhere(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
-    qb.where("job_document @@ to_tsquery(:keywords)", {keywords: `"${search.keywords}"`});
+    qb.where("job_document @@ to_tsquery(:keywords)", {keywords: `'${search.keywords}'`});
 
     if (search.firstDateFilter) {
         let date: Date = search.firstDateFilter;
-        let dateString: string = `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`;
+        let dateString: string = `'${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
         qb.andWhere("job_start_date >= :firstDate", {firstDate: dateString});
     }
 
     if (search.lastDateFilter) {
         let date: Date = search.lastDateFilter;
-        let dateString: string = `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`;
+        let dateString: string = `'${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
         qb.andWhere("job_start_date <= :lastDate", {lastDate: dateString});
     }
 
