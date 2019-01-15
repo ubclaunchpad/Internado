@@ -19,7 +19,7 @@ export default function (app: Router) {
 
     app.post("/mailing_list", addToMailingList);
     app.delete("/mailing_list", deleteFromMailingList);
-    app.options("/mailing_list", corsAllowMethods("POST"));
+    app.options("/mailing_list", corsAllowMethods("POST,DELETE"));
 
 }
 

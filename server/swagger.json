@@ -1,0 +1,271 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the API for Internado's back end. It's main function right now is searching for other internships in the database. Check out our [git repo](https://github.com/ubclaunchpad/Internado) or our [wiki](https://github.com/ubclaunchpad/Internado/wiki) for more information.",
+    "version": "1.0.0",
+    "title": "Internado API"
+  },
+  "host": "localhost:5000",
+  "tags": [
+    {
+      "name": "search",
+      "description": "Search through internships"
+    },
+    {
+      "name": "mailing_list",
+      "description": "Add and remove email from the mailing list"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/search": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search for internships by keywords and other filters",
+        "description": "",
+        "operationId": "searchInternships",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Search request object containing keywords and other parameters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Search"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/mailing_list": {
+      "post": {
+        "tags": [
+          "mailing_list"
+        ],
+        "summary": "Add an email address to the mailing list",
+        "description": "",
+        "operationId": "addToMailingList",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Email to be added to the mailing list",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully added email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "mailing_list"
+        ],
+        "summary": "Remove an email address from the mailing list",
+        "description": "",
+        "operationId": "removeFromMailingList",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Email to be removed from the mailing list",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email was removed or has already been removed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Search": {
+      "type": "object",
+      "required": [
+        "keywords"
+      ],
+      "properties": {
+        "keywords": {
+          "type": "string",
+          "example": "machine learning"
+        },
+        "take": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "radius": {
+          "type": "number",
+          "format": "float"
+        },
+        "firstDateFilter": {
+          "type": "string",
+          "format": "date"
+        },
+        "lastDateFilter": {
+          "type": "string",
+          "format": "date"
+        },
+        "salaryMin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "orderBy": {
+          "type": "string",
+          "example": "relevance",
+          "description": "Value must be either relevance or distance"
+        }
+      }
+    },
+    "Job": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "job_title": {
+          "type": "string",
+          "example": "UBC Launch Pad Summer Internship"
+        },
+        "link": {
+          "type": "string",
+          "example": "https://www.ubclaunchpad.com/"
+        },
+        "descripotion": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string",
+          "example": "Vancouver"
+        },
+        "state": {
+          "type": "string",
+          "example": "BC"
+        },
+        "country": {
+          "type": "string",
+          "example": "Canada"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "company_name": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "salary_min": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

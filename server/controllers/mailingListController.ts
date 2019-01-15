@@ -7,6 +7,10 @@ export async function addToMailingList(req: Request, res: Response): Promise<voi
     let connection: Connection = getConnection();
 
     let email: string = req.query.email;
+
+    if ((typeof email) !== "string") {
+        res.status(400).send({error: "Email address query parameter is required"});
+    }
     email = sanitizeEmail(email);
 
     if (!isValidEmailAddress(email)) {
