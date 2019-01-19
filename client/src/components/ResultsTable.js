@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import ResultRow from './ResultRow';
 
 export default class ResultsTable extends React.Component {
@@ -14,16 +13,3 @@ export default class ResultsTable extends React.Component {
     )
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    results: state.postingsReducer.postings
-  }
-}
-
-const mapDispatchToProps = dispatch => ({});
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(ResultsTable)

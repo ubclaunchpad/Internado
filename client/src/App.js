@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import './css/ResultsTable.css';
+import './sass/ResultsTable.scss';
 import Navbar from './views/Navbar';
 import Footer from './views/Footer';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
 import store from './store.js';
+import { searchJobs } from './backendCalls/searchEndpoints.js';
 
 class App extends Component {
   constructor(props, context) {
@@ -41,17 +42,6 @@ class App extends Component {
     });
   }
 
-  callBackendAPI = async() => {
-    const response = await fetch('/express_backend');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-
-    return body;
-  };
-
   // construct the JSON body of the search request
   constructBody = (searchKeywords) => {
     const body = {
@@ -71,25 +61,10 @@ class App extends Component {
   }
 
   searchHandler = (searchKeywords) => async() => {
-    const response = await fetch('http://localhost:5000/search', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: this.constructBody(searchKeywords),
-    });
-
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-
-    console.log(body);
-    store.searchResults = body.result;
+    var keywords = this.constructBody(searchKeywords);
+    await searchJobs(keywords);
     this.props.history.push('/results');
-  };
+  }
 
   render() {
     return (
