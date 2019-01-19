@@ -68,10 +68,10 @@ function sanitizeEmail(email: string): string {
 function isValidEmailAddress(email: string): boolean {
     // Regex taken from https://emailregex.com/
     const regex = new RegExp(
-        '^(([^<>()\\[\\]\\.,;:\\s@\\"]+' +
-            '(\\.[^<>()\\[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))' +
-            '@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+' +
-            '[^<>()[\\]\\.,;:\\s@\\"]{2,})$',
+        "^(([^<>()\\[\\]\\.,;:\\s@\\\"]+" +
+            "(\\.[^<>()\\[\\]\\.,;:\\s@\\\"]+)*)|(\\\".+\\\"))" +
+            "@(([^<>()[\\]\\.,;:\\s@\\\"]+\\.)+" +
+            "[^<>()[\\]\\.,;:\\s@\\\"]{2,})$",
         "gi"
     );
     const matches = email.match(regex);
