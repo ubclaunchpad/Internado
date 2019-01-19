@@ -1,96 +1,132 @@
-import {Request, Response} from "express";
-import {Connection, getConnection, SelectQueryBuilder} from "typeorm";
-import SearchRequest, {OrderBy} from "../models/searchRequest";
+import { Request, Response } from "express";
+import { Connection, getConnection, SelectQueryBuilder } from "typeorm";
+import SearchRequest, { OrderBy } from "../models/searchRequest";
 import Job from "../models/job";
 
-const defaultTake: number = 10;
+const DEFAULT_TAKE: number = 10;
 
 export async function searchJobs(req: Request, res: Response): Promise<void> {
-    let search: SearchRequest = getSearchRequest(req, res);
-    if (search === null) { return; }
+    const search: SearchRequest = getSearchRequest(req, res);
+    if (!search) {
+        return;
+    }
 
-    let connection: Connection = getConnection();
+    const connection: Connection = getConnection();
 
     try {
-        let jobs: Job[] = await queryJobs(search, connection);
+        const jobs: Job[] = await queryJobs(search, connection);
 
         res.header("Access-Control-Allow-Origin", "*");
-        res.status(200).send({result: jobs});
+        res.status(200).send({ result: jobs });
     } catch (err) {
-        res.status(500).send({error: err});
+        res.status(500).send({ error: err });
     }
 }
 
 function getSearchRequest(req: Request, res: Response): SearchRequest {
-    if (!((typeof req.body.keywords) === "string")) {
-        res.status(400).send({error: "The keywords property must be included and be a string."});
+    if (!(typeof req.body.keywords === "string")) {
+        res.status(400).send({
+            error: "The keywords property must be included and be a string."
+        });
         return null;
     }
 
-    let keywords: string = sanitizeKeywords(req.body.keywords);
+    const keywords: string = sanitizeKeywords(req.body.keywords);
 
     if (keywords === "") {
-        res.status(400).send({error: "The keywords property must include search terms."});
+        res.status(400).send({
+            error: "The keywords property must include search terms."
+        });
         return null;
     }
 
-    let take: number = req.body.take ? req.body.take : defaultTake;
-    if ((typeof take) !== "number" || take !== Math.floor(take) || take < 1) {
-        res.status(400).send({error: "The take property must be a positive integer."});
+    const take: number = req.body.take || DEFAULT_TAKE;
+    if (typeof take !== "number" || take !== Math.floor(take) || take < 1) {
+        res.status(400).send({
+            error: "The take property must be a positive integer."
+        });
         return null;
     }
 
-    let offset: number = req.body.offset ? req.body.offset : 0;
-    if ((typeof offset) !== "number" || offset !== Math.floor(offset) || offset < 0) {
-        res.status(400).send({error: "The offset property must be a non-negative integer."});
+    const offset: number = req.body.offset || 0;
+    if (
+        typeof offset !== "number" ||
+        offset !== Math.floor(offset) ||
+        offset < 0
+    ) {
+        res.status(400).send({
+            error: "The offset property must be a non-negative integer."
+        });
         return null;
     }
 
-    let latitude: number = req.body.latitude;
-    let longitude: number = req.body.longitude;
-    let radius: number = req.body.radius;
+    const latitude: number = req.body.latitude;
+    const longitude: number = req.body.longitude;
+    const radius: number = req.body.radius || null;
 
-    if (radius === undefined) {
-        radius = null;
-    } else if ((typeof radius !== "number") || (typeof latitude !== "number") || (typeof longitude !== "number") ||
-        latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
-        res.status(400).send({error: "If radius is defined, longitude and latitude must be valid."});
+    if (
+        radius &&
+        (typeof radius !== "number" ||
+            typeof latitude !== "number" ||
+            typeof longitude !== "number" ||
+            latitude < -90 ||
+            latitude > 90 ||
+            longitude < -180 ||
+            longitude > 180)
+    ) {
+        res.status(400).send({
+            error: "If radius is defined, longitude and latitude must be valid."
+        });
         return null;
     }
 
-    let orderBy: OrderBy = req.body.orderBy;
+    const orderBy: OrderBy = req.body.orderBy;
 
-    if (orderBy === OrderBy.Distance && ((typeof latitude) !== "number" || (typeof longitude) !== "number" ||
-        latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180)) {
-        res.status(400).send({error: "To order by distance, both latitude and longitude must be valid."});
+    if (
+        orderBy === OrderBy.Distance &&
+        (typeof latitude !== "number" ||
+            typeof longitude !== "number" ||
+            latitude < -90 ||
+            latitude > 90 ||
+            longitude < -180 ||
+            longitude > 180)
+    ) {
+        res.status(400).send({
+            error:
+                "To order by distance, both latitude and longitude must be valid."
+        });
         return null;
     }
 
     let firstDateFilter: Date;
-    if (req.body.firstDateFilter === undefined) {
+    if (!req.body.firstDateFilter) {
         firstDateFilter = null;
     } else if (!isNaN(Date.parse(req.body.firstDateFilter))) {
         firstDateFilter = new Date(req.body.firstDateFilter);
     } else {
-        res.status(400).send({error: "The firstDateFilter property must be a valid date."});
+        res.status(400).send({
+            error: "The firstDateFilter property must be a valid date."
+        });
         return null;
     }
 
     let lastDateFilter: Date;
-    if (req.body.lastDateFilter === undefined) {
+    if (!req.body.lastDateFilter) {
         lastDateFilter = null;
     } else if (!isNaN(Date.parse(req.body.lastDateFilter))) {
         lastDateFilter = new Date(req.body.lastDateFilter);
     } else {
-        res.status(400).send({error: "The lastDateFilter property must be a valid date."});
+        res.status(400).send({
+            error: "The lastDateFilter property must be a valid date."
+        });
         return null;
     }
 
-    let salaryMin: number = req.body.salaryMin;
-    if (salaryMin === undefined) {
-        salaryMin = null;
-    } else if ((typeof salaryMin) !== "number") {
-        res.status(400).send({error: "The salaryMin property must be a number."});
+    const salaryMin: number = req.body.salaryMin || null;
+    if (salaryMin && typeof salaryMin !== "number") {
+        res.status(400).send({
+            error: "The salaryMin property must be a number."
+        });
         return null;
     }
 
@@ -104,15 +140,23 @@ function getSearchRequest(req: Request, res: Response): SearchRequest {
         firstDateFilter,
         lastDateFilter,
         salaryMin,
-        orderBy,
+        orderBy
     };
 }
 
-async function queryJobs(search: SearchRequest, connection: Connection): Promise<any[]> {
-    let queryBuilder: SelectQueryBuilder<any> = await connection.createQueryBuilder();
-    addSelects(search, queryBuilder);
+async function queryJobs(
+    search: SearchRequest,
+    connection: Connection
+): Promise<any[]> {
+    const queryBuilder: SelectQueryBuilder<
+        any
+    > = await connection.createQueryBuilder();
+    addSelects(queryBuilder);
 
-    const innerQb: SelectQueryBuilder<Job> = await getInnerQueryBuilder(search, connection);
+    const innerQb: SelectQueryBuilder<Job> = await getInnerQueryBuilder(
+        search,
+        connection
+    );
     queryBuilder
         .from("(" + innerQb.getQuery() + ")", "p_search")
         .setParameters(innerQb.getParameters());
@@ -123,59 +167,75 @@ async function queryJobs(search: SearchRequest, connection: Connection): Promise
     return queryBuilder.getRawMany();
 }
 
-async function getInnerQueryBuilder(search: SearchRequest, connection: Connection): Promise<SelectQueryBuilder<Job>> {
-    let innerQueryBuilder: SelectQueryBuilder<Job> = await connection
+async function getInnerQueryBuilder(
+    search: SearchRequest,
+    connection: Connection
+): Promise<SelectQueryBuilder<Job>> {
+    const innerQueryBuilder: SelectQueryBuilder<Job> = await connection
         .getRepository(Job)
         .createQueryBuilder("job")
         .select("job")
-        .addSelect(`setweight(to_tsvector(job.job_title), 'A') ||
+        .addSelect(
+            `setweight(to_tsvector(job.job_title), 'A') ||
                 setweight(to_tsvector(job.description), 'B') ||
                 setweight(to_tsvector(job.company_name), 'A')`,
-            "job_document");
+            "job_document"
+        );
 
     if (search.longitude && search.latitude) {
-        innerQueryBuilder.addSelect(
-            "(point(:longitude, :latitude) <@> point(job.longitude, job.latitude)) * 1.609344",
-            "job_distance")
-            .setParameters({longitude: search.longitude, latitude: search.latitude});
+        innerQueryBuilder
+            .addSelect(
+                "(point(:longitude, :latitude) <@> point(job.longitude, job.latitude)) * 1.609344",
+                "job_distance"
+            )
+            .setParameters({
+                longitude: search.longitude,
+                latitude: search.latitude
+            });
     }
 
     return innerQueryBuilder;
 }
 
-function addSelects(search: SearchRequest, qb: SelectQueryBuilder<any>) {
-    const prefix: string = "job_";
+function addSelects(qb: SelectQueryBuilder<any>) {
+    const PREFIX: string = "job_";
 
     Object.keys(new Job()).forEach((key, index) => {
         if (index === 0) {
-            qb.select(prefix + key, key);
+            qb.select(PREFIX + key, key);
         } else {
-            qb.addSelect(prefix + key, key);
+            qb.addSelect(PREFIX + key, key);
         }
     });
 }
 
 function addWhere(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
-    qb.where("job_document @@ to_tsquery(:keywords)", {keywords: `'${search.keywords}'`});
+    qb.where("job_document @@ to_tsquery(:keywords)", {
+        keywords: `'${search.keywords}'`
+    });
 
     if (search.firstDateFilter) {
-        let date: Date = search.firstDateFilter;
-        let dateString: string = `'${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
-        qb.andWhere("job_start_date >= :firstDate", {firstDate: dateString});
+        const date: Date = search.firstDateFilter;
+        const dateString: string = `'${date.getFullYear()}-${date.getMonth() +
+            1}-${date.getDate()}'`;
+        qb.andWhere("job_start_date >= :firstDate", { firstDate: dateString });
     }
 
     if (search.lastDateFilter) {
-        let date: Date = search.lastDateFilter;
-        let dateString: string = `'${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}'`;
-        qb.andWhere("job_start_date <= :lastDate", {lastDate: dateString});
+        const date: Date = search.lastDateFilter;
+        const dateString: string = `'${date.getFullYear()}-${date.getMonth() +
+            1}-${date.getDate()}'`;
+        qb.andWhere("job_start_date <= :lastDate", { lastDate: dateString });
     }
 
     if (search.salaryMin) {
-        qb.andWhere("job_salary_min >= :salaryMin", {salaryMin: search.salaryMin});
+        qb.andWhere("job_salary_min >= :salaryMin", {
+            salaryMin: search.salaryMin
+        });
     }
 
     if (search.longitude && search.latitude && search.radius) {
-        qb.andWhere("job_distance <= :radius", {radius: search.radius});
+        qb.andWhere("job_distance <= :radius", { radius: search.radius });
     }
 }
 
@@ -184,7 +244,6 @@ function addOrderBy(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
         case OrderBy.Distance:
             qb.orderBy("job_distance");
             break;
-        case OrderBy.Relevance:
         default:
             qb.orderBy("ts_rank(job_document, to_tsquery(:keywords))");
             break;
@@ -192,12 +251,9 @@ function addOrderBy(search: SearchRequest, qb: SelectQueryBuilder<any>): void {
 }
 
 function sanitizeKeywords(raw: string): string {
-    let keywords: string = raw;
-    keywords = keywords.trim();
-
-    keywords = keywords.replace(/[^\w\s\-]/g, "");
-    keywords = keywords.replace(/\&/g, "");
-    keywords = keywords.replace(/\s+/g, " & ");
-
-    return keywords;
+    return raw
+        .trim()
+        .replace(/[^\w\s\-]/g, "")
+        .replace(/\&/g, "")
+        .replace(/\s+/g, " & ");
 }
