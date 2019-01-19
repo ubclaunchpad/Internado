@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
-import '.././sass/FilterMenu.scss';
+import { bool, func } from 'prop-types';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import '.././css/FilterMenu.css';
+
+const propTypes = {
+  visibility: bool.isRequired,
+  changeSalary: func.isRequired,
+  changeLocation: func.isRequired,
+};
 
 class FilterMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMenuVisible: false,
       isShowLocation: false,
       address: '',
       isShowCategories: false,
@@ -20,12 +22,12 @@ class FilterMenu extends Component {
   }
 
   toggleLocation = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isShowLocation: !prevState.isShowLocation,
     }));
-  }
+  };
 
-  handleLocationChange = address => {
+  handleLocationChange = (address) => {
     this.setState({ address });
 
     if (address === '') {
@@ -33,52 +35,52 @@ class FilterMenu extends Component {
       // so that location won't be used in the search query
       this.props.changeLocation({ latitude: 0.0, longitude: 0.0 });
     }
-  }
+  };
 
   // for now, just update this.state.address and print the latlng
-  handleLocationSelect = address => {
+  handleLocationSelect = (address) => {
     geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => {
+      .then((results) => getLatLng(results[0]))
+      .then((latLng) => {
         console.log('Success', latLng);
         this.setState({ address });
         this.props.changeLocation(latLng);
       })
-      .catch(error => console.error('Error', error));
-  }
+      .catch((error) => console.error('Error', error));
+  };
 
   toggleCategories = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isShowCategories: !prevState.isShowCategories,
     }));
-  }
+  };
 
   toggleIndustries = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isShowIndustries: !prevState.isShowIndustries,
     }));
-  }
+  };
 
   toggleSalary = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isShowSalary: !prevState.isShowSalary,
     }));
-  }
+  };
 
   onChangeSalary = (event) => {
     const newSalary = parseInt(event.target.value, 10);
-    if ((typeof newSalary) === 'number') {
+    if (typeof newSalary === 'number') {
       this.props.changeSalary(newSalary);
     }
-  }
+  };
 
   // source: https://github.com/hibiken/react-places-autocomplete
   renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
     <div className="autocomplete-root">
       <input {...getInputProps()} />
       <div className="autocomplete-dropdown-container">
-        {suggestions.map(suggestion => (
-          <div {...getSuggestionItemProps(suggestion)}>
+        {suggestions.map((suggestion) => (
+          <div {...getSuggestionItemProps(suggestion)} key={suggestion.id}>
             <span>{suggestion.description}</span>
           </div>
         ))}
@@ -94,35 +96,36 @@ class FilterMenu extends Component {
           <p>LOCATIONS</p>
           <button className="expand clickable" onClick={this.toggleLocation} />
         </div>
-        {(this.state.isShowLocation) ?
+        {this.state.isShowLocation ? (
           <div className="filterContent">
             <PlacesAutocomplete
               value={this.state.address}
               onChange={this.handleLocationChange}
-              onSelect={this.handleLocationSelect}>
+              onSelect={this.handleLocationSelect}
+            >
               {this.renderFunc}
             </PlacesAutocomplete>
           </div>
-          : null}
+        ) : null}
         <div className="categoriesTitle">
           <p>CATEGORIES</p>
           <button className="expand clickable" onClick={this.toggleCategories} />
         </div>
-        {(this.state.isShowCategories) ?
+        {this.state.isShowCategories ? (
           <div className="filterContent">
             <div className="categoriesList">
               <label>
                 <input type="checkbox" />
                 Full stack web
-            </label>
+              </label>
               <label>
                 <input type="checkbox" />
                 Backend web
-            </label>
+              </label>
               <label>
                 <input type="checkbox" />
                 Frontend web
-            </label>
+              </label>
               <label>
                 <input type="checkbox" />
                 Android
@@ -149,43 +152,44 @@ class FilterMenu extends Component {
               </label>
             </div>
           </div>
-          : null}
+        ) : null}
         <div className="industriesTitle">
           <p>INDUSTRIES</p>
           <button className="expand clickable" onClick={this.toggleIndustries} />
         </div>
-        {(this.state.isShowIndustries) ?
+        {this.state.isShowIndustries ? (
           <div className="filterContent">
             <div>
               <label>
                 <input type="checkbox" />
                 E-Commerce
-            </label>
+              </label>
               <label>
                 <input type="checkbox" />
                 Social Networking
               </label>
             </div>
           </div>
-          : null}
+        ) : null}
         <div className="salaryTitle">
           <p>SALARY</p>
           <button className="expand clickable" onClick={this.toggleSalary} />
         </div>
-        {(this.state.isShowSalary) ?
+        {this.state.isShowSalary ? (
           <div className="filterContent">
-            <input type="text" name="name" placeholder="Enter minimum" onChange={this.onChangeSalary}/>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter minimum"
+              onChange={this.onChangeSalary}
+            />
           </div>
-          : null}
+        ) : null}
       </div>
     );
   }
 }
 
-FilterMenu.propTypes = {
-  visibility: PropTypes.bool,
-  changeSalary: PropTypes.func,
-  changeLocation: PropTypes.func,
-};
+FilterMenu.propTypes = propTypes;
 
 export default FilterMenu;
