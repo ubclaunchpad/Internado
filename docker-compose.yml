@@ -21,7 +21,7 @@ services:
       TYPEORM_LOGGING: "true"
       TYPEORM_ENTITIES: "models/**/*.js"
     volumes:
-      - ./server:/src/app/internado-server/server
+      - ./server:/usr/src/app/internado-server
       - /app/node_modules
     ports: #HOST:CONTAINER
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
@@ -58,7 +58,7 @@ services:
     expose:
       - ${CLIENT_PORT}
     volumes:
-      - ./client/src:/src/app/internado-client/client/src
+      - ./client/src:/usr/src/app/internado-client/src
       - /app/node_modules
     ports: #HOST:CONTAINER
       - ${CLIENT_PORT}:${CLIENT_PORT}
