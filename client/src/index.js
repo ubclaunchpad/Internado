@@ -1,15 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import ReactDOM from 'react-dom';
-import './css/index.css';
+import './sass/index.scss';
 import App from './App';
-import { Provider } from 'react-redux'
+import 'semantic-ui-css/semantic.min.css'
 
 ReactDOM.render(
-  //<Provider store={configureStore()}>
     <Router>
       <App />
     </Router>,
-  //</Provider>,
   document.getElementById('root')
 );

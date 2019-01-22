@@ -1,4 +1,5 @@
 const store = {
-  searchResults: []
+  searchResults: [],
+  apiBase: 'http://localhost:5000'
 };
 export default store;
