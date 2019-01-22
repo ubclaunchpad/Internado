@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the API for Internado's back end. It's main function right now is searching for other internships in the database. Check out our [git repo](https://github.com/ubclaunchpad/Internado) or our [wiki](https://github.com/ubclaunchpad/Internado/wiki) for more information.",
+    "description": "This is the API for Internado's back end. Its main function right now is searching for other internships in the database. Check out our [git repo](https://github.com/ubclaunchpad/Internado) or our [wiki](https://github.com/ubclaunchpad/Internado/wiki) for more information.",
     "version": "1.0.0",
     "title": "Internado API"
   },
