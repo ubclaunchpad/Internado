@@ -9,7 +9,12 @@ export async function addToMailingList(
     res.header("Access-Control-Allow-Origin", "*");
     const connection: Connection = getConnection();
 
-    const email: string = sanitizeEmail(req.query.email);
+    let email: string = req.query.email;
+
+    if ((typeof email) !== "string") {
+        res.status(400).send({error: "Email address query parameter is required"});
+    }
+    email = sanitizeEmail(email);
 
     if (!isValidEmailAddress(email)) {
         res.status(400).send({ error: "Email address isn't valid" });
