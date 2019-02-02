@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc -p . && tslint -p tsconfig.json -c tslint.json",
-        "start": "ts-node server.ts",
+        "start": "npm run build && ts-node server.ts",
         "clean": "rimraf **/*.js **/*.js.map node_modules"
     },
     "cpu": [
@@ -23,6 +23,7 @@
     },
     "homepage": "https://github.com/ubclaunchpad/Internado#readme",
     "dependencies": {
+        "@types/swagger-ui-express": "^3.0.0",
         "body-parser": "^1.18.3",
         "debug": "^4.1.0",
         "dotenv": "^6.1.0",
@@ -30,9 +31,10 @@
         "morgan": "^1.9.1",
         "parse-error": "^0.2.0",
         "pg": "^7.3.0",
-        "typescript": "^3.1.3",
+        "reflect-metadata": "^0.1.10",
+        "swagger-ui-express": "^4.0.2",
         "typeorm": "0.2.9",
-        "reflect-metadata": "^0.1.10"
+        "typescript": "^3.1.3"
     },
     "devDependencies": {
         "@types/body-parser": "^1.17.0",

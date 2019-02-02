@@ -2,6 +2,7 @@ require("dotenv").config();
 import * as express from "express";
 import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
+import * as swaggerUi from "swagger-ui-express";
 import appConfig from "./configurations/app";
 import router from "./routes/v1";
 import "reflect-metadata";
@@ -14,6 +15,9 @@ app.use(morgan("dev")); // req logging
 app.use(bodyParser.json()); // parsing json req formats
 app.use(bodyParser.urlencoded({ extended: true })); // parsing form req formats
 app.disable("etag");
+
+const swaggerDocument = require("./swagger.json");
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 /*Routes*/
 router(app);
