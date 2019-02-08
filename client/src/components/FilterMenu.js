@@ -4,7 +4,8 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import '.././css/FilterMenu.css';
+import '.././sass/FilterMenu.scss';
+
 class FilterMenu extends Component {
   constructor(props) {
     super(props);

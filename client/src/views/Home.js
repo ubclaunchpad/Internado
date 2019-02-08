@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import "../css/Home.css";
-
+import "../sass/Home.scss";
+import { addEmail } from '../backendCalls/mailingListEndpoints.js';
 export default class Home extends Component {
-
   constructor(props) {
     super(props);
     this.state = {email: '', error: ''};
@@ -16,26 +15,14 @@ export default class Home extends Component {
   }
 
   async handleSubmit(event) {
-    const response = await fetch(`http://localhost:5000/mailing_list?email=${this.state.email}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
+    const response = await addEmail(this.state.email);
 
-    const body = await response.json();
-
-    if (response.status !== 201) {
-      if (body.error) {
-        this.setState({error: body.error});
-      }
-      else {
-        this.setState({error: JSON.stringify(body)});
-      }
-    } else {
+    if(response == 200) {
       this.setState({error: ''});
       alert(`An email was submitted: ${this.state.email}`);
+    }
+    else{
+      this.setState({error: response});
     }
   }
 
