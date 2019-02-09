@@ -76,7 +76,7 @@ export default class ResultsTable extends React.Component {
   render() {
     return(
       <Container>
-        <Grid centered>
+        <Grid centered padded>
           {this.state.results.map((result, i) => { return this.renderItem(result, i) })}
         </Grid>
       </Container>
