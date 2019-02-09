@@ -1,5 +1,5 @@
 import React from 'react';
-import ResultRow from './ResultRow';
+import store from '../store.js';
 import { Accordion, 
          Button, 
          Icon, 
@@ -10,20 +10,16 @@ import { Accordion,
          Segment } from 'semantic-ui-react';
 
 export default class ResultsTable extends React.Component {
-
-  state = {
-    results : []
-  }
-
+  
   handleClick = (e, titleProps) => {
     const { index } = titleProps;
-    var newResults = this.state.results;
-    newResults[index].active = !newResults[index].active;
-
-    this.setState({ results: newResults });
+    //var newResults = store.searchResults;
+    //newResults[index].active = !newResults[index].active;
+    store.searchResults[index].active = !store.searchResults[index].active;
+    console.log(store.searchResults[index].active);
   }
   
-  renderItem(result, i){
+  renderItem(result, i) {
     return (
       <Grid.Row key={i}>
         <Grid.Column>
@@ -36,16 +32,16 @@ export default class ResultsTable extends React.Component {
                 </Item.Meta>
                 <Item.Description>
                   <Accordion>
-                    <Accordion.Title active={result.active == true} index={i} onClick={this.handleClick}>
+                    <Accordion.Title active={result.active === true} index={i} onClick={this.handleClick}>
                       <Icon name='dropdown'/>Description
                     </Accordion.Title>
-                    <Accordion.Content active={result.active == true}>
+                    <Accordion.Content active={result.active === true}>
                       <p>{result.description}</p><br/>
                     </Accordion.Content>
                   </Accordion>
                 </Item.Description>
                 <Item.Extra>
-                  <Label icon='globe' content={result.city + ", " + result.country} />
+                  <Label icon='globe' content={`${result.city}, ${result.country}`} />
                   <Label icon='dollar sign' content={result.salary_min ? result.salary_min : "No salary Available"}/>
                   <a href={result.link} target="_blank">
                     <Button primary floated='right'>Apply<Icon name='right chevron'/></Button>
@@ -59,25 +55,11 @@ export default class ResultsTable extends React.Component {
     );
   }
 
-  addActiveFields() {
-    this.props.results.map(result => (result.active = false));
-    this.setState({ results: this.props.results });
-  }
-
-  componentWillMount() {
-    this.addActiveFields();
-  }
-
-  // Takes 2 api calls to fire
-  componentWillReceiveProps() {
-    this.addActiveFields();
-  }
-
   render() {
     return(
       <Container>
         <Grid centered padded>
-          {this.state.results.map((result, i) => { return this.renderItem(result, i) })}
+          {store.searchResults.map((result, i) => { return this.renderItem(result, i) })}
         </Grid>
       </Container>
     );
