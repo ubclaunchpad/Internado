@@ -29,12 +29,12 @@ def is_internship(job):
   return contains_keywords
 
 def request_ziprecruiter_jobs(page_num, api_key):
-  url = "https://api.ziprecruiter.com/jobs/v1?search=internship%20Job&days_ago=1&page={page_num}&jobs_per_page=100&api_key={api_key}" \
+  url = "https://api.ziprecruiter.com/jobs/v1?search=internship%20Job&days_ago=1&page={page_num}&jobs_per_page=20&api_key={api_key}" \
   .format(page_num=page_num, api_key=api_key)
   response = requests.get(url).json()
   if response["success"]:
     # dbname, user, host, and password should match your database info in ormconfig.json
-    con = psycopg2.connect(dbname='internado', user='postgres', host='localhost', password='postgres1!')
+    con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
     cur = con.cursor()
     # parse ZipRecruiter's JSON response
     for job in response["jobs"]:
