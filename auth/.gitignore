@@ -1,4 +1,3 @@
 # Typescript ignores
 *.js
 *.js.map
-nodemon.json
