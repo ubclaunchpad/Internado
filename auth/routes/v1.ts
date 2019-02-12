@@ -1,14 +1,7 @@
-import { Router, Request, Response } from "express";
-import * as passport from "passport";
-import {
-  loginUser,
-  deleteUser,
-  createUser,
-  updateUser,
-  getUser
-} from "../controllers/userController";
+import { Request, Response, Router } from "express";
+import { createUser, deleteUser, getUser, loginUser, updateUser } from "../controllers/userController";
 
-export default function (app: Router) {
+export default function (app: Router , passport: any) {
   /********  Api details  **********/
   app.get("/api", function (req: Request, res: Response) {
     res.json({ message: "Internado", version: "v1.0.0" });
@@ -21,7 +14,7 @@ export default function (app: Router) {
 
   // Signup user
   app.post("/api/user", createUser);
-  app.options("/api/user/login", corsAllowMethods("POST"));
+  app.options("/api/user", corsAllowMethods("POST"));
 
   // Retreive user profile
   app.get(
@@ -31,7 +24,7 @@ export default function (app: Router) {
     }),
     getUser
   );
-  app.options("/api/user/login", corsAllowMethods("GET"));
+  app.options("/api/user", corsAllowMethods("GET"));
 
   // Update user profile
   app.put(
@@ -41,7 +34,7 @@ export default function (app: Router) {
     }),
     updateUser
   );
-  app.options("/api/user/login", corsAllowMethods("PUT"));
+  app.options("/api/user", corsAllowMethods("PUT"));
 
   // Delete user profile
   app.delete(
@@ -51,7 +44,7 @@ export default function (app: Router) {
     }),
     deleteUser
   );
-  app.options("/api/user/login", corsAllowMethods("DELETE"));
+  app.options("/api/user", corsAllowMethods("DELETE"));
 }
 
 function corsAllowMethods(methods: string) {

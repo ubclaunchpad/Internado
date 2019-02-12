@@ -6,6 +6,7 @@ import appConfig from "./configurations/app";
 import router from "./routes/v1";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+import * as passport from "passport";
 
 const app: express.Application = express();
 
@@ -14,9 +15,11 @@ app.use(morgan("dev")); // req logging
 app.use(bodyParser.json()); // parsing json req formats
 app.use(bodyParser.urlencoded({ extended: true })); // parsing form req formats
 app.disable("etag");
+require("./middleware/passport")(passport);
+app.use(passport.initialize());
 
 /*Routes*/
-router(app);
+router(app, passport);
 
 /*RunServer*/
 app.listen(appConfig.port, () => {
@@ -39,6 +42,9 @@ app.listen(appConfig.port, () => {
   );
 });
 
-createConnection().catch((err) =>
-  console.error("Failed to create connection to PostgreSQL\n" + err)
-);
+/*Establish Connection with DB*/
+createConnection()
+  .then(() => console.log("Succesfully connected to PostgreSQL\n"))
+  .catch((err) =>
+    console.error("Failed to create connection to PostgreSQL\n" + err)
+  );
