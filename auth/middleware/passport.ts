@@ -2,7 +2,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { getRepository } from "typeorm";
 import jwtConfig from "../configurations/jwt.js";
 import User from "../models/user";
-import {to} from "../services/Util";
+import { to } from "../services/Util";
 
 module.exports = function (passport: any) {
   passport.use(

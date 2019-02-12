@@ -1,6 +1,6 @@
 import * as bcrypt from "bcrypt";
 
-// http://blog.grossman.io/how-to-write-async-await-without-try-catch-blocks-in-javascript/
+// Modified Version of http://blog.grossman.io/how-to-write-async-await-without-try-catch-blocks-in-javascript/
 export function to(promise: Promise<any>) {
 return promise
   .then((data) => {
@@ -25,7 +25,7 @@ export async function ReS(res: any, data: any, code: any) {
 }
 
 // TE stands for Throw Error
-export async function TE(errmessage: any, log: any = false) {
+export  function TE(errmessage: any, log: any = false) {
   if (log === true) {
     console.error(errmessage);
   }

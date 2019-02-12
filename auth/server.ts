@@ -1,12 +1,12 @@
 require("dotenv").config();
+import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as morgan from "morgan";
-import * as bodyParser from "body-parser";
-import appConfig from "./configurations/app";
-import router from "./routes/v1";
+import * as passport from "passport";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import * as passport from "passport";
+import appConfig from "./configurations/app";
+import router from "./routes/v1";
 
 const app: express.Application = express();
 
@@ -48,3 +48,7 @@ createConnection()
   .catch((err) =>
     console.error("Failed to create connection to PostgreSQL\n" + err)
   );
+
+process.on("unhandledRejection", (error) => {
+    console.error("Uncaught Error", error);
+});

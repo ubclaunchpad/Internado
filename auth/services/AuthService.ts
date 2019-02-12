@@ -1,21 +1,26 @@
-import {to} from "./Util";
 import { getRepository } from "typeorm";
 import * as validator from "validator";
 import User from "../models/user";
+import { TE, to } from "./Util";
 
 export async function addUserToDB(userInfo: any) {
   const userRepository = getRepository(User);
 
   // Validations
-  if (!userInfo.email) { throw Error; }
-  if (!userInfo.password) { throw Error; }
+  if (!userInfo.email) {  TE("No email was entered"); }
+  if (!userInfo.password) {  TE("No password was entered"); }
 
   // Create User
   let err;
   let user;
 
+  // Make sure user does not exist
+  [err, user] = await to(userRepository.findOne({ email: userInfo.email }));
+  if (err) {  TE(err); }
+  if (user) {  TE("User already exists"); }
+
   [err, user] = await to(userRepository.save(userRepository.create(userInfo)));
-  if (err) { throw Error; }
+  if (err) {  TE(err); }
 
   return user;
 }
@@ -24,9 +29,9 @@ export async function authUser(userInfo: any) {
   const userRepository = getRepository(User);
 
   // Validations
-  if (!userInfo.email) { throw Error; }
-  if (!userInfo.password) { throw Error; }
-  if (!validator.isEmail(userInfo.email)) { throw Error; }
+  if (!userInfo.email) {  TE("No email was entered"); }
+  if (!userInfo.password) {  TE("No password was entered"); }
+  if (!validator.isEmail(userInfo.email)) {  TE("Incorrect email format"); }
 
   // Login user
   let err;
@@ -34,12 +39,12 @@ export async function authUser(userInfo: any) {
   let isPasswordValid;
 
   [err, user] = await to(userRepository.findOne({ email: userInfo.email }));
-  if (err) { throw Error; }
-  if (!user) { throw Error; }
+  if (err) { TE(err); }
+  if (!user) { TE("User Does not exist"); }
 
   [err, isPasswordValid] = await to(user.validatePassword(userInfo.password));
-  if (err) { throw Error; }
-  if (!isPasswordValid) { throw Error; }
+  if (err) { TE(err); }
+  if (!isPasswordValid) {  TE("Invalid Password"); }
 
   return user;
 }
