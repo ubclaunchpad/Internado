@@ -1,7 +1,8 @@
-import { Strategy as JwtStrategy, ExtractJwt} from "passport-jwt";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { getRepository } from "typeorm";
 import jwtConfig from "../configurations/jwt.js";
 import User from "../models/user";
+import {to} from "../services/Util";
 
 module.exports = function (passport: any) {
   passport.use(
@@ -11,9 +12,10 @@ module.exports = function (passport: any) {
         secretOrKey: jwtConfig.encryption
       },
       async function (jwtPayload: any, done: any) {
-        const err = false;
+        let err;
+        let user;
         const userRepository = await getRepository(User);
-        const user = await userRepository.findOne(jwtPayload.id);
+        [err, user] = await to(userRepository.findOne(jwtPayload.id));
         if (err) {
           return done(err, false);
         }
