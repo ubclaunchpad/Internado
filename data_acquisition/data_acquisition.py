@@ -13,6 +13,21 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s @' +
 # for connecting to remote database in the future
 # conn = psycopg2.connect(database='yourdb', user='dbuser', password='abcd1234', host='server', port='5432', sslmode='require')
 
+# Very basic check to filter out non-internships
+def is_internship(job):
+  text = job["name"] + job["snippet"]
+  text = text.lower()
+
+  keywords = ["intern", "co-op"]
+
+  contains_keywords = False
+
+  for keyword in keywords:
+    if keyword in text:
+      contains_keywords = True
+
+  return contains_keywords
+
 def request_ziprecruiter_jobs(page_num, api_key):
   url = "https://api.ziprecruiter.com/jobs/v1?search=internship%20Job&days_ago=1&page={page_num}&jobs_per_page=20&api_key={api_key}" \
   .format(page_num=page_num, api_key=api_key)
@@ -23,6 +38,9 @@ def request_ziprecruiter_jobs(page_num, api_key):
     cur = con.cursor()
     # parse ZipRecruiter's JSON response
     for job in response["jobs"]:
+      if not is_internship(job):
+        continue
+
       job_title = job["name"]
       link = job["url"]
       description = job["snippet"]

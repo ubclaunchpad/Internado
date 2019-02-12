@@ -146,3 +146,22 @@ foo@bar:~$ docker-compose down -v
   * `docker logs -f <Container ID>` displays real-time logs of the running docker container
   * `docker run -p 8080:5000 -d internado` to map the port 5000 to 8080; can access the app at localhost:8080
   * `docker exec -it <Container ID> /bin/bash` allows you to go inside the container
+
+## Swagger
+The server project is configured to display the Swagger UI front end. This front end serves 
+a kind of interactive documentation where you can test out the endpoints we have used. 
+Swagger uses the OpenAPI format to specify the API, and this file is found at 
+`server/swagger.json`. 
+
+### How to access Swagger
+1. Build and run the server
+2. Access `localhost:5000/swagger` in your browser
+3. Explore the request and response templates of endpoints by clicking on them to expand them
+
+### Using Swagger to hit API endpoints
+1. Go to the swagger page in your browser
+2. Select which endpoint you want to test by clicking it
+3. Click 'Try it out'
+4. Fill in the fields in the parameters with the values you want to test with
+5. Click 'Execute'
+6. View the response in the 'Responses' section below
