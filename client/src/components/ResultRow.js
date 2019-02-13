@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import {  Accordion, 
+          Button, 
+          Icon, 
+          Item, 
+          Label,
+          Grid, 
+          Segment } from 'semantic-ui-react';
 
 class ResultRow extends Component {
   constructor(props) {
@@ -7,44 +14,44 @@ class ResultRow extends Component {
       selected: false,
     };
   }
-  _handleClick = (action, result) => {
-    switch (action) {
-      case 'select': // Clicked on row to select/deselect
-        this.setState({ selected: !this.state.selected });
-        break;
-      case 'post': // Clicked on original post
-        if (result.link && result.link !== "")
-          window.open(result.link, '_blank');
-        break;
-      case 'apply': // Clicked on apply
-        // window.open(result.applyUrl);
-        break;
-      default: break;
-    }
-  };
+
+  toggleSelected = () => {
+    this.setState({ selected : !this.state.selected });
+  }
 
   render() {
-    const generateKey = (pre) => {
-      return `${pre}_${new Date().getTime()}`;
-    };
-    const text = this.state.selected ? this.props.result.description : this.props.result.description.slice(0, 20); // If selected, show description, otherwise, show excerpt
-    const desc = <p className="table-result-desc"> {text} </p>; // Description/excerpt
-    let arrow = '>';
-    let originalPosting = '';
-    let applyButton = '';
-    let { city } = this.props.result;
-    if (this.state.selected) {
-      city = ''; // Hide things that shouldnt be shown when selected, show things that should be shown
-      arrow = '';
-      originalPosting = <a className="table-post clickable" onClick={() => this._handleClick('post', this.props.result)}><br/> Original Posting</a>;
-      applyButton = <button className="table-button clickable" onClick={() => this._handleClick('apply', this.props.result)}>Apply</button>;
-    }
     return (
-      <tr key={generateKey(this.props.id)} onClick={() => this._handleClick('select', this.props.result)} className="table-row">
-        <td align="left" className="table-cell-1 table-cell"> <h5 className="table-result-title"> {this.props.result.job_title} </h5>  {desc} </td>
-        <td className="table-cell-2 table-cell" align="right">  <p className="table-result-location">{city}</p> {originalPosting} </td>
-        <td className="table-cell-3 table-cell">  <p className="table-arrow">{arrow}{applyButton}</p> </td>
-      </tr>
+      <Grid.Row key={this.props.key}>
+        <Grid.Column>
+          <Segment textAlign="left" padded>
+            <Item>
+              <Item.Content>
+                <Item.Header as='a'><h3>{this.props.result.job_title}</h3></Item.Header>
+                <Item.Meta>
+                  <span className='cinema' position="left">{this.props.result.company_name}</span>
+                </Item.Meta>
+                <Item.Description>
+                  <Accordion>
+                    <Accordion.Title active={this.state.selected} index={this.props.key} onClick={() => this.toggleSelected()}>
+                      <Icon name='dropdown'/>Description
+                    </Accordion.Title>
+                    <Accordion.Content active={this.state.selected}>
+                      <p>{this.props.result.description}</p><br/>
+                    </Accordion.Content>
+                  </Accordion>
+                </Item.Description>
+                <Item.Extra>
+                  <Label icon='globe' content={`${this.props.result.city}, ${this.props.result.country}`} />
+                  <Label icon='dollar sign' content={this.props.result.salary_min ? this.props.result.salary_min : "No Salary Available"}/>
+                  <a href={this.props.result.link} target="_blank">
+                    <Button primary floated='right'>Apply<Icon name='right chevron'/></Button>
+                  </a>
+                </Item.Extra>
+              </Item.Content>
+            </Item>
+          </Segment>
+        </Grid.Column>
+      </Grid.Row>
     );
   }
 }
