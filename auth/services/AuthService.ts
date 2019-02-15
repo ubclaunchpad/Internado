@@ -7,8 +7,12 @@ export async function addUserToDB(userInfo: any) {
   const userRepository = getRepository(User);
 
   // Validations
-  if (!userInfo.email) {  TE("No email was entered"); }
-  if (!userInfo.password) {  TE("No password was entered"); }
+  if (!userInfo.email) {
+    TE("No email was entered");
+  }
+  if (!userInfo.password) {
+    TE("No password was entered");
+  }
 
   // Create User
   let err;
@@ -16,11 +20,19 @@ export async function addUserToDB(userInfo: any) {
 
   // Make sure user does not exist
   [err, user] = await to(userRepository.findOne({ email: userInfo.email }));
-  if (err) {  TE(err); }
-  if (user) {  TE("User already exists"); }
+
+  if (err) {
+    TE(err);
+  }
+  if (user) {
+    TE("User already exists");
+  }
 
   [err, user] = await to(userRepository.save(userRepository.create(userInfo)));
-  if (err) {  TE(err); }
+
+  if (err) {
+    TE(err);
+  }
 
   return user;
 }
@@ -29,9 +41,15 @@ export async function authUser(userInfo: any) {
   const userRepository = getRepository(User);
 
   // Validations
-  if (!userInfo.email) {  TE("No email was entered"); }
-  if (!userInfo.password) {  TE("No password was entered"); }
-  if (!validator.isEmail(userInfo.email)) {  TE("Incorrect email format"); }
+  if (!userInfo.email) {
+    TE("No email was entered");
+  }
+  if (!userInfo.password) {
+    TE("No password was entered");
+  }
+  if (!validator.isEmail(userInfo.email)) {
+    TE("Incorrect email format");
+  }
 
   // Login user
   let err;
@@ -39,12 +57,22 @@ export async function authUser(userInfo: any) {
   let isPasswordValid;
 
   [err, user] = await to(userRepository.findOne({ email: userInfo.email }));
-  if (err) { TE(err); }
-  if (!user) { TE("User Does not exist"); }
+
+  if (err) {
+    TE(err);
+  }
+  if (!user) {
+    TE("User Does not exist");
+  }
 
   [err, isPasswordValid] = await to(user.validatePassword(userInfo.password));
-  if (err) { TE(err); }
-  if (!isPasswordValid) {  TE("Invalid Password"); }
+
+  if (err) {
+    TE(err);
+  }
+  if (!isPasswordValid) {
+    TE("Invalid Password");
+  }
 
   return user;
 }

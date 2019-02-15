@@ -1,7 +1,13 @@
 import { Request, Response, Router } from "express";
-import { createUser, deleteUser, getUser, loginUser, updateUser } from "../controllers/userController";
+import {
+  createUser,
+  deleteUser,
+  getUser,
+  loginUser,
+  updateUser
+} from "../controllers/userController";
 
-export default function (app: Router , passport: any) {
+export default function (app: Router, passport: any) {
   /********  Api details  **********/
   app.get("/api", function (req: Request, res: Response) {
     res.json({ message: "Internado", version: "v1.0.0" });

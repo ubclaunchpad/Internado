@@ -1,5 +1,5 @@
 {
-    "name": "server",
+    "name": "internado-auth-server",
     "version": "0.0.1",
     "description": "Find personalized internship opportunities based on your skills and interests",
     "main": "server.js",
