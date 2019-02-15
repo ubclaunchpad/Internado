@@ -5,7 +5,6 @@ import Navbar from './views/Navbar';
 import Footer from './views/Footer';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
-import store from './store.js';
 import { searchJobs } from './backendCalls/searchEndpoints.js';
 
 class App extends Component {
@@ -78,7 +77,7 @@ class App extends Component {
           changeSalary={this.onChangeMinSalary}
           changeLocation={this.onChangeLocation}
         />
-        <Routes results={store.searchResults}/>
+        <Routes/>
         <Footer/>
       </div>
     );

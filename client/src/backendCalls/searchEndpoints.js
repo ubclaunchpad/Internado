@@ -17,5 +17,6 @@ export async function searchJobs(searchKeywords) {
   }
 
   console.log(body);
+  body.result.map(result => (result.active = false));
   store.searchResults = body.result;
 };

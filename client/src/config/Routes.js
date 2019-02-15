@@ -8,7 +8,7 @@ export default class Routes extends React.Component{
     return(
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/results" exact render={ () => <ResultsTable results={this.props.results}/> } />
+        <Route path="/results" exact render={ () => <ResultsTable/> } />
       </Switch>
     );
   }
