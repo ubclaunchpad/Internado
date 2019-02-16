@@ -23,8 +23,8 @@ export async function resOnSuccess(res: any, data: any, code: any) {
   return res.json(sendData);
 }
 
-// TE stands for Throw Error
-export function TE(errmessage: any, log: any = false) {
+// Error throwing wrapper
+export function throwError(errmessage: any, log: any = false) {
   if (log === true) {
     console.error(errmessage);
   }

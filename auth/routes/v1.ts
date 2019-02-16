@@ -15,42 +15,42 @@ export default function (app: Router, passport: any) {
   /********************************/
 
   // Login user
-  app.post("/api/user/login", loginUser);
-  app.options("/api/user/login", corsAllowMethods("POST"));
+  app.post("/user/login", loginUser);
+  app.options("/user/login", corsAllowMethods("POST"));
 
   // Signup user
-  app.post("/api/user", createUser);
-  app.options("/api/user", corsAllowMethods("POST"));
+  app.post("/user", createUser);
+  app.options("/user", corsAllowMethods("POST"));
 
   // Retreive user profile
   app.get(
-    "/api/user",
+    "/user",
     passport.authenticate("jwt", {
       session: false
     }),
     getUser
   );
-  app.options("/api/user", corsAllowMethods("GET"));
+  app.options("/user", corsAllowMethods("GET"));
 
   // Update user profile
   app.put(
-    "/api/user",
+    "/user",
     passport.authenticate("jwt", {
       session: false
     }),
     updateUser
   );
-  app.options("/api/user", corsAllowMethods("PUT"));
+  app.options("/user", corsAllowMethods("PUT"));
 
   // Delete user profile
   app.delete(
-    "/api/user",
+    "/user",
     passport.authenticate("jwt", {
       session: false
     }),
     deleteUser
   );
-  app.options("/api/user", corsAllowMethods("DELETE"));
+  app.options("/user", corsAllowMethods("DELETE"));
 }
 
 function corsAllowMethods(methods: string) {

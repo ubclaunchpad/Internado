@@ -1,17 +1,21 @@
 import { getRepository } from "typeorm";
 import * as validator from "validator";
 import User from "../models/user";
-import { TE, to } from "./Util";
+import { throwError, to } from "./Util";
 
 export async function addUserToDB(userInfo: any) {
   const userRepository = getRepository(User);
 
   // Validations
   if (!userInfo.email) {
-    TE("No email was entered");
+    throwError("No email was entered");
   }
   if (!userInfo.password) {
-    TE("No password was entered");
+    throwError("No password was entered");
+  }
+
+  if (!validator.isEmail(userInfo.email)) {
+    throwError("Incorrect email format");
   }
 
   // Create User
@@ -22,16 +26,16 @@ export async function addUserToDB(userInfo: any) {
   [err, user] = await to(userRepository.findOne({ email: userInfo.email }));
 
   if (err) {
-    TE(err);
+    throwError(err);
   }
   if (user) {
-    TE("User already exists");
+    throwError("User already exists");
   }
 
   [err, user] = await to(userRepository.save(userRepository.create(userInfo)));
 
   if (err) {
-    TE(err);
+    throwError(err);
   }
 
   return user;
@@ -42,13 +46,13 @@ export async function authUser(userInfo: any) {
 
   // Validations
   if (!userInfo.email) {
-    TE("No email was entered");
+    throwError("No email was entered");
   }
   if (!userInfo.password) {
-    TE("No password was entered");
+    throwError("No password was entered");
   }
   if (!validator.isEmail(userInfo.email)) {
-    TE("Incorrect email format");
+    throwError("Incorrect email format");
   }
 
   // Login user
@@ -59,19 +63,19 @@ export async function authUser(userInfo: any) {
   [err, user] = await to(userRepository.findOne({ email: userInfo.email }));
 
   if (err) {
-    TE(err);
+    throwError(err);
   }
   if (!user) {
-    TE("User Does not exist");
+    throwError("User Does not exist");
   }
 
   [err, isPasswordValid] = await to(user.validatePassword(userInfo.password));
 
   if (err) {
-    TE(err);
+    throwError(err);
   }
   if (!isPasswordValid) {
-    TE("Invalid Password");
+    throwError("Invalid Password");
   }
 
   return user;
