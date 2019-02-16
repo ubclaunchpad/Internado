@@ -49,7 +49,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
       user: user.toJSON(),
       token: user.getJWT()
     },
-    200
+    201
   );
 }
 
@@ -69,7 +69,7 @@ export async function deleteUser(req: Request, res: Response): Promise<void> {
     {
       message: "Successfully deleted user"
     },
-    200
+    202
   );
 }
 
@@ -84,7 +84,7 @@ export async function updateUser(req: Request, res: Response): Promise<void> {
 
   // TODO : Add more Validations
   if (!body) {
-    resOnError(res, "Nothing to update", 422);
+    resOnError(res, "Nothing to update", 400);
   }
 
   if (body.password) {
