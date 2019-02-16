@@ -1,5 +1,3 @@
-# Pull Request Template
-
 ## Changes
 
 ## Testing instructions
