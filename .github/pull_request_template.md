@@ -4,7 +4,7 @@
 
 ## Testing instructions
 
-## Relevant screenshots or wiki links
+## Relevant screenshots or documentation links
 
 ## Checklist
 - [ ] My code follows the style guidelines of this project
