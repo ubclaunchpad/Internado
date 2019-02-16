@@ -3,9 +3,8 @@ import { withRouter } from 'react-router-dom';
 import './sass/ResultsTable.scss';
 import Navbar from './views/Navbar';
 import Footer from './views/Footer';
-import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
-import { searchJobs } from './backendCalls/searchEndpoints.js';
+import { searchJobs } from './backendCalls/searchEndpoints';
 
 class App extends Component {
   constructor(props, context) {
@@ -16,15 +15,37 @@ class App extends Component {
       isFilterMenuVisible: false,
       latitude: 0.0,
       longitude: 0.0,
-      categories: [],
-      industries: [],
+      selectedCategories: [],
+      selectedIndustries: [],
       salary: 0,
     };
   }
 
-  toggleFilterVisibility = () => {
-    this.setState(prevState => ({
-      isFilterMenuVisible: !prevState.isFilterMenuVisible,
+  handleAddCategory = (category) => () => {
+    this.setState((prevState) => ({
+      selectedCategories: prevState.selectedCategories.includes(category)
+        ? [...prevState.selectedCategories]
+        : [...prevState.selectedCategories, category],
+    }));
+  };
+
+  handleAddIndustry = (industry) => () => {
+    this.setState((prevState) => ({
+      selectedIndustries: prevState.selectedIndustries.includes(industry)
+        ? [...prevState.selectedIndustries]
+        : [...prevState.selectedIndustries, industry],
+    }));
+  };
+
+  handleRemoveCategory = (categoryToRemove) => () => {
+    this.setState((prevState) => ({
+      selectedCategories: prevState.selectedCategories.filter((category) => category !== categoryToRemove),
+    }));
+  };
+
+  handleRemoveIndustry = (industryToRemove) => () => {
+    this.setState((prevState) => ({
+      selectedIndustries: prevState.selectedIndustries.filter((industry) => industry !== industryToRemove),
     }));
   };
 
@@ -33,13 +54,13 @@ class App extends Component {
       latitude: newLatLng.lat,
       longitude: newLatLng.lng,
     });
-  }
+  };
 
   onChangeMinSalary = (newSalary) => {
     this.setState({
       salary: newSalary,
     });
-  }
+  };
 
   // construct the JSON body of the search request
   constructBody = (searchKeywords) => {
@@ -57,28 +78,29 @@ class App extends Component {
       body.radius = 50;
     }
     return JSON.stringify(body);
-  }
+  };
 
-  searchHandler = (searchKeywords) => async() => {
-    var keywords = this.constructBody(searchKeywords);
+  searchHandler = (searchKeywords) => async () => {
+    const keywords = this.constructBody(searchKeywords);
     await searchJobs(keywords);
     this.props.history.push('/results');
-  }
+  };
 
   render() {
+    const { selectedCategories, selectedIndustries } = this.state;
+
     return (
       <div className="App">
-        <Navbar searchHandler={this.searchHandler}/>
-        {this.state.isFilterMenuVisible ?
-          <button id="filterButton" className="show clickable" onClick={this.toggleFilterVisibility}/> :
-          <button id="filterButton" className="hide clickable" onClick={this.toggleFilterVisibility}>Filters</button>}
-        <FilterMenu
-          visibility={this.state.isFilterMenuVisible}
-          changeSalary={this.onChangeMinSalary}
-          changeLocation={this.onChangeLocation}
+        <Navbar searchHandler={this.searchHandler} />
+        <Routes
+          selectedCategories={selectedCategories}
+          selectedIndustries={selectedIndustries}
+          handleAddCategory={this.handleAddCategory}
+          handleAddIndustry={this.handleAddIndustry}
+          handleRemoveCategory={this.handleRemoveCategory}
+          handleRemoveIndustry={this.handleRemoveIndustry}
         />
-        <Routes/>
-        <Footer/>
+        <Footer />
       </div>
     );
   }
