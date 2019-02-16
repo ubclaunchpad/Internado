@@ -1,15 +1,30 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import Home from "../views/Home";
-import ResultsTable  from "../components/ResultsTable";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { array, func, number } from 'prop-types';
+import Home from '../views/Home';
+import JobsContent from '../components/JobsContent';
 
-export default class Routes extends React.Component{
-  render(){
-    return(
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/results" exact render={ () => <ResultsTable/> } />
-      </Switch>
-    );
-  }
-}
+const propTypes = {
+  selectedCategories: array.isRequired,
+  selectedIndustries: array.isRequired,
+  minSalary: number.isRequired,
+  handleAddCategory: func.isRequired,
+  handleAddIndustry: func.isRequired,
+  handleRemoveCategory: func.isRequired,
+  handleRemoveIndustry: func.isRequired,
+  handleAddMinSalary: func.isRequired,
+  handleRemoveMinSalary: func.isRequired,
+  handleClearFilters: func.isRequired,
+
+};
+
+const Routes = (props) => (
+  <Switch>
+    <Route path="/" exact component={Home} />
+    <Route path="/results" exact render={() => <JobsContent {...props} />} />
+  </Switch>
+);
+
+Routes.propTypes = propTypes;
+
+export default Routes;
