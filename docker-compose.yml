@@ -28,6 +28,34 @@ services:
     depends_on:
       - "postgres"
 
+  ### Authentication Server ###
+  auth:
+    build: ./auth
+    expose:
+      - ${API_AUTH_PORT}
+    environment:
+      API_HOST: ${API_AUTH_HOST}
+      API_SERVER_PORT: ${API_AUTH_PORT}
+      WAIT_SLEEP_INTERVAL: 60
+      WAIT_HOSTS_TIMEOUT: 600
+      WAIT_HOSTS: postgres:5432
+      TYPEORM_CONNECTION: "postgres"
+      TYPEORM_HOST: postgres
+      TYPEORM_USERNAME: "admin"
+      TYPEORM_PASSWORD: "admin"
+      TYPEORM_DATABASE: "internado"
+      TYPEORM_PORT: 5432
+      TYPEORM_SYNCHRONIZE: "true"
+      TYPEORM_LOGGING: "true"
+      TYPEORM_ENTITIES: "models/**/*.js"
+    volumes:
+      - ./server:/usr/src/app/internado-auth
+      - /app/node_modules
+    ports: #HOST:CONTAINER
+      - ${API_AUTH_PORT}:${API_AUTH_PORT}
+    depends_on:
+      - "postgres"
+    
   #### DATABASE ###
   postgres:
     image: postgres:latest
@@ -64,6 +92,7 @@ services:
       - ${CLIENT_PORT}:${CLIENT_PORT}
     links:
       - server
+      - auth
     command: npm start
 
 volumes:
