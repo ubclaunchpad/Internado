@@ -1,10 +1,10 @@
-## Changes
+## :computer: Changes
 
-## Testing instructions
+## :squirrel: Testing instructions
 
-## Relevant screenshots or documentation links
+## :camera: Relevant screenshots or documentation links
 
-## Checklist
+## :clipboard: Checklist
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
