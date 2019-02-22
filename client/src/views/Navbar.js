@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { func } from 'prop-types';
 import Dropdown from '../components/Dropdown';
-import '../css/NavBar.css';
+import '../sass/NavBar.scss';
 
 const propTypes = {
   searchHandler: func.isRequired,
