@@ -1,8 +1,8 @@
-## :computer: Changes
+## 🔨 Changes
 
 ## :squirrel: Testing instructions
 
-## :camera: Relevant screenshots or documentation links
+## 📄 Relevant screenshots or documentation links
 
 ## :clipboard: Checklist
 - [ ] My code follows the style guidelines of this project
