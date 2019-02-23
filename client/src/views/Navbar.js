@@ -46,7 +46,7 @@ class Navbar extends Component {
     return (
       <div className="Navbar">
         <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="# ">
             Internado
           </a>
 
@@ -77,6 +77,7 @@ class Navbar extends Component {
                 ref={(search) => {
                   this.searchElement = search;
                 }}
+                href="# "
               >
                 <button type="button" className="btn btn-primary mr-2">
                   Search
