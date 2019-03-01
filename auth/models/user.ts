@@ -29,7 +29,7 @@ export default class User {
   public password: string;
 
   async validatePassword(plainTextPassword: string) {
-    return bcrypt.compare(plainTextPassword, this.password + "");
+    return bcrypt.compare(plainTextPassword, this.password.toString());
   }
   toJSON() {
     return {
