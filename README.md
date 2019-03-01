@@ -109,7 +109,8 @@ Otherwise , you can just refer to the container's name as the [HOST]
 
 | Container Name|                      Description                     | Port |             Example             |
 |:---------:|:----------------------------------------------------:|:----:|:-------------------------------:|
-|   server  |                    API (back-end)                    | 5000 |   [HOST]:5000/api  |
+|   server  |                    Job API (back-end)                    | 5000 |   [HOST]:5000/api  |
+|   auth  |                    Auth API (back-end)                    | 5050 |   [HOST]:5050/api  |
 |  postgres |                     Database                     | 5432 | use adminer/cmd line to  access |
 |  adminer  |  GUI that helps you manipulate the database  | 8080 |     [HOST]:8080    |
 |   client  |                   React (front-end)                  | 3000 |     [HOST]:3000    |
