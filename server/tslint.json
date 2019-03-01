@@ -25,7 +25,8 @@
         "trailing-comma": false,
         "interface-name": false,
         "member-access": false,
-        "variable-name": [true, "allow-snake-case"]
+        "variable-name": [true, "allow-snake-case"],
+        "no-unused-expression": false
     },
     "linterOptions": {
         "exclude": ["node_modules"]
