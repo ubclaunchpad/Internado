@@ -82,22 +82,22 @@ services:
     ports:
       - ${ADMINER_PORT}:${ADMINER_PORT}
 
-  # ### CLIENT ###
-  # client:
-  #   build: ./client
-  #   environment:
-  #     CLIENT_PORT: ${CLIENT_PORT}
-  #   expose:
-  #     - ${CLIENT_PORT}
-  #   volumes:
-  #     - ./client/src:/usr/src/app/internado-client/src
-  #     - /app/node_modules
-  #   ports: #HOST:CONTAINER
-  #     - ${CLIENT_PORT}:${CLIENT_PORT}
-  #   links:
-  #     # - server
-  #     - auth_server
-  #   command: npm start
+  ### CLIENT ###
+  client:
+    build: ./client
+    environment:
+      CLIENT_PORT: ${CLIENT_APP_PORT}
+    expose:
+      - ${CLIENT_APP_PORT}
+    volumes:
+      - ./client/src:/usr/src/app/internado-client/src
+      - /app/node_modules
+    ports: #HOST:CONTAINER
+      - ${CLIENT_APP_PORT}:${CLIENT_APP_PORT}
+    links:
+      - job_server
+      - auth_server
+    command: npm start
 
 volumes:
   database_data:
