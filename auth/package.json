@@ -4,11 +4,13 @@
     "description": "Find personalized internship opportunities based on your skills and interests",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc -p . && tslint -p tsconfig.json -c tslint.json",
-        "start": "ts-node server.ts",
-        "dev": "nodemon",
-        "clean": "rimraf **/*.js **/*.js.map node_modules"
+        "build": "npm run clean && tsc -p .",
+        "lint": "tslint -p tsconfig.json -c tslint.json",
+        "dev": "./node_modules/.bin/tsc-watch -p . --onSuccess \"node dist/server.js\"",
+        "start": "npm run build && npm run lint && node dist/server.js",
+        "prepare": "npm run build && npm run lint",
+        "clean": "rimraf dist",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "cpu": [
         "x64"
@@ -26,6 +28,7 @@
     "dependencies": {
         "bcrypt": "^3.0.4",
         "body-parser": "^1.18.3",
+        "concurrently": "^4.1.0",
         "debug": "^4.1.0",
         "dotenv": "^6.1.0",
         "express": "^4.16.4",
@@ -35,9 +38,12 @@
         "passport-jwt": "^4.0.0",
         "pg": "^7.3.0",
         "reflect-metadata": "^0.1.10",
+        "ts-node": "^3.3.0",
+        "tsc-watch": "^2.1.2",
+        "tslint": "^5.11.0",
         "typeorm": "0.2.9",
-        "validator": "^10.11.0",
-        "typescript": "^3.3.3"
+        "typescript": "^3.3.3",
+        "validator": "^10.11.0"
     },
     "devDependencies": {
         "@types/bcrypt": "^3.0.0",
@@ -50,10 +56,6 @@
         "@types/passport-jwt": "^3.0.1",
         "@types/pg": "^7.4.11",
         "@types/validator": "^10.9.0",
-        "nodemon": "^1.18.9",
-        "rimraf": "^2.6.2",
-        "ts-node": "^3.3.0",
-        "tslint": "^5.11.0",
-        "typescript": "^3.3.3"
+        "rimraf": "^2.6.2"
     }
 }

@@ -37,7 +37,6 @@ export async function addUserToDB(userInfo: any) {
   if (err) {
     throwError(err);
   }
-
   return user;
 }
 

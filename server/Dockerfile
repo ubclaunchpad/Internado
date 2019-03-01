@@ -1,10 +1,14 @@
-FROM node:8.0.0
+FROM node:10.0.0
 RUN mkdir -p /usr/src/app/internado-server
 WORKDIR /usr/src/app/internado-server
 
+COPY package*.json ./
+
+RUN npm install 
+RUN npm install -g typescript@3.1.3
+
 COPY . .
 
-RUN npm install
 RUN npm run build
 
 EXPOSE 5000

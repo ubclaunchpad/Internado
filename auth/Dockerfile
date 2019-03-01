@@ -1,11 +1,15 @@
-FROM node:8.0.0
-RUN mkdir -p /usr/src/app/internado-auth
-WORKDIR /usr/src/app/internado-auth
+FROM node:10.0.0
+RUN mkdir -p /usr/src/app/internado-server
+WORKDIR /usr/src/app/internado-server
 
-COPY . .
+COPY . . 
 
-RUN npm install
-RUN npm run build
+RUN rm -Rf node_modules
+
+RUN npm install && npm install bcrypt
+
+
+RUN npm run prepare
 
 EXPOSE 5050
 

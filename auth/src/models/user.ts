@@ -2,6 +2,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import jwtConfig from "../configurations/jwt.js";
+
 @Entity()
 export default class User {
   // Default constructor is used to generate and iterate through the property keys.
