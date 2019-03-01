@@ -1,17 +1,17 @@
 FROM node:10.0.0
-RUN mkdir -p /usr/src/app/internado-server
-WORKDIR /usr/src/app/internado-server
+RUN mkdir -p /usr/src/app/internado_auth_server
+WORKDIR /usr/src/app/internado_auth_server
 
 COPY . . 
 
 RUN rm -Rf node_modules
 
-RUN npm install && npm install bcrypt
+RUN npm install
 
 
 RUN npm run prepare
 
-EXPOSE 5050
+EXPOSE 5000
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.4.0/wait /wait
 RUN chmod +x /wait
