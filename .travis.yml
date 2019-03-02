@@ -7,5 +7,5 @@ cache:
 script:
   - cd client
   - npm install
-  - npm run build
+  - travis_wait 2 npm run build
 
