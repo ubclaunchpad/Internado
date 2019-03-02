@@ -43,7 +43,7 @@ class ResultRow extends Component {
                 <Item.Extra>
                   <Label icon='globe' content={`${this.props.result.city}, ${this.props.result.country}`} />
                   <Label icon='dollar sign' content={this.props.result.salary_min ? this.props.result.salary_min : "No Salary Available"}/>
-                  <a href={this.props.result.link} target="_blank">
+                  <a href={this.props.result.link} target="_blank" rel="noopener noreferrer">
                     <Button primary floated='right'>Apply<Icon name='right chevron'/></Button>
                   </a>
                 </Item.Extra>
