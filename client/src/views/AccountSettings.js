@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Label, Container, Card, Form, Grid, Segment} from 'semantic-ui-react';
+import { Button, Label, Container, Card, Form, Segment} from 'semantic-ui-react';
 
 const AccountSettingsCard = () => (
   <Container className="three wide">

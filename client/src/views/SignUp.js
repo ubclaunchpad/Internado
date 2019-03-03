@@ -1,6 +1,6 @@
 import React from 'react'
 import '../sass/LoginSignup.scss';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 const SignUpForm = () => (
   <div className='signup-form'>
