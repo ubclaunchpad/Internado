@@ -1,12 +1,11 @@
 import React from 'react';
-import { Container, Card, Form, Grid, Segment} from 'semantic-ui-react';
+import { Button, Label, Container, Card, Form, Grid, Segment} from 'semantic-ui-react';
 
 const AccountSettingsCard = () => (
-  <Container fluid>
-    <Card fluid className="centered">
-      <Card.Content >
-                <Form size="huge">
-
+  <Container className="three wide">
+    <Card fluid className="three wide">
+      <Card.Content className="four wide">
+                <Form size="big">
         <Segment.Group horizontal>
                   <Segment className="three wide column">
                     <Form.Field>
@@ -24,18 +23,48 @@ const AccountSettingsCard = () => (
                         <label>Dark/stormy theme</label>
                       </div>
                     </Form.Field>
+                    <Form.Field>
+                      <label>Resume</label>
+                      <Label
+                      as="label"
+                      basic
+                      htmlFor="upload">
+                      <Button
+                          icon="upload"
+                          label={{
+                              basic: true,
+                              content: 'Select file(s)'
+                          }}
+                          labelPosition="left"
+                      />
+                        <input
+                            hidden
+                            id="upload"
+                            multiple
+                            type="file"
+                        />
+                    </Label>
+                    </Form.Field>
                   </Segment>
 
                   <Segment className="five wide column">
-                    <p>Saved Searches?</p> 
+                    <Form.Field>
+                      <label>Password</label>
+                    <Form.Input
+                      fluid
+                      icon='key'
+                      iconPosition='left'
+                      placeholder='Password'
+                      type='password'
+                    />
+                    </Form.Field>
                   </Segment>
 
                   </Segment.Group>
                 </Form>
     </Card.Content>
-
     </Card>
-  </Container>
+</Container>
 );
 
 export default AccountSettingsCard;
