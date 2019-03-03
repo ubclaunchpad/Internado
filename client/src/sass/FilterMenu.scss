@@ -14,11 +14,15 @@
 }
 
 #flyoutMenu.hide {
-  transform: translate3d(-12vw, 0, 0);
+  transform: translate3d(-13vw, 0, 0);
+  opacity: 0;
+  transition: opacity 1s, transform 0.5s;
 }
- 
+
 #flyoutMenu.show {
   transform: translate3d(0vw, 0, 0);
+  opacity: 1;
+  transition: opacity 1s, transform 0.5s;
 }
 
 .filterContent {
@@ -40,12 +44,15 @@ input[type=checkbox] {
   margin-right: 2px;
 }
 
+input[type=text] {
+  width: 11vw;
+}
 .expand {
   margin-left: 8px;
   background-color: #7B8D93;
   background-image: url("../assets/2x_add_white_18dp.png");
   background-repeat: no-repeat;
-  background-position: center; 
+  background-position: center;
   width: 28px;
   height: 28px;
   border-radius: 50%;

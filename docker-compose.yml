@@ -1,69 +1,102 @@
 version: '3'
 services:
-  ### SERVER ###
-  server:
-    build: ./server
-    expose:
-      - ${API_SERVER_PORT}
-    environment:
-      API_HOST: ${API_HOST}
-      API_SERVER_PORT: ${API_SERVER_PORT}
-      WAIT_SLEEP_INTERVAL: 60
-      WAIT_HOSTS_TIMEOUT: 600
-      WAIT_HOSTS: postgres:5432
-      TYPEORM_CONNECTION: "postgres"
-      TYPEORM_HOST: postgres
-      TYPEORM_USERNAME: "admin"
-      TYPEORM_PASSWORD: "admin"
-      TYPEORM_DATABASE: "internado"
-      TYPEORM_PORT: 5432
-      TYPEORM_SYNCHRONIZE: "true"
-      TYPEORM_LOGGING: "true"
-      TYPEORM_ENTITIES: "models/**/*.js"
-    volumes:
-      - ./server:/src/app/internado-server/server
-      - /app/node_modules
-    ports: #HOST:CONTAINER
-      - ${API_SERVER_PORT}:${API_SERVER_PORT}
-    depends_on:
-      - "postgres"
 
+  ### Job SERVER ###
+  job_server:
+    build: ./job_server
+    expose:
+      - ${JOB_APP_PORT}
+    environment:
+      # Application Configurations
+      APP_ENVIROMENT: ${JOB_APP_ENVIROMENT}
+      APP_PORT: ${JOB_APP_PORT}
+      # TypeORM(postgress db) configurations
+      TYPEORM_CONNECTION: ${DB_DIALECT}
+      TYPEORM_HOST: ${DB_HOST}
+      TYPEORM_USERNAME: ${DB_USERNAME}
+      TYPEORM_PASSWORD: ${DB_PASSWORD}
+      TYPEORM_DATABASE: ${DB_NAME}
+      TYPEORM_PORT: ${DB_PORT}
+      TYPEORM_SYNCHRONIZE: ${TYPEORM_SYNCHRONIZE}
+      TYPEORM_LOGGING: ${TYPEORM_LOGGING}
+      TYPEORM_ENTITIES: ${TYPEORM_ENTITIES}
+      # Wait script for db to start
+      WAIT_SLEEP_INTERVAL: ${WAIT_SLEEP_INTERVAL}
+      WAIT_HOSTS_TIMEOUT: ${WAIT_HOSTS_TIMEOUT}
+      WAIT_HOSTS: ${DB_HOST}:${DB_PORT}
+    ports: #HOST:CONTAINER
+      - ${JOB_APP_PORT}:${JOB_APP_PORT}
+    depends_on:
+      - ${DB_HOST}
+
+  ### Authentication Server ###
+  auth_server:
+    build: ./auth_server
+    expose:
+      - ${AUTH_APP_PORT}
+    environment:
+      # Application Configurations
+      APP_ENVIROMENT: ${AUTH_APP_ENVIROMENT}
+      APP_PORT: ${AUTH_APP_PORT}
+      # JWT Configuration
+      JWT_ENCRYPTION: ${AUTH_JWT_ENCRYPTION}
+      JWT_EXPIRATION: ${AUTH_JWT_EXPIRATION}
+      # TypeORM(postgress db) configurations
+      TYPEORM_CONNECTION: ${DB_DIALECT}
+      TYPEORM_HOST: ${DB_HOST}
+      TYPEORM_USERNAME: ${DB_USERNAME}
+      TYPEORM_PASSWORD: ${DB_PASSWORD}
+      TYPEORM_DATABASE: ${DB_NAME}
+      TYPEORM_PORT: ${DB_PORT}
+      TYPEORM_SYNCHRONIZE: ${TYPEORM_SYNCHRONIZE}
+      TYPEORM_LOGGING: ${TYPEORM_LOGGING}
+      TYPEORM_ENTITIES: ${TYPEORM_ENTITIES}
+      # Wait script for db to start
+      WAIT_SLEEP_INTERVAL: ${WAIT_SLEEP_INTERVAL}
+      WAIT_HOSTS_TIMEOUT: ${WAIT_HOSTS_TIMEOUT}
+      WAIT_HOSTS: ${DB_HOST}:${DB_PORT}
+    ports: #HOST:CONTAINER
+      - ${AUTH_APP_PORT}:${AUTH_APP_PORT}
+    depends_on:
+      - ${DB_HOST}
+    
   #### DATABASE ###
   postgres:
     image: postgres:latest
-    restart: always
+    restart: ${DB_RESTART}
     ports:
-      - 5432:5432
+      - ${DB_PORT}:${DB_PORT}
     environment:
-      POSTGRES_DB: internado
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - database_data:/var/lib/postgresql/data
       - ./database_config/init.sql:/docker-entrypoint-initdb.d/init.sql
       
   adminer:
     image: adminer
-    restart: always
+    restart: ${ADMINER_RESTART}
     depends_on:
-      - "postgres"
+      - ${DB_HOST}
     ports:
-      - 8080:8080
+      - ${ADMINER_PORT}:${ADMINER_PORT}
 
   ### CLIENT ###
   client:
     build: ./client
     environment:
-      CLIENT_PORT: ${CLIENT_PORT}
+      CLIENT_PORT: ${CLIENT_APP_PORT}
     expose:
-      - ${CLIENT_PORT}
+      - ${CLIENT_APP_PORT}
     volumes:
-      - ./client/src:/src/app/internado-client/client/src
+      - ./client/src:/usr/src/app/internado-client/src
       - /app/node_modules
     ports: #HOST:CONTAINER
-      - ${CLIENT_PORT}:${CLIENT_PORT}
+      - ${CLIENT_APP_PORT}:${CLIENT_APP_PORT}
     links:
-      - server
+      - job_server
+      - auth_server
     command: npm start
 
 volumes:
