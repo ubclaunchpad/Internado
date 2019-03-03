@@ -1,3 +1,2 @@
-# Typescript ignores
-*.js
-*.js.map
+node_modules
+dist
