@@ -17,7 +17,7 @@ export default class Home extends Component {
   async handleSubmit(event) {
     const response = await addEmail(this.state.email);
 
-    if(response == 200) {
+    if(response === 200) {
       this.setState({error: ''});
       alert(`An email was submitted: ${this.state.email}`);
     }

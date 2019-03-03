@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bool, func } from 'prop-types';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import '.././css/FilterMenu.css';
+import '.././sass/FilterMenu.scss';
 
 const propTypes = {
   visibility: bool.isRequired,
