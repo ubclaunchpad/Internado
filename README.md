@@ -7,10 +7,10 @@ https://internado.azurewebsites.net/
 ## :computer: Running Locally
 
 ### Running Job/Auth Servers
-| Server         | IP        | PORT | Example                   |   |
-|----------------|-----------|------|---------------------------|---|
-| Job Search     | localhost | 5000 | http://localhost:5000/api |   |
-| Authentication | localhost | 5050 | http://localhost:5050/api |   |
+| Server         | IP        | PORT | Example                   |
+|:----------------:|:-----------:|:------:|:---------------------------:|
+| Job Search     | localhost | 5000 | http://localhost:5000/api |
+| Authentication | localhost | 5050 | http://localhost:5050/api |
 
 Install all necessary node files and places them in a node_modules root directory folder
 ```console
@@ -31,22 +31,22 @@ foo@bar:~$ npm run clean
 foo@bar:~$ npm run lint
 ```
 
-* build : builds ts files (found in src folder) into js (to be generated into dist folder) 
+* build : Builds ts files (found in src folder) into js (to be generated into dist folder) 
 ```console
 foo@bar:~$ npm run build
 ```
 
-* dev : auto-builds ts files into js and runs server
+* dev : Auto-builds ts files into js and runs server
 ```console
 foo@bar:~$ npm run dev
 ```
 
-* start : builds , lints and starts server
+* start : Builds , lints and starts server
 ```console
 foo@bar:~$ npm start
 ```
 
-* prepare : builds and lints only
+* prepare : Builds and lints only
 ```console
 foo@bar:~$ npm run prepare
 ```
