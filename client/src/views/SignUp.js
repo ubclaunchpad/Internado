@@ -33,7 +33,7 @@ const SignUpForm = () => (
           </Segment>
         </Form>
         <Message>
-          Already a member? <a href='#'>Log in</a>
+          Already a member? <a href='/login'>Log in</a>
         </Message>
       </Grid.Column>
     </Grid>

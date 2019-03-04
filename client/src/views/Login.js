@@ -25,7 +25,7 @@ const LoginForm = () => (
           </Segment>
         </Form>
         <Message>
-          Don't have an Account? <a href='#'>Sign Up</a>
+          Don't have an Account? <a href='/signup'>Sign Up</a>
         </Message>
       </Grid.Column>
     </Grid>
