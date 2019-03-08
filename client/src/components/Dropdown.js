@@ -9,8 +9,8 @@ class Dropdown extends Component {
           {this.props.searchCategory}
         </button>
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a className="dropdown-item" onClick={this.props.handlePositionSearch}>{this.props.positionCategory}</a>
-          <a className="dropdown-item" onClick={this.props.handleLocationSearch} >{this.props.locationCategory}</a>
+          <a className="dropdown-item" onClick={this.props.handlePositionSearch} href="# ">{this.props.positionCategory}</a>
+          <a className="dropdown-item" onClick={this.props.handleLocationSearch} href="# ">{this.props.locationCategory}</a>
         </div>
       </div>
     );

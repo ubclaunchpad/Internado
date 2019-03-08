@@ -18,7 +18,7 @@ describe("Mailing list API tests", () => {
 
     it("should return email on valid add request", (done) => {
         chai.request(app)
-            .post(`/mailing_list?email=${encodeURIComponent(testEmail)}`)
+            .post(`/mailing_list?email=${encodeURI(testEmail)}`)
             .end((err, res) => {
                 expect(res.body.result.email).to.equal(testEmail);
                 expect(res.status).to.equal(201);

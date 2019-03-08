@@ -6,23 +6,49 @@ https://internado.azurewebsites.net/
 
 ## :computer: Running Locally
 
-### Running server
+### Running Job/Auth Servers
+| Server         | IP        | PORT | Example                   |
+|:----------------:|:-----------:|:------:|:---------------------------:|
+| Job Search     | localhost | 5000 | http://localhost:5000/api |
+| Authentication | localhost | 5050 | http://localhost:5050/api |
+
 Install all necessary node files and places them in a node_modules root directory folder
 ```console
 foo@bar:~$ npm install
 ```
-Builds the project and places the necesary files in a dist root directory folder
+Builds, Lints and Runs the corresponding server
+```console
+foo@bar:~$ npm start
+```
+#### Useful scripts
+* clean : Clears dist folder (where ts files are transpiled into js)
+```console
+foo@bar:~$ npm run clean
+```
+
+* lint : Runs ts linter
+```console
+foo@bar:~$ npm run lint
+```
+
+* build : Builds ts files (found in src folder) into js (to be generated into dist folder) 
 ```console
 foo@bar:~$ npm run build
 ```
-Runs the server (currently on http://localhost:5000/)
+
+* dev : Auto-builds ts files into js and runs server
+```console
+foo@bar:~$ npm run dev
+```
+
+* start : Builds , lints and starts server
 ```console
 foo@bar:~$ npm start
 ```
 
-<b>Sidenote:</b> use the following command rimraf command to clean the project (clears both the node_modules and dist folders)
+* prepare : Builds and lints only
 ```console
-foo@bar:~$ npm run clean
+foo@bar:~$ npm run prepare
 ```
 
 ### Running client
@@ -109,7 +135,8 @@ Otherwise , you can just refer to the container's name as the [HOST]
 
 | Container Name|                      Description                     | Port |             Example             |
 |:---------:|:----------------------------------------------------:|:----:|:-------------------------------:|
-|   server  |                    API (back-end)                    | 5000 |   [HOST]:5000/api  |
+|   server  |                    Job API (back-end)                    | 5000 |   [HOST]:5000/api  |
+|   auth  |                    Auth API (back-end)                    | 5050 |   [HOST]:5050/api  |
 |  postgres |                     Database                     | 5432 | use adminer/cmd line to  access |
 |  adminer  |  GUI that helps you manipulate the database  | 8080 |     [HOST]:8080    |
 |   client  |                   React (front-end)                  | 3000 |     [HOST]:3000    |

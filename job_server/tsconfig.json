@@ -5,6 +5,8 @@
             "es6",
             "dom"
         ],
+        "outDir": "./dist/",
+        "declaration": false,
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -13,8 +15,8 @@
         "experimentalDecorators": true,
         "sourceMap": true
     },
-    "filesGlob": [
-        "/**/*.ts"
+    "include": [
+      "**/*.ts"
     ],
     "typeRoots": [
         "./node_modules/@types"
@@ -22,4 +24,4 @@
     "exclude": [
         "node_modules"
     ]
-}
+  }
