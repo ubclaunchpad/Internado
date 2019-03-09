@@ -220,7 +220,7 @@
           "type": "string",
           "example": "https://www.ubclaunchpad.com/"
         },
-        "descripotion": {
+        "description": {
           "type": "string"
         },
         "city": {
