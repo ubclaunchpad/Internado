@@ -5,7 +5,7 @@ import '../sass/NavBar.scss';
 
 const propTypes = {
   searchKeywords: string.isRequired,
-  searchHandler: func.isRequired,
+  handleSearch: func.isRequired,
   updateSearchKeywords: func.isRequired,
 };
 
@@ -41,7 +41,7 @@ class Navbar extends Component {
 
   render() {
     const { searchCategory } = this.state;
-    const { searchKeywords, searchHandler, updateSearchKeywords } = this.props;
+    const { searchKeywords, handleSearch, updateSearchKeywords } = this.props;
 
     return (
       <div className="Navbar">
@@ -73,7 +73,7 @@ class Navbar extends Component {
             />
             <div className="navbar-nav ml-auto">
               <a
-                onClick={searchHandler}
+                onClick={handleSearch}
                 ref={(search) => {
                   this.searchElement = search;
                 }}

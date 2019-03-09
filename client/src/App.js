@@ -62,14 +62,14 @@ class App extends Component {
     await this.setState({
       minSalary: newSalary,
     });
-    this.searchHandler();
+    this.handleSearch();
   };
 
   handleRemoveMinSalary = async () => {
     await this.setState({
       minSalary: 0,
     });
-    this.searchHandler();
+    this.handleSearch();
   };
 
   handleClearFilters = async () => {
@@ -78,7 +78,7 @@ class App extends Component {
       selectedCategories: [],
       selectedIndustries: [],
     });
-    this.searchHandler();
+    this.handleSearch();
   };
 
   // construct the JSON body of the search request
@@ -100,7 +100,7 @@ class App extends Component {
     return JSON.stringify(body);
   };
 
-  searchHandler = async () => {
+  handleSearch = async () => {
     const keywords = this.constructBody(this.state.searchKeywords);
     await searchJobs(keywords);
     this.props.history.push('/results');
@@ -115,7 +115,7 @@ class App extends Component {
       <div className="App">
         <Navbar
           searchKeywords={searchKeywords}
-          searchHandler={this.searchHandler}
+          handleSearch={this.handleSearch}
           updateSearchKeywords={this.updateSearchKeywords}
         />
         <Routes

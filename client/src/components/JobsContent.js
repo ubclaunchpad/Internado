@@ -48,9 +48,10 @@ const JobsContent = ({
           handleAddMinSalary={handleAddMinSalary}
         />
       </Grid.Column>
-      <Grid.Column width={13}>
+      <Grid.Column width={12}>
         <ResultsTable />
       </Grid.Column>
+      <Grid.Column width={1}/>
     </Grid.Row>
   </Grid>
 );

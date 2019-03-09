@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-import { bool, func } from 'prop-types';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import '.././sass/FilterMenu.scss';
-=======
 import { Accordion, Button, Icon, Input, Label, List, Menu } from 'semantic-ui-react';
 import { func } from 'prop-types';
 
@@ -20,7 +15,6 @@ const CATEGORIES = [
 ];
 
 const INDUSTRIES = ['E-commerce', 'Social Networking'];
->>>>>>> Refactor filter menu to use semantic UI
 
 const propTypes = {
   handleAddCategory: func.isRequired,

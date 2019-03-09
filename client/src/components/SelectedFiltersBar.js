@@ -66,7 +66,7 @@ const SelectedFiltersBar = ({
       )}
       {(minSalary > 0 || selectedCategories.length > 0 || selectedIndustries.length > 0) && (
         <Button primary icon onClick={handleClearFilters}>
-          Clear <Icon name="close" />
+          Clear
         </Button>
       )}
     </Grid.Column>
