@@ -11,7 +11,7 @@ export default class Routes extends React.Component{
     return(
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/results" exact render={ () => <ResultsTable results={this.props.results}/> } />
+        <Route path="/results" exact component={ResultsTable} />
         <Route path="/login" exact component={Login} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/account" exact component={Account} />

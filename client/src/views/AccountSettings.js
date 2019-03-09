@@ -3,14 +3,14 @@ import { Button, Label, Container, Card, Form, Segment} from 'semantic-ui-react'
 
 const AccountSettingsCard = () => (
   <Container className="three wide">
-    <Card fluid className="three wide">
+    <Card fluid>
       <Card.Content className="four wide">
                 <Form size="big">
         <Segment.Group horizontal>
                   <Segment className="three wide column">
                     <Form.Field>
                       <label>Name</label>
-                      <Form.Input fluid icon='user' iconPosition='left' placeholder='Name' />
+                      <Form.Input icon='user' iconPosition='left' placeholder='Name' />
                     </Form.Field>
                     <Form.Field>
                       <label>Email</label>
@@ -46,21 +46,23 @@ const AccountSettingsCard = () => (
                     </Label>
                     </Form.Field>
                   </Segment>
-
-                  <Segment className="five wide column">
+                  <Segment className="ui five wide column">
                     <Form.Field>
                       <label>Password</label>
                     <Form.Input
                       fluid
-                      icon='key'
-                      iconPosition='left'
-                      placeholder='Password'
-                      type='password'
+                      icon="key"
+                      iconPosition="left"
+                      placeholder="Password"
+                      type="password"
                     />
                     </Form.Field>
                   </Segment>
 
-                  </Segment.Group>
+                </Segment.Group>
+
+                  <Button floated="right" secondary> Revert </Button>
+                  <Button floated="right" primary> Save All </Button>
                 </Form>
     </Card.Content>
     </Card>
