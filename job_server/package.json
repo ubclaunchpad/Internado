@@ -4,7 +4,7 @@
     "description": "Find personalized internship opportunities based on your skills and interests",
     "main": "server.js",
     "scripts": {
-        "build": "npm run clean && gulp copy && tsc -p .",
+        "build": "npm run clean && tsc -p . && tslint -p tsconfig.json -c tslint.json",
         "gulp": "./node_modules/.bin/gulp",
         "tsc-watch": "./node_modules/.bin/tsc-watch",
         "lint": "tslint -p tsconfig.json -c tslint.json",
