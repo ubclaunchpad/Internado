@@ -8,7 +8,7 @@ import logging
 url_index = 2
 id_index = 0
 
-# Currently just makes a GET request to the URLs in the DB and returns true if the status code is 200
+# Currently just makes a GET request to the URLs in the DB and returns true if the status code isn't 200
 # TODO: read HTML for websites to see if they're expired even if the status code is 200
 def check_expired(job):
   url = job[url_index]
