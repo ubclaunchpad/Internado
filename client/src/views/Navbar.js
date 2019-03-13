@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
 import { func, string } from 'prop-types';
 import Dropdown from '../components/Dropdown';
 import '../sass/NavBar.scss';
@@ -89,10 +90,14 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <div className="navbar-nav ml-auto">
               <button type="button" className="btn btn-primary mr-2">
-                Sign up
+                <NavLink to={ "/Signup" } style={{ color: "white" }} activeStyle={{ color: "white" }} >
+                  Signup
+                </NavLink>  
               </button>
               <button type="button" className="btn btn-secondary">
-                Login
+                <NavLink to={ "/Login" } style={{ color: "white" }} activeStyle={{ color: "white" }} >
+                  Login
+                </NavLink>  
               </button>
             </div>
           </div>
