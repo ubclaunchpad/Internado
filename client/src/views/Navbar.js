@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 import Dropdown from '../components/Dropdown';
 import '../sass/NavBar.scss';
 
 const propTypes = {
-  searchHandler: func.isRequired,
+  searchKeywords: string.isRequired,
+  handleSearch: func.isRequired,
+  updateSearchKeywords: func.isRequired,
 };
 
 class Navbar extends Component {
@@ -13,7 +15,6 @@ class Navbar extends Component {
     super();
     this.state = {
       searchCategory: 'Select Category',
-      searchKeywords: '',
     };
     this.searchCategories = ['Position', 'Location'];
   }
@@ -22,10 +23,6 @@ class Navbar extends Component {
     this.setState({
       searchCategory: newCategory,
     });
-  };
-
-  updateSearchKeywords = (event) => {
-    this.setState({ searchKeywords: event.target.value });
   };
 
   _handlePositionSearch = () => {
@@ -44,6 +41,9 @@ class Navbar extends Component {
   };
 
   render() {
+    const { searchCategory } = this.state;
+    const { searchKeywords, handleSearch, updateSearchKeywords } = this.props;
+
     return (
       <div className="Navbar">
         <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
@@ -60,13 +60,13 @@ class Navbar extends Component {
             <input
               className="form-control mr-sm-2"
               type="search"
-              value={this.state.searchKeywords}
+              value={searchKeywords}
               placeholder="Search Companies"
               aria-label="Search"
-              onChange={this.updateSearchKeywords}
+              onChange={updateSearchKeywords}
             />
             <Dropdown
-              searchCategory={this.state.searchCategory}
+              searchCategory={searchCategory}
               handlePositionSearch={this._handlePositionSearch}
               handleLocationSearch={this._handleLocationSearch}
               positionCategory={this.searchCategories[0]}
@@ -74,7 +74,7 @@ class Navbar extends Component {
             />
             <div className="navbar-nav ml-auto">
               <a
-                onClick={this.props.searchHandler(this.state.searchKeywords)}
+                onClick={handleSearch}
                 ref={(search) => {
                   this.searchElement = search;
                 }}
