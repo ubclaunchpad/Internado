@@ -1,4 +1,4 @@
-FROM node:10.0.0
+FROM node:9.0.0
 RUN mkdir -p /usr/src/app/internado_auth_server
 WORKDIR /usr/src/app/internado_auth_server
 
