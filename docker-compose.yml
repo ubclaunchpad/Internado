@@ -93,6 +93,9 @@ services:
     ports:
       - 80:80
       - 443:443
+    depends_on:
+      - auth_server
+      - job_server
 
 volumes:
   database_data:
