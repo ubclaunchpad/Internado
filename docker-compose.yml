@@ -98,6 +98,16 @@ services:
       - job_server
       - auth_server
     command: npm start
+  
+  ### NGINX ###
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - "/usr/share/nginx/html:/usr/share/nginx/html"
+      - "/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+    ports:
+      - 80:80
+      - 443:443
 
 volumes:
   database_data:
