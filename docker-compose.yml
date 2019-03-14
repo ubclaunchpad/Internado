@@ -86,7 +86,7 @@ services:
   nginx:
     image: nginx:stable-alpine
     volumes:
-      - "/etc/letsencrypt:etc/letsencrypt"
+      - "/etc/letsencrypt:/etc/letsencrypt"
       - "/usr/share/nginx/html:/usr/share/nginx/html"
       - "/usr/share/internado_public/html:/usr/share/internado_public/html"
       - "/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
