@@ -1,5 +1,6 @@
 import { searchJobs } from "../controllers/searchController";
 import { addToMailingList, deleteFromMailingList } from "../controllers/mailingListController";
+import { getJob, deleteJob, postJob, postJobs } from "../controllers/jobController";
 import { Router, Request, Response } from "express";
 
 export default function (app: Router) {
@@ -21,6 +22,11 @@ export default function (app: Router) {
     app.delete("/mailing_list", deleteFromMailingList);
     app.options("/mailing_list", corsAllowMethods("POST,DELETE"));
 
+    app.get("/job", getJob);
+    app.delete("/job", deleteJob);
+    app.post("/job", postJob);
+    app.post("/jobs", postJobs);
+    app.options("/job", corsAllowMethods("GET,POST,DELETE"));
 }
 
 function corsAllowMethods(methods: string) {
