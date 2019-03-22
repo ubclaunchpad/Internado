@@ -1,7 +1,8 @@
 # Internado [![Travis](https://travis-ci.com/ubclaunchpad/Internado.svg?branch=master)](https://travis-ci.com/ubclaunchpad/Internado)
 Find personalized internship opportunities based on your skills and interests
 
-## :earth_americas: Link to in progress website
+## :earth_americas: Links to in progress website
+https://internado.ubclaunchpad.com/
 https://internado.azurewebsites.net/
 
 ## :computer: Running Locally
