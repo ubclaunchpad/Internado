@@ -6,6 +6,9 @@ import Routes from './config/Routes';
 <<<<<<< HEAD
 import { searchJobs } from './backendCalls/searchEndpoints.js';
 import registerUser from './backendCalls/auth/registerUser.js'
+||||||| merged common ancestors
+import { searchJobs } from './backendCalls/searchEndpoints.js';
+
 =======
 import { searchJobs } from './backendCalls/searchEndpoints';
 
@@ -113,7 +116,8 @@ class App extends Component {
 
   render() {
 <<<<<<< HEAD
-    registerUser("asdf@asdf.asdfasdf", "Aasdf", undefined, undefined)
+    registerUser("asdf@asd2f.asdfasdf", "Aasdf", undefined, undefined)
+||||||| merged common ancestors
 =======
     const {
       searchKeywords, selectedCategories, selectedIndustries, minSalary,
