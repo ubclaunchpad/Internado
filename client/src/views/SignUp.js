@@ -50,8 +50,22 @@ class SignUpForm extends Component {
             </Header>
             <Form size='large'>
               <Segment raise>
-                <Form.Input fluid icon='user' iconPosition='left' placeholder='Username/email' value={this.state.formData['username']} onChange={(e) => this.handleDataChange(e, 'username')}/>
-                <Form.Input fluid icon='mail' iconPosition='left' placeholder='Email' value={this.state.formData['email']} onChange={(e) => this.handleDataChange(e, 'email')}/>
+                <Form.Input
+                  fluid
+                  icon='user'
+                  iconPosition='left'
+                  placeholder='Username/email'
+                  value={this.state.formData['username']}
+                  onChange={(e) => this.handleDataChange(e, 'username')}
+                />
+                <Form.Input
+                  fluid
+                  icon='mail'
+                  iconPosition='left'
+                  placeholder='Email'
+                  value={this.state.formData['email']}
+                  onChange={(e) => this.handleDataChange(e, 'email')}
+                />
                 <Form.Input
                   fluid
                   icon='key'

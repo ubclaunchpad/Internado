@@ -19,6 +19,7 @@ export async function userLogin(email, password) {
 
   const response = await fetch(store.authApiBase + '/user/login', {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
@@ -33,6 +34,7 @@ export async function userLogin(email, password) {
         return body.error;
       }
       else {
+        document.cookie = body.token;
         return JSON.stringify(body);
       }
     } else {
