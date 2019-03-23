@@ -107,7 +107,10 @@ class App extends Component {
   };
 
   render() {
-    registerUser("asdf@asd2f.asdfasdf", "Aasdf", undefined, undefined)
+    const {
+      searchKeywords, selectedCategories, selectedIndustries, minSalary,
+    } = this.state;
+
     return (
       <div className="App">
         <Navbar
