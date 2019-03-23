@@ -31,7 +31,7 @@ class SignUpForm extends Component {
       } else {
         let response = await registerUser(data['email'], data['password'], data['username'], undefined);
         let responseHTML = '';
-        if (response == 200) {
+        if (response === 200) {
           responseHTML = 'Account successfully created';
         } else {
           responseHTML = <font color='#ff0000'> {response} </font>;

@@ -1,6 +1,6 @@
 const store = {
   searchResults: [],
-  apiBase: 'http://localhost:5000',
+  apiBase: 'https://internado.ubclaunchpad.com',
   authApiBase: 'http://localhost:5050'
 };
 export default store;
