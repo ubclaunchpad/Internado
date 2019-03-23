@@ -14,6 +14,11 @@ export async function postJob(
     res: Response
 ): Promise<void> {
     res.header("Access-Control-Allow-Origin", "*");
+
+    if (req.headers["content-type"] !== "application/json") {
+        res.status(400).send({error: "Content type must be application/json"});
+    }
+
     let job: Job = reqJobToJob(req.body);
 
     try {
@@ -33,6 +38,11 @@ export async function postJobs(
     res: Response
 ): Promise<void> {
     res.header("Access-Control-Allow-Origin", "*");
+
+    if (req.headers["content-type"] !== "application/json") {
+        res.status(400).send({error: "Content type must be application/json"});
+    }
+
     if (!Array.isArray(req.body)) {
         res.status(400).send({error: "Request body must be an array of ZipRecruiter jobs"});
         return;
