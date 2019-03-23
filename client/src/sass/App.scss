@@ -1,0 +1,15 @@
+body {
+    .App {
+        height: 100vh;
+    }
+
+    .Footer {
+        bottom: 0;
+        clear: both;
+        position: absolute;
+        height: 40px;
+        margin-top: -40px;
+        width: 100%; 
+        padding: 20px;
+    }
+}
