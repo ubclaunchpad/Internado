@@ -1,17 +1,17 @@
-//import appConfig from '../../../../auth_server/src/configurations/app.ts';
-
 /**
  *   Registers a user with the given email, password, first and last name.
  *   If either first_name or last_name are undefined, the user will be registered
  *   without a first or last name respectively.
  */
 
+import store from '../../store.js';
+
 export async function registerUser(email, password, first_name, last_name) {
   var details = {
-    "email": email,
-    "password": password,
-    "first_name": first_name,
-    "last_name": last_name
+    'email': email,
+    'password': password,
+    'first_name': first_name,
+    'last_name': last_name
   }
 
   var formBody = [];
@@ -21,11 +21,11 @@ export async function registerUser(email, password, first_name, last_name) {
     }
     var encodedKey = encodeURIComponent(property);
     var encodedValue = encodeURIComponent(details[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
+    formBody.push(encodedKey + '=' + encodedValue);
   }
-  formBody = formBody.join("&");
+  formBody = formBody.join('&');
 
-  const response = await fetch("http://localhost:5050/user", {
+  const response = await fetch(store.authApiBase + '/user', {
       method: 'POST',
       mode: 'cors',
       headers: {

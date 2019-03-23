@@ -6,7 +6,7 @@ import Footer from './views/Footer';
 import FilterMenu from './components/FilterMenu';
 import Routes from './config/Routes';
 import { searchJobs } from './backendCalls/searchEndpoints.js';
-import registerUser from './backendCalls/auth/registerUser.js'
+
 class App extends Component {
   constructor(props, context) {
     super(props, context);
@@ -66,7 +66,6 @@ class App extends Component {
   }
 
   render() {
-    registerUser("asdf@asd2f.asdfasdf", "Aasdf", undefined, undefined)
     return (
       <div className="App">
         <Navbar searchHandler={this.searchHandler}/>

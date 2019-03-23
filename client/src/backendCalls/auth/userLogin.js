@@ -1,12 +1,9 @@
-/**
- *   Registers a user with the given email, password, first and last name.
- *   If either first_name or last_name are undefined, the user will be registered
- *   without a first or last name respectively.
- */
+import store from '../../store.js';
+
 export async function userLogin(email, password) {
   var details = {
-    "email": email,
-    "password": password,
+    'email': email,
+    'password': password,
   }
 
   var formBody = [];
@@ -16,11 +13,11 @@ export async function userLogin(email, password) {
     }
     var encodedKey = encodeURIComponent(property);
     var encodedValue = encodeURIComponent(details[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
+    formBody.push(encodedKey + '=' + encodedValue);
   }
-  formBody = formBody.join("&");
+  formBody = formBody.join('&');
 
-  const response = await fetch("http://localhost:5050/user/login", {
+  const response = await fetch(store.authApiBase + '/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

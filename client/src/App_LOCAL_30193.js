@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   render() {
-    registerUser("asdf@asd2f.asdfasdf", "Aasdf", undefined, undefined)
+    registerUser("asdf@asdf.asdfasdf", "Aasdf", undefined, undefined)
     return (
       <div className="App">
         <Navbar searchHandler={this.searchHandler}/>
