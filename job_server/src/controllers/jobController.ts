@@ -36,7 +36,7 @@ export async function postJob(
         if (err.code === "23505") {
             res.status(400).send({
                 error: "This link is already in the database"
-            })
+            });
         } else if (err.code === "23502") {
             res.status(400).send({
                 error: `The ${err.column} property cannot be null`
@@ -76,8 +76,8 @@ export async function postJobs(
         if (err.code === "23505") {
             res.status(400).send({
                 error: "One of the links is already in the database"
-            })
-        } if (err.code === "23502") {
+            });
+        } else if (err.code === "23502") {
             res.status(400).send({
                 error: `The ${err.column} property cannot be null`
             });
