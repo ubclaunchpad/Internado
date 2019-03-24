@@ -17,6 +17,12 @@ export async function postJob(
 
     if (req.headers["content-type"] !== "application/json") {
         res.status(400).send({error: "Content type must be application/json"});
+        return;
+    }
+
+    if (Array.isArray(req.body)) {
+        res.status(400).send({error: "Request body must be an object"});
+        return;
     }
 
     let job: Job = reqJobToJob(req.body);
@@ -27,9 +33,19 @@ export async function postJob(
         res.status(201).send({result: job});
 
     } catch (err) {
-        res.status(500).send({
-            error: "Failed to insert jobs into database"
-        });
+        if (err.code === "23505") {
+            res.status(400).send({
+                error: "This link is already in the database"
+            })
+        } else if (err.code === "23502") {
+            res.status(400).send({
+                error: `The ${err.column} property cannot be null`
+            });
+        } else {
+            res.status(500).send({
+                error: "Failed to insert jobs into database"
+            });
+        }
     }
 }
 
@@ -41,6 +57,7 @@ export async function postJobs(
 
     if (req.headers["content-type"] !== "application/json") {
         res.status(400).send({error: "Content type must be application/json"});
+        return;
     }
 
     if (!Array.isArray(req.body)) {
@@ -56,9 +73,19 @@ export async function postJobs(
         res.status(201).send({result: jobs});
 
     } catch (err) {
-        res.status(500).send({
-            error: "Failed to insert jobs into database"
-        });
+        if (err.code === "23505") {
+            res.status(400).send({
+                error: "One of the links is already in the database"
+            })
+        } if (err.code === "23502") {
+            res.status(400).send({
+                error: `The ${err.column} property cannot be null`
+            });
+        } else {
+            res.status(500).send({
+                error: "Failed to insert jobs into database"
+            });
+        }
     }
 }
 
