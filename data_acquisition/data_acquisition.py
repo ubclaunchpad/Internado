@@ -5,6 +5,8 @@ import psycopg2
 import getpass
 import logging
 
+jobs_endpoint = "http://localhost:5000/jobs"
+
 # set up logging
 logging.basicConfig(format='%(asctime)s - %(levelname)s @' +
                     '%(module)s-%(funcName)s : %(message)s',
@@ -31,33 +33,33 @@ def is_internship(job):
 def request_ziprecruiter_jobs(page_num, api_key):
   url = "https://api.ziprecruiter.com/jobs/v1?search=internship%20Job&days_ago=1&page={page_num}&jobs_per_page=20&api_key={api_key}" \
   .format(page_num=page_num, api_key=api_key)
-  response = requests.get(url).json()
-  if response["success"]:
-    # dbname, user, host, and password should match your database info in ormconfig.json
-    con = psycopg2.connect(dbname='postgres', user=getpass.getuser(), host='localhost', password='Pa55word')
-    cur = con.cursor()
+  ziprecruiter_response = requests.get(url).json()
+  if ziprecruiter_response["success"]:
+    jobs_to_add = []
     # parse ZipRecruiter's JSON response
-    for job in response["jobs"]:
+    for job in ziprecruiter_response["jobs"]:
       if not is_internship(job):
         continue
 
-      job_title = job["name"]
-      link = job["url"]
-      description = job["snippet"]
-      city = job["city"]
-      state = job["state"]
-      country = job["country"]
-      company_name = job["hiring_company"]["name"]
-      salary_min = job["salary_min"]
-      # add to database
-      cur.execute(
-        "INSERT INTO Job VALUES(DEFAULT,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", \
-        (job_title, link, description, city, state, country, 0.0, 0.0, company_name, None, salary_min) \
-      )
-    con.commit()
-    cur.close()
-    con.close()
-    return response["num_paginable_jobs"]
+      current_job = {}
+      current_job["job_title"] = job["name"]
+      current_job["link"] = job["url"]
+      current_job["description"]  = job["snippet"]
+      current_job["city"] = job["city"]
+      current_job["state"] = job["state"]
+      current_job["country"] = job["country"]
+      current_job["latitude"] = 0
+      current_job["longitude"] = 0
+      current_job["company_name"] = job["hiring_company"]["name"]
+      current_job["start_date"] = None
+      current_job["salary_min"] = job["salary_min"]
+
+      jobs_to_add.append(current_job)
+
+    # make request to internado for adding jobs to database
+    internado_response = requests.post(jobs_endpoint, json=jobs_to_add)
+    logging.info(internado_response.status_code)
+    return ziprecruiter_response["num_paginable_jobs"]
   else:
     return 0
 
