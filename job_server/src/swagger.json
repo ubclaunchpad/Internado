@@ -20,7 +20,7 @@
     "http"
   ],
   "paths": {
-    "/search": {
+    "/job/search": {
       "post": {
         "tags": [
           "search"
@@ -63,7 +63,7 @@
         }
       }
     },
-    "/mailing_list": {
+    "/job/mailing_list": {
       "post": {
         "tags": [
           "mailing_list"
