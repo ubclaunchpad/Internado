@@ -28,9 +28,6 @@
         "summary": "Search for internships by keywords and other filters",
         "description": "",
         "operationId": "searchInternships",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -74,9 +71,6 @@
         "summary": "Add an email address to the mailing list",
         "description": "",
         "operationId": "addToMailingList",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -146,6 +140,179 @@
                   "type": "string"
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    "/job": {
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "summary": "Get a job object by id",
+        "description": "",
+        "operationId": "getJob",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "The id of the job",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found job",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "job"
+        ],
+        "summary": "Delete a job object by id",
+        "description": "",
+        "operationId": "deleteJob",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "The id of the job",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found job",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "job"
+        ],
+        "summary": "Add a new job",
+        "description": "",
+        "operationId": "postJob",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id",
+            "description": "The properties of the new job",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewJob"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created new job",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/jobs": {
+      "post": {
+        "tags": [
+          "job"
+        ],
+        "summary": "Add a list of new jobs",
+        "description": "",
+        "operationId": "postJobs",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id",
+            "description": "The properties of the new job",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NewJob"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created new jobs",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -220,7 +387,54 @@
           "type": "string",
           "example": "https://www.ubclaunchpad.com/"
         },
-        "descripotion": {
+        "description": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string",
+          "example": "Vancouver"
+        },
+        "state": {
+          "type": "string",
+          "example": "BC"
+        },
+        "country": {
+          "type": "string",
+          "example": "Canada"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "company_name": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "salary_min": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "NewJob": {
+      "type": "object",
+      "properties": {
+        "job_title": {
+          "type": "string",
+          "example": "UBC Launch Pad Summer Internship"
+        },
+        "link": {
+          "type": "string",
+          "example": "https://www.ubclaunchpad.com/"
+        },
+        "description": {
           "type": "string"
         },
         "city": {

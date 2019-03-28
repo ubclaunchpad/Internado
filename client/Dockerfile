@@ -1,4 +1,4 @@
-FROM node:8.0.0
+FROM node:9.0.0
 RUN mkdir -p /usr/src/app/internado-client
 WORKDIR /usr/src/app/internado-client
 COPY package*.json ./

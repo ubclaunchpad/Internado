@@ -81,23 +81,21 @@ services:
       - ${DB_HOST}
     ports:
       - ${ADMINER_PORT}:${ADMINER_PORT}
-
-  ### CLIENT ###
-  client:
-    build: ./client
-    environment:
-      CLIENT_PORT: ${CLIENT_APP_PORT}
-    expose:
-      - ${CLIENT_APP_PORT}
+  
+  ### NGINX ###
+  nginx:
+    image: nginx:stable-alpine
     volumes:
-      - ./client/src:/usr/src/app/internado-client/src
-      - /app/node_modules
-    ports: #HOST:CONTAINER
-      - ${CLIENT_APP_PORT}:${CLIENT_APP_PORT}
-    links:
-      - job_server
+      - "/etc/letsencrypt:/etc/letsencrypt"
+      - "/usr/share/nginx/html:/usr/share/nginx/html"
+      - "/usr/share/internado_public/html:/usr/share/internado_public/html"
+      - "/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
       - auth_server
-    command: npm start
+      - job_server
 
 volumes:
   database_data:
