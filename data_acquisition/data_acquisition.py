@@ -52,7 +52,7 @@ def request_ziprecruiter_jobs(page_num, api_key):
         "longitude": 0.0,
         "company_name": job["hiring_company"]["name"],
         "start_date": None,
-        "salary_min": job["salary_min"]
+        "salary_min": job["salary_min_annual"]
       }
 
       jobs_to_add.append(current_job)
