@@ -1,15 +1,16 @@
 body {
     .App {
-        height: 100vh;
-    }
+        .lander {
+            height: 90vh;
+        }
 
-    .Footer {
-        bottom: 0;
-        clear: both;
-        position: absolute;
-        height: 40px;
-        margin-top: -40px;
-        width: 100%; 
-        padding: 20px;
+        .Footer {
+            bottom: 0;
+            clear: both;
+            position: relative;
+            height: 50px;
+            width: 100%;
+            margin: 20px; 
+        }  
     }
 }
