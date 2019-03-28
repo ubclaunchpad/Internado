@@ -41,22 +41,23 @@ def request_ziprecruiter_jobs(page_num, api_key):
       if not is_internship(job):
         continue
 
-      current_job = {}
-      current_job["job_title"] = job["name"]
-      current_job["link"] = job["url"]
-      current_job["description"]  = job["snippet"]
-      current_job["city"] = job["city"]
-      current_job["state"] = job["state"]
-      current_job["country"] = job["country"]
-      current_job["latitude"] = 0
-      current_job["longitude"] = 0
-      current_job["company_name"] = job["hiring_company"]["name"]
-      current_job["start_date"] = None
-      current_job["salary_min"] = job["salary_min"]
+      current_job = {
+        "job_title": job["name"],
+        "link": job["url"],
+        "description": job["snippet"],
+        "city": job["city"],
+        "state": job["state"],
+        "country": job["country"],
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "company_name": job["hiring_company"]["name"],
+        "start_date": None,
+        "salary_min": job["salary_min"]
+      }
 
       jobs_to_add.append(current_job)
 
-    # make request to internado for adding jobs to database
+    # make request to internado job server for adding jobs to database
     internado_response = requests.post(jobs_endpoint, json=jobs_to_add)
     logging.info(internado_response.status_code)
     return ziprecruiter_response["num_paginable_jobs"]
