@@ -1,6 +1,7 @@
-import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToMany} from "typeorm";
+import User from "./user";
 
-@Entity({synchronize: true})
+@Entity({name: "job", synchronize: true})
 export default class Job {
 
     // Default constructor is used to generate and iterate through the property keys.
@@ -53,4 +54,7 @@ export default class Job {
 
     @Column({ nullable: true, type: "integer"})
     public salary_min: number;
+
+    @ManyToMany((type) => User, (user) => user.jobs)
+    users: User[];
 }

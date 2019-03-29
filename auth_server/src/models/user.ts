@@ -1,8 +1,8 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable} from "typeorm";
 import jwtConfig from "../configurations/jwt.js";
-
+import Job from "./job";
 @Entity()
 export default class User {
   // Default constructor is used to generate and iterate through the property keys.
@@ -29,6 +29,10 @@ export default class User {
   @Column("varchar", { nullable: false })
   public password: string;
 
+  @ManyToMany((type) => Job, (job) => job.users)
+  @JoinTable()
+  jobs: Job[];
+
   async validatePassword(plainTextPassword: string) {
     return bcrypt.compare(plainTextPassword, this.password.toString());
   }
@@ -37,8 +41,16 @@ export default class User {
       id: this.id,
       email: this.email,
       first_name: this.first_name,
-      last_name: this.last_name
+      last_name: this.last_name,
+      jobs: this.jobs
     };
+  }
+
+  censor(key: any, value: any) {
+    if (typeof(value) === "string") {
+      return undefined;
+    }
+    return value;
   }
   getJWT() {
     let expirationTime = parseInt(jwtConfig.expiration, 10);
