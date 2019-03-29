@@ -25,21 +25,17 @@ const PER_PAGE_OPTIONS = [
 ];
 
 const propTypes = {
-  selectedCategories: array.isRequired,
-  selectedIndustries: array.isRequired,
+  filterKeywords: array.isRequired,
+  handleRemoveFilterKeyword: func.isRequired,
   minSalary: number.isRequired,
-  handleRemoveCategory: func.isRequired,
-  handleRemoveIndustry: func.isRequired,
   handleRemoveMinSalary: func.isRequired,
   handleClearFilters: func.isRequired,
 };
 
 const SelectedFiltersBar = ({
-  selectedCategories,
-  selectedIndustries,
+  filterKeywords,
+  handleRemoveFilterKeyword,
   minSalary,
-  handleRemoveCategory,
-  handleRemoveIndustry,
   handleRemoveMinSalary,
   handleClearFilters,
 }) => (
@@ -49,14 +45,9 @@ const SelectedFiltersBar = ({
       <Header size="large">Search results</Header>
     </Grid.Column>
     <Grid.Column width={7}>
-      {[...selectedCategories].map((category, index) => (
-        <Button icon key={index} onClick={handleRemoveCategory(category)}>
-          {category} <Icon name="close" />
-        </Button>
-      ))}
-      {[...selectedIndustries].map((industry, index) => (
-        <Button icon key={index} onClick={handleRemoveIndustry(industry)}>
-          {industry} <Icon name="close" />
+      {filterKeywords.map((keyword, index) => (
+        <Button icon key={index} onClick={handleRemoveFilterKeyword(keyword)}>
+          {keyword} <Icon name="close" />
         </Button>
       ))}
       {minSalary > 0 && (
@@ -64,7 +55,7 @@ const SelectedFiltersBar = ({
           {minSalary} <Icon name="close" />
         </Button>
       )}
-      {(minSalary > 0 || selectedCategories.length > 0 || selectedIndustries.length > 0) && (
+      {(minSalary > 0 || filterKeywords.length > 0) && (
         <Button primary icon onClick={handleClearFilters}>
           Clear
         </Button>

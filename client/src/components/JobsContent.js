@@ -6,45 +6,36 @@ import ResultsTable from './ResultsTable';
 import SelectedFiltersBar from './SelectedFiltersBar';
 
 const propTypes = {
-  selectedCategories: array.isRequired,
-  selectedIndustries: array.isRequired,
+  filterKeywords: array.isRequired,
+  handleAddFilterKeyword: func.isRequired,
+  handleRemoveFilterKeyword: func.isRequired,
   minSalary: number.isRequired,
-  handleAddCategory: func.isRequired,
-  handleAddIndustry: func.isRequired,
-  handleRemoveCategory: func.isRequired,
-  handleRemoveIndustry: func.isRequired,
   handleAddMinSalary: func.isRequired,
   handleRemoveMinSalary: func.isRequired,
   handleClearFilters: func.isRequired,
 };
 
 const JobsContent = ({
-  selectedCategories,
-  selectedIndustries,
+  filterKeywords,
+  handleAddFilterKeyword,
+  handleRemoveFilterKeyword,
   minSalary,
-  handleAddCategory,
-  handleAddIndustry,
-  handleRemoveCategory,
-  handleRemoveIndustry,
   handleAddMinSalary,
   handleRemoveMinSalary,
   handleClearFilters,
 }) => (
   <Grid padded>
     <SelectedFiltersBar
-      selectedCategories={selectedCategories}
-      selectedIndustries={selectedIndustries}
+      filterKeywords={filterKeywords}
+      handleRemoveFilterKeyword={handleRemoveFilterKeyword}
       minSalary={minSalary}
-      handleRemoveCategory={handleRemoveCategory}
-      handleRemoveIndustry={handleRemoveIndustry}
       handleRemoveMinSalary={handleRemoveMinSalary}
       handleClearFilters={handleClearFilters}
     />
     <Grid.Row>
       <Grid.Column width={3}>
         <FilterMenu
-          handleAddCategory={handleAddCategory}
-          handleAddIndustry={handleAddIndustry}
+          handleAddFilterKeyword={handleAddFilterKeyword}
           handleAddMinSalary={handleAddMinSalary}
         />
       </Grid.Column>

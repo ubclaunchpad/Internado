@@ -10,45 +10,32 @@ class App extends Component {
     super(props, context);
 
     this.state = {
-      searchKeywords: '',
+      searchBoxText: '',
+      filterKeywords: [],
       latitude: 0.0,
       longitude: 0.0,
-      selectedCategories: [],
-      selectedIndustries: [],
       minSalary: 0,
     };
   }
 
-  updateSearchKeywords = (event) => {
-    this.setState({ searchKeywords: event.target.value });
+  updateSearchBoxText = (event) => {
+    this.setState({ searchBoxText: event.target.value });
   };
 
-  handleAddCategory = (category) => () => {
+  handleAddFilterKeyword = (keyword) => async () => {
     this.setState((prevState) => ({
-      selectedCategories: prevState.selectedCategories.includes(category)
-        ? [...prevState.selectedCategories]
-        : [...prevState.selectedCategories, category],
+      filterKeywords: prevState.filterKeywords.includes(keyword)
+        ? [...prevState.filterKeywords]
+        : [...prevState.filterKeywords, keyword],
     }));
+    this.handleSearch();
   };
 
-  handleAddIndustry = (industry) => () => {
+  handleRemoveFilterKeyword = (keywordToRemove) => async () => {
     this.setState((prevState) => ({
-      selectedIndustries: prevState.selectedIndustries.includes(industry)
-        ? [...prevState.selectedIndustries]
-        : [...prevState.selectedIndustries, industry],
+      filterKeywords: prevState.filterKeywords.filter((keyword) => keyword !== keywordToRemove),
     }));
-  };
-
-  handleRemoveCategory = (categoryToRemove) => () => {
-    this.setState((prevState) => ({
-      selectedCategories: prevState.selectedCategories.filter((category) => category !== categoryToRemove),
-    }));
-  };
-
-  handleRemoveIndustry = (industryToRemove) => () => {
-    this.setState((prevState) => ({
-      selectedIndustries: prevState.selectedIndustries.filter((industry) => industry !== industryToRemove),
-    }));
+    this.handleSearch();
   };
 
   onChangeLocation = (newLatLng) => {
@@ -75,16 +62,15 @@ class App extends Component {
   handleClearFilters = async () => {
     await this.setState({
       minSalary: 0,
-      selectedCategories: [],
-      selectedIndustries: [],
+      filterKeywords: [],
     });
     this.handleSearch();
   };
 
   // construct the JSON body of the search request
-  constructBody = (searchKeywords) => {
+  constructBody = (searchBoxText, filterKeywords) => {
     const body = {
-      keywords: searchKeywords,
+      keywords: [...filterKeywords, searchBoxText].join(' '),
     };
 
     if (this.state.minSalary) {
@@ -101,31 +87,28 @@ class App extends Component {
   };
 
   handleSearch = async () => {
-    const keywords = this.constructBody(this.state.searchKeywords);
-    await searchJobs(keywords);
+    const requestBody = this.constructBody(this.state.searchBoxText, this.state.filterKeywords);
+    await searchJobs(requestBody);
     this.props.history.push('/results');
   };
 
   render() {
     const {
-      searchKeywords, selectedCategories, selectedIndustries, minSalary,
+      searchBoxText, filterKeywords, minSalary,
     } = this.state;
 
     return (
       <div className="App">
         <Navbar
-          searchKeywords={searchKeywords}
+          searchBoxText={searchBoxText}
           handleSearch={this.handleSearch}
-          updateSearchKeywords={this.updateSearchKeywords}
+          updateSearchBoxText={this.updateSearchBoxText}
         />
         <Routes
-          selectedCategories={selectedCategories}
-          selectedIndustries={selectedIndustries}
+          filterKeywords={filterKeywords}
+          handleAddFilterKeyword={this.handleAddFilterKeyword}
+          handleRemoveFilterKeyword={this.handleRemoveFilterKeyword}
           minSalary={minSalary}
-          handleAddCategory={this.handleAddCategory}
-          handleAddIndustry={this.handleAddIndustry}
-          handleRemoveCategory={this.handleRemoveCategory}
-          handleRemoveIndustry={this.handleRemoveIndustry}
           handleAddMinSalary={this.handleAddMinSalary}
           handleRemoveMinSalary={this.handleRemoveMinSalary}
           handleClearFilters={this.handleClearFilters}

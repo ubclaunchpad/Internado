@@ -17,8 +17,7 @@ const CATEGORIES = [
 const INDUSTRIES = ['E-commerce', 'Social Networking'];
 
 const propTypes = {
-  handleAddCategory: func.isRequired,
-  handleAddIndustry: func.isRequired,
+  handleAddFilterKeyword: func.isRequired,
   handleAddMinSalary: func.isRequired,
 };
 
@@ -74,7 +73,7 @@ class FilterMenu extends Component {
 
   render() {
     const { isShowCategories, isShowIndustries, isShowSalary } = this.state;
-    const { handleAddCategory, handleAddIndustry } = this.props;
+    const { handleAddFilterKeyword } = this.props;
 
     return (
       <Accordion as={Menu} vertical exclusive={false}>
@@ -83,14 +82,14 @@ class FilterMenu extends Component {
           CATEGORIES,
           isShowCategories,
           this.toggleCategories,
-          handleAddCategory,
+          handleAddFilterKeyword,
         )}
         {this.accordionList(
           'INDUSTRIES',
           INDUSTRIES,
           isShowIndustries,
           this.toggleIndustries,
-          handleAddIndustry,
+          handleAddFilterKeyword,
         )}
         <Menu.Item>
           <Accordion.Title active={isShowSalary} onClick={this.toggleSalary}>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import { func, string } from 'prop-types';
 import Dropdown from '../components/Dropdown';
 import '../sass/NavBar.scss';
 
 const propTypes = {
-  searchKeywords: string.isRequired,
+  searchBoxText: string.isRequired,
   handleSearch: func.isRequired,
-  updateSearchKeywords: func.isRequired,
+  updateSearchBoxText: func.isRequired,
 };
 
 class Navbar extends Component {
@@ -42,7 +42,7 @@ class Navbar extends Component {
 
   render() {
     const { searchCategory } = this.state;
-    const { searchKeywords, handleSearch, updateSearchKeywords } = this.props;
+    const { searchBoxText, handleSearch, updateSearchBoxText } = this.props;
 
     return (
       <div className="Navbar">
@@ -60,10 +60,10 @@ class Navbar extends Component {
             <input
               className="form-control mr-sm-2"
               type="search"
-              value={searchKeywords}
+              value={searchBoxText}
               placeholder="Search Companies"
               aria-label="Search"
-              onChange={updateSearchKeywords}
+              onChange={updateSearchBoxText}
             />
             <Dropdown
               searchCategory={searchCategory}
@@ -90,14 +90,14 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <div className="navbar-nav ml-auto">
               <button type="button" className="btn btn-primary mr-2">
-                <NavLink to={ "/Signup" } style={{ color: "white" }} activeStyle={{ color: "white" }} >
+                <NavLink to={ '/Signup' } style={{ color: 'white' }} activeStyle={{ color: 'white' }} >
                   Signup
-                </NavLink>  
+                </NavLink>
               </button>
               <button type="button" className="btn btn-secondary">
-                <NavLink to={ "/Login" } style={{ color: "white" }} activeStyle={{ color: "white" }} >
+                <NavLink to={ '/Login' } style={{ color: 'white' }} activeStyle={{ color: 'white' }} >
                   Login
-                </NavLink>  
+                </NavLink>
               </button>
             </div>
           </div>
