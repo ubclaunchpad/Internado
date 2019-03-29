@@ -1,7 +1,7 @@
 import store from '../store.js';
 
 export async function addEmail(email) {
-  const response = await fetch(store.apiBase + `/mailing_list?email=${email}`, {
+  const response = await fetch(store.apiBase + `/job/mailing_list?email=${email}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
