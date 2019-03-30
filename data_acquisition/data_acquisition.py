@@ -59,6 +59,7 @@ def request_ziprecruiter_jobs(page_num, api_key):
 
     # make request to internado job server for adding jobs to database
     internado_response = requests.post(jobs_endpoint, json=jobs_to_add)
+    logging.info("Added {num} jobs".format(num=len(jobs_to_add)))
     logging.info(internado_response.status_code)
     return ziprecruiter_response["num_paginable_jobs"]
   else:
