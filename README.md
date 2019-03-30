@@ -183,7 +183,7 @@ Swagger uses the OpenAPI format to specify the API, and this file is found at
 
 ### How to access Swagger
 1. Build and run the server
-2. Access `localhost:5000/swagger` in your browser
+2. Access `localhost:[5000,5050]/swagger` in your browser
 3. Explore the request and response templates of endpoints by clicking on them to expand them
 
 ### Using Swagger to hit API endpoints
