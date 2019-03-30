@@ -26,7 +26,7 @@ class LoginForm extends Component {
     let responseHTML = '';
     try {
       // If the login failed, the next line will fail to parse response
-      let JSONresponse = JSON.parse(response);
+      JSON.parse(response);
       responseHTML = 'Logged in successfully';
     } catch {
       // If the login failed, response will be a string describing the failure
