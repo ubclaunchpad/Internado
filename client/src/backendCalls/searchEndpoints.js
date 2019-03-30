@@ -1,7 +1,7 @@
 import store from '../store.js';
 
 export async function searchJobs(searchKeywords) {
-  const response = await fetch(store.apiBase + '/search', {
+  const response = await fetch(store.apiBase + '/job/search', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
