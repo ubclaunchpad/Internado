@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.6
--- Dumped by pg_dump version 10.6
+-- Dumped from database version 11.1 (Ubuntu 11.1-1.pgdg18.04+1)
+-- Dumped by pg_dump version 11.1 (Ubuntu 11.1-1.pgdg18.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,70 +16,56 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- Name: cube; Type: EXTENSION; Schema: -; Owner:
+-- Name: cube; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS cube WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION cube; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION cube; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION cube IS 'data type for multidimensional cubes';
 
 
 --
--- Name: earthdistance; Type: EXTENSION; Schema: -; Owner:
+-- Name: earthdistance; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS earthdistance WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION earthdistance; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION earthdistance; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION earthdistance IS 'calculate great-circle distances on the surface of the Earth';
 
 
 --
--- Name: pg_buffercache; Type: EXTENSION; Schema: -; Owner:
+-- Name: pg_buffercache; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS pg_buffercache WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pg_buffercache; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION pg_buffercache; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION pg_buffercache IS 'examine the shared buffer cache';
 
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner:
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
@@ -90,13 +76,13 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: job; Type: TABLE; Schema: public; Owner: postgres
+-- Name: job; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE public.job (
     id bigint NOT NULL,
-    job_title character varying(256),
-    link text,
+    job_title character varying(256) NOT NULL,
+    link text NOT NULL,
     description text,
     city character varying(256),
     country character varying(256),
@@ -112,7 +98,7 @@ CREATE TABLE public.job (
 ALTER TABLE public.job OWNER TO admin;
 
 --
--- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
 CREATE SEQUENCE public.job_id_seq
@@ -126,21 +112,75 @@ CREATE SEQUENCE public.job_id_seq
 ALTER TABLE public.job_id_seq OWNER TO admin;
 
 --
--- Name: job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
 ALTER SEQUENCE public.job_id_seq OWNED BY public.job.id;
 
 
 --
--- Name: job id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: mailing_list_entry; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.mailing_list_entry (
+    email character varying(256) NOT NULL
+);
+
+
+ALTER TABLE public.mailing_list_entry OWNER TO admin;
+
+--
+-- Name: user; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public."user" (
+    id bigint NOT NULL,
+    first_name character varying(256),
+    last_name character varying(256),
+    email character varying(256) NOT NULL,
+    password character varying NOT NULL
+);
+
+
+ALTER TABLE public."user" OWNER TO admin;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO admin;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
+
+
+--
+-- Name: job id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.job ALTER COLUMN id SET DEFAULT nextval('public.job_id_seq'::regclass);
 
 
 --
--- Data for Name: job; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: user id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
+
+
+--
+-- Data for Name: job; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 COPY public.job (id, job_title, link, description, city, country, latitude, longitude, company_name, start_date, salary_min, state) FROM stdin;
@@ -156,16 +196,64 @@ COPY public.job (id, job_title, link, description, city, country, latitude, long
 9	Software Dev QA Co-op	http://careers2.hiredesk.net/viewjobs/JobDetail.asp?Comp=Fortinet&sPERS_ID=&TP_ID=1&JB_ID=&PROJ_ID=%7BB1F386BD-9EB9-4E83-9123-CBCF711E3175%7D&LAN=en-US&BackUrl=viewjobs/Default.asp&ccuid=15792325325	Fortinet is looking for a Software Dev QA Engineer to join our UI (User interface) Development team to focus on GUI testing. As a team member, you would be responsible for testing the FortiOS GUI for managing FortiGate firewall appliances. You will be working closely with the interface development team to verify new features, automate test cases and improve interface usability and performance.\nThis is an exciting opportunity to work with the latest in web application and networking technologies, such as Security Fabric, Next Generation Firewall, UTM security, cloud application control, VPN management, WiFi network topologies, and firewall monitoring.\n\nJob Responsibilities:\n\nExecute feature and bug fix testing for FortiOS GUI application using a combination of manual and automated\ntesting techniques.\nIdentify, document, and track software defects found during testing.\nAutomate front-end testing using automation tools such as Appium, Selenium.\nImprove testing and development processes using various automation techniques.\nWork closely with developers to ensure defects are correctly identified and fixed.\n\nJob Skills Required:\n\nSoftware testing experience including browser testing\nDemonstrated ability to logically and analytically troubleshoot mobile/web applications\nKnowledge of general QA procedures and methodologies, as well as software development fundamentals\nBasic networking knowledge (IP, NAT, Firewall, Routing)\nDemonstrated ability to write clear and reproducible problem reports, and test results\nExperience with automation testing tools is an asset\nExperience in code review systems and bug tracking services is an asset\nExperience working in a Linux environment\nDemonstrated skills in scripting languages such as Python, bash or Perl are considered assets\n\nEducational Requirements:\n\nA degree or technical diploma in Computer Science, Computer Technology, or related field	Burnaby	Canada	49.322299999999998	-123.02209999999999	Fortinet	\N	3500	BC
 \.
 
+--
+-- Data for Name: mailing_list_entry; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.mailing_list_entry (email) FROM stdin;
+test@test.com
+\.
+
 
 --
--- Name: job_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.job_id_seq', 10, true);
+COPY public."user" (id, first_name, last_name, email, password) FROM stdin;
+1	\N	\N	test@gmail.com	$2b$10$I8Eroo7zAoo/CmRvIs5IQOMm0XNYtghLAUiTM1y2.ViPCA6WpwN0y
+\.
 
 
 --
--- Name: job job_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: job_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.job_id_seq', 11, true);
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.user_id_seq', 1, true);
+
+
+--
+-- Name: user PK_cace4a159ff9f2512dd42373760; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id);
+
+
+--
+-- Name: mailing_list_entry PK_fc74ee356fba380b89ed251ee78; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.mailing_list_entry
+    ADD CONSTRAINT "PK_fc74ee356fba380b89ed251ee78" PRIMARY KEY (email);
+
+
+--
+-- Name: user UQ_e12875dfb3b1d92d7d7c5377e22; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE (email);
+
+
+--
+-- Name: job job_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.job
@@ -173,5 +261,13 @@ ALTER TABLE ONLY public.job
 
 
 --
+-- Name: IDX_9cf9266afaef23aa87eb944133; Type: INDEX; Schema: public; Owner: admin
+--
+
+CREATE UNIQUE INDEX "IDX_9cf9266afaef23aa87eb944133" ON public.job USING btree (link);
+
+
+--
 -- PostgreSQL database dump complete
 --
+

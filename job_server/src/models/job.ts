@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, Index} from "typeorm";
 
 @Entity()
 export default class Job {
@@ -21,10 +21,11 @@ export default class Job {
     @PrimaryGeneratedColumn({type: "bigint"})
     public id: number;
 
-    @Column({ nullable: true, length: 256})
+    @Column({ length: 256 })
     public job_title: string;
 
-    @Column({ nullable: true, type: "text"})
+    @Index({ unique: true })
+    @Column({ type: "text" })
     public link: string;
 
     @Column({ nullable: true, type: "text"})
