@@ -4,6 +4,7 @@ import Navbar from './views/Navbar';
 import Footer from './views/Footer';
 import Routes from './config/Routes';
 import { searchJobs } from './backendCalls/searchEndpoints';
+import './sass/App.scss';
 
 class App extends Component {
   constructor(props, context) {
