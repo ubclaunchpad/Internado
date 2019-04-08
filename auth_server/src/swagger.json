@@ -1,0 +1,324 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Internado - Authentication Server",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5050",
+  "schemes": ["http"],
+  "tags": [
+    {
+      "name": "api",
+      "description": "Api details"
+    },
+    {
+      "name": "user",
+      "description": "User profile"
+    }
+  ],
+  "paths": {
+    "/api": {
+      "get": {
+        "tags": ["api"],
+        "summary": "List API details",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "List API details",
+            "examples": {
+              "application/json": {
+                "message": "Internado",
+                "version": "v1.0.0"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Login user",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct response",
+            "examples": {
+              "Login user": {
+                "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3IiwiaWF0IjoxNTUzOTA3Njc1LCJleHAiOjE1NTM5MTQ4NzV9.XbKEZlp8NUZTUWv_EvUL-iFWCYdX-8W8FpARSZARpu8",
+                "user": {
+                  "id": "17",
+                  "email": "test@test.com",
+                  "first_name": null,
+                  "last_name": null
+                },
+                "success": true
+              }
+            }
+          },
+          "422": {
+            "description": "Wrong/Bad responses",
+            "examples": {
+              "Missing Email": {
+                "success": false,
+                "error": "No email was entered"
+              },
+              "Missing password": {
+                "success": false,
+                "error": "No password was entered"
+              },
+              "Not registered": {
+                "success": false,
+                "error": "User Does not exist"
+              },
+              "Wrong password": {
+                "success": false,
+                "error": "Invalid Password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create user profile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct response",
+            "examples": {
+              "Create user": {
+                "message": "Successfully created new user",
+                "user": {
+                  "id": "18",
+                  "email": "test1@test.com",
+                  "first_name": null,
+                  "last_name": null
+                },
+                "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE4IiwiaWF0IjoxNTUzOTA5MjA0LCJleHAiOjE1NTM5MTY0MDR9.GMMx61MAItHf5m1d-Ts1R-SohwuTvpHjaXRfi4wibR8",
+                "success": true
+              }
+            }
+          },
+          "422": {
+            "description": "Error reponses",
+            "examples": {
+              "Missing Email": {
+                "success": false,
+                "error": "No email was entered"
+              },
+              "Missing password": {
+                "success": false,
+                "error": "No password was entered"
+              },
+              "User already registered": {
+                "success": false,
+                "error": "User already exists"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user profile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "*TOKEN*",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct response",
+            "examples": {
+              "User profile": {
+                "user": {
+                  "id": "18",
+                  "email": "test1@test.com",
+                  "first_name": null,
+                  "last_name": null
+                },
+                "success": true
+              }
+            }
+          },
+          "401": {
+            "description": "Error reponses",
+            "examples": {
+              "Wrong/Expired token": "Unauthorized"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["user"],
+        "summary": "Update user profile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "*TOKEN*",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct response",
+            "examples": {
+              "User updated": {
+                "message": "Successfully updated user",
+                "success": true
+              }
+            }
+          },
+          "401": {
+            "description": "Error reponses",
+            "examples": {
+              "Wrong/Expired token": "Unauthorized"
+            }
+          },
+          "422": {
+            "description": "Error reponses",
+            "examples": {
+              "Email already exists": {
+                "success": false,
+                "error": "duplicate key value violates unique constraint \"UQ_e12875dfb3b1d92d7d7c5377e22\""
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["user"],
+        "summary": "Delete user profile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "*TOKEN*",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Correct response",
+            "examples": {
+              "Delete profile": {
+                "message": "Successfully deleted user",
+                "success": true
+              }
+            }
+          },
+          "401": {
+            "description": "Error reponses",
+            "examples": {
+              "Wrong/Expired token": "Unauthorized"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "id": "User",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "consumes": ["application/json"]
+}
