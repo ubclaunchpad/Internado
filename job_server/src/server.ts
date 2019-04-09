@@ -23,7 +23,9 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 router(app);
 
 /*RunServer*/
-app.listen(appConfig.port);
+let server = app.listen(appConfig.port);
 console.log("Server has successfully started on PORT: " + appConfig.port);
 
 createConnection().catch((err) => console.error("Failed to create connection to PostgreSQL\n" + err));
+
+export default server;
