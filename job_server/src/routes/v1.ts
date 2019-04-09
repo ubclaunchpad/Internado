@@ -6,21 +6,21 @@ import { Router, Request, Response } from "express";
 export default function (app: Router) {
 
     /********  Api details  **********/
-    app.get("/api", function (req: Request, res: Response) {
+    app.get("/job/api", function (req: Request, res: Response) {
         res.json({message : "Internado" , version : "v1.0.0"});
     });
     /********************************/
 
-    app.get("/express_backend", (req: Request, res: Response) => {
+    app.get("/job/express_backend", (req: Request, res: Response) => {
         res.send({express: "React client is connected to Express server"});
     });
 
-    app.post("/search", searchJobs);
-    app.options("/search", corsAllowMethods("POST"));
+    app.post("/job/search", searchJobs);
+    app.options("/job/search", corsAllowMethods("POST"));
 
-    app.post("/mailing_list", addToMailingList);
-    app.delete("/mailing_list", deleteFromMailingList);
-    app.options("/mailing_list", corsAllowMethods("POST,DELETE"));
+    app.post("/job/mailing_list", addToMailingList);
+    app.delete("/job/mailing_list", deleteFromMailingList);
+    app.options("/job/mailing_list", corsAllowMethods("POST,DELETE"));
 
     app.get("/job", getJob);
     app.delete("/job", deleteJob);

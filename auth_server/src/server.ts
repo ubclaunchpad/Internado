@@ -4,6 +4,7 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as passport from "passport";
 import "reflect-metadata";
+import * as swaggerUi from "swagger-ui-express";
 import { createConnection } from "typeorm";
 import appConfig from "./configurations/app";
 import router from "./routes/v1";
@@ -17,6 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // parsing form req formats
 app.disable("etag");
 require("./middleware/passport")(passport);
 app.use(passport.initialize());
+
+const swaggerDocument = require("./swagger.json");
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 /*Routes*/
 router(app, passport);
