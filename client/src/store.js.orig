@@ -1,0 +1,12 @@
+const store = {
+  searchResults: [],
+<<<<<<< HEAD
+  apiBase: 'http://localhost:5000',
+  authApiBase: 'http://localhost:5050'
+||||||| merged common ancestors
+  apiBase: 'http://localhost:5000'
+=======
+  apiBase: 'https://internado.ubclaunchpad.com',
+>>>>>>> develop
+};
+export default store;
