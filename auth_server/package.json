@@ -39,7 +39,7 @@
         "@types/pg": "^7.4.11",
         "@types/swagger-ui-express": "^3.0.0",
         "@types/validator": "^10.9.0",
-        "bcrypt": "^3.0.4",
+        "bcrypt": "^5.0.0",
         "body-parser": "^1.18.3",
         "concurrently": "^4.1.0",
         "debug": "^4.1.0",
