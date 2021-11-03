@@ -59,6 +59,6 @@
         "tslint": "^5.11.0",
         "typeorm": "0.2.9",
         "typescript": "^3.3.3",
-        "validator": "^10.11.0"
+        "validator": "^13.7.0"
     }
 }
